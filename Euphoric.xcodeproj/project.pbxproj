@@ -12,6 +12,8 @@
 		045985CF24E2F4C40056ED51 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985CE24E2F4C40056ED51 /* ViewController.swift */; };
 		045985D424E2F4C70056ED51 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 045985D324E2F4C70056ED51 /* Assets.xcassets */; };
 		045985D724E2F4C70056ED51 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 045985D524E2F4C70056ED51 /* LaunchScreen.storyboard */; };
+		045985E024E2F66A0056ED51 /* CustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985DF24E2F66A0056ED51 /* CustomViewController.swift */; };
+		045985E224E2F6CE0056ED51 /* UIColor+theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985E124E2F6CE0056ED51 /* UIColor+theme.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		045985D324E2F4C70056ED51 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		045985D624E2F4C70056ED51 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		045985D824E2F4C70056ED51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		045985DF24E2F66A0056ED51 /* CustomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewController.swift; sourceTree = "<group>"; };
+		045985E124E2F6CE0056ED51 /* UIColor+theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+theme.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +58,7 @@
 		045985C924E2F4C40056ED51 /* Euphoric */ = {
 			isa = PBXGroup;
 			children = (
+				045985DE24E2F6440056ED51 /* Extension */,
 				045985CA24E2F4C40056ED51 /* AppDelegate.swift */,
 				045985CC24E2F4C40056ED51 /* SceneDelegate.swift */,
 				045985CE24E2F4C40056ED51 /* ViewController.swift */,
@@ -62,6 +67,15 @@
 				045985D824E2F4C70056ED51 /* Info.plist */,
 			);
 			path = Euphoric;
+			sourceTree = "<group>";
+		};
+		045985DE24E2F6440056ED51 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				045985DF24E2F66A0056ED51 /* CustomViewController.swift */,
+				045985E124E2F6CE0056ED51 /* UIColor+theme.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -136,6 +150,8 @@
 				045985CF24E2F4C40056ED51 /* ViewController.swift in Sources */,
 				045985CB24E2F4C40056ED51 /* AppDelegate.swift in Sources */,
 				045985CD24E2F4C40056ED51 /* SceneDelegate.swift in Sources */,
+				045985E224E2F6CE0056ED51 /* UIColor+theme.swift in Sources */,
+				045985E024E2F66A0056ED51 /* CustomViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
