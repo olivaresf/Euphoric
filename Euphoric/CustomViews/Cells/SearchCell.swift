@@ -31,20 +31,18 @@ class SearchCell: UICollectionViewCell {
         addSubview(leftImage)
         addSubview(textx)
         textx.text = "xdsxdsds"
+        textx.textColor = .blue
         textx.translatesAutoresizingMaskIntoConstraints = false
 //        sendSubviewToBack(leftImage)
         NSLayoutConstraint.activate([
             leftImage.topAnchor.constraint(equalTo: topAnchor, constant: 12),
             leftImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
             leftImage.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12),
-            leftImage.widthAnchor.constraint(equalToConstant: 62),
-//            leftImage.heightAnchor.constraint(equalToConstant: 40)
+            leftImage.widthAnchor.constraint(equalToConstant: 66),
             
             textx.centerYAnchor.constraint(equalTo: centerYAnchor),
             textx.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
-        
-//        sendSubviewToBack(textx)
         
     }
     

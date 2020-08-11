@@ -11,6 +11,8 @@ class CustomViewController: UIViewController {
     
     fileprivate let gradientLayer = CAGradientLayer()
     fileprivate var blurEffect = UIBlurEffect()
+    fileprivate var blurredEffectView = UIVisualEffectView()
+    lazy var titleView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,14 +42,14 @@ class CustomViewController: UIViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.tintColor = .white
         
-        let titleView = UIView()
+        titleView = UIView()
         view.addSubview(titleView)
         titleView.translatesAutoresizingMaskIntoConstraints = false
         titleView.backgroundColor = .clear
         
         
         mainTitle.text = title
-        mainTitle.font = UIFont.systemFont(ofSize: 26, weight: .heavy)
+        mainTitle.font = UIFont.systemFont(ofSize: 28, weight: .heavy)
         mainTitle.translatesAutoresizingMaskIntoConstraints = false
         mainTitle.textColor = .systemPink
         mainTitle.backgroundColor = .clear
@@ -69,10 +71,9 @@ class CustomViewController: UIViewController {
         gradientLayer.opacity = 1
         view.layer.addSublayer(gradientLayer)
         
-        
         blurEffect = UIBlurEffect(style: .extraLight)
         
-        let blurredEffectView = UIVisualEffectView(effect: blurEffect)
+        blurredEffectView = UIVisualEffectView(effect: blurEffect)
         blurredEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         blurredEffectView.frame = view.bounds
         view.addSubview(blurredEffectView)

@@ -10,26 +10,45 @@ import UIKit
 class SearchController: CustomViewController {
     
     var collectionView:UICollectionView!
+    lazy var searchBar = UISearchBar()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
-        setupNavbar(title: "Serchea pe")
+        setupNavbar(title: "Search")
+        configureSearchBar()
+    }
+    
+    func configureSearchBar(){
+        searchBar = UISearchBar()
+        searchBar.directionalLayoutMargins = .init(top: 0, leading: 20, bottom: 0, trailing: 20)
+        searchBar.placeholder = "Whatever you want"
+        searchBar.searchBarStyle = .minimal
+        view.addSubview(searchBar)
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.backgroundColor = UIColor.white.withAlphaComponent(0.97)
+        searchBar.setImage(UIImage(systemName: "music.note"), for: .search, state: .normal)
+        
+        NSLayoutConstraint.activate([
+            searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            searchBar.heightAnchor.constraint(equalToConstant: 60)
+        ])
+        
+//        view.bringSubviewToFront(searchView)
+        
     }
     
     fileprivate func configureCollectionView(){
         let flowLayout = UICollectionViewFlowLayout()
-//        flowLayout.sectionInset = .init(top: 12, left: 12, bottom: 0, right: 12)
         
-        collectionView = UICollectionView(frame: view.frame, collectionViewLayout: flowLayout)
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: flowLayout)
         view.addSubview(collectionView)
-        collectionView.scrollRectToVisible(CGRect(x: 0.0, y: 0.0, width: 1, height: 1), animated: true)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = .clear
         collectionView.register(SearchCell.self, forCellWithReuseIdentifier: SearchCell.reusableId)
-        
-        view.layoutIfNeeded()
     }
     
 }
@@ -39,7 +58,10 @@ extension SearchController:UICollectionViewDelegate, UICollectionViewDataSource,
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let safeAreaTop = UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.safeAreaInsets.top ?? 0
         let offset = scrollView.contentOffset.y + safeAreaTop + (navigationController?.navigationBar.frame.height ?? 0)
+        
         navigationController?.navigationBar.transform = .init(translationX: 0, y: min(0, -offset))
+        
+        searchBar.transform = .init(translationX: 0, y: min(0, max(-offset, -safeAreaTop)))
         
         let alpha = 1 - (offset / safeAreaTop)
         mainTitle.alpha = alpha
@@ -60,11 +82,11 @@ extension SearchController:UICollectionViewDelegate, UICollectionViewDataSource,
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20)
+        return UIEdgeInsets(top: 74, left: 20, bottom: 0, right: 20)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
+        return 16
     }
 
         
