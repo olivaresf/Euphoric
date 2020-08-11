@@ -21,13 +21,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         window?.makeKeyAndVisible()
         
-        window?.rootViewController = CustomTabBarController()
         configureGlobalUI()
+        
+        window?.rootViewController = CustomTabBarController()
+        
         
     }
     
     func configureGlobalUI(){
-        UINavigationBar.appearance().tintColor = .normalDark
+        UINavigationBar.appearance().prefersLargeTitles = false
+        UINavigationBar.appearance().isTranslucent = true
+//        UINavigationBar.appearance().tintColor = .normalDark
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

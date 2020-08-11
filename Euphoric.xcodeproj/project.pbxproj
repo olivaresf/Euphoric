@@ -15,6 +15,9 @@
 		045985E224E2F6CE0056ED51 /* UIColor+theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985E124E2F6CE0056ED51 /* UIColor+theme.swift */; };
 		045985E524E2F8730056ED51 /* SeachController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985E424E2F8730056ED51 /* SeachController.swift */; };
 		045985EA24E2F9B40056ED51 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985E924E2F9B40056ED51 /* CustomTabBarController.swift */; };
+		045985ED24E301940056ED51 /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985EC24E301940056ED51 /* SearchCell.swift */; };
+		045985F024E302060056ED51 /* RoundedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985EF24E302060056ED51 /* RoundedImageView.swift */; };
+		045985F524E305C40056ED51 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985F424E305C40056ED51 /* UIHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +31,9 @@
 		045985E124E2F6CE0056ED51 /* UIColor+theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+theme.swift"; sourceTree = "<group>"; };
 		045985E424E2F8730056ED51 /* SeachController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeachController.swift; sourceTree = "<group>"; };
 		045985E924E2F9B40056ED51 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
+		045985EC24E301940056ED51 /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
+		045985EF24E302060056ED51 /* RoundedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedImageView.swift; sourceTree = "<group>"; };
+		045985F424E305C40056ED51 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +66,7 @@
 		045985C924E2F4C40056ED51 /* Euphoric */ = {
 			isa = PBXGroup;
 			children = (
+				045985F124E305730056ED51 /* Utilities */,
 				045985E624E2F9170056ED51 /* CustomViews */,
 				045985DE24E2F6440056ED51 /* Extension */,
 				045985E324E2F7E10056ED51 /* Controllers */,
@@ -91,6 +98,8 @@
 		045985E624E2F9170056ED51 /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				045985EE24E301F00056ED51 /* ImageViews */,
+				045985EB24E301830056ED51 /* Cells */,
 				045985E824E2F9830056ED51 /* TabBarControllers */,
 				045985E724E2F9680056ED51 /* ViewControllers */,
 			);
@@ -111,6 +120,30 @@
 				045985E924E2F9B40056ED51 /* CustomTabBarController.swift */,
 			);
 			path = TabBarControllers;
+			sourceTree = "<group>";
+		};
+		045985EB24E301830056ED51 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				045985EC24E301940056ED51 /* SearchCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		045985EE24E301F00056ED51 /* ImageViews */ = {
+			isa = PBXGroup;
+			children = (
+				045985EF24E302060056ED51 /* RoundedImageView.swift */,
+			);
+			path = ImageViews;
+			sourceTree = "<group>";
+		};
+		045985F124E305730056ED51 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				045985F424E305C40056ED51 /* UIHelper.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -182,9 +215,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				045985F024E302060056ED51 /* RoundedImageView.swift in Sources */,
 				045985E524E2F8730056ED51 /* SeachController.swift in Sources */,
 				045985CB24E2F4C40056ED51 /* AppDelegate.swift in Sources */,
 				045985EA24E2F9B40056ED51 /* CustomTabBarController.swift in Sources */,
+				045985ED24E301940056ED51 /* SearchCell.swift in Sources */,
+				045985F524E305C40056ED51 /* UIHelper.swift in Sources */,
 				045985CD24E2F4C40056ED51 /* SceneDelegate.swift in Sources */,
 				045985E224E2F6CE0056ED51 /* UIColor+theme.swift in Sources */,
 				045985E024E2F66A0056ED51 /* CustomViewController.swift in Sources */,

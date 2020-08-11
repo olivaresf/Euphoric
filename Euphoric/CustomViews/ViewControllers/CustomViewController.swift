@@ -14,7 +14,53 @@ class CustomViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         setupBlurGradient()
+    }
+    
+    let mainTitle = UITextView()
+    
+    func setupNavbar(title:String){
+        
+        let coverWhiteView = UIView()
+        coverWhiteView.translatesAutoresizingMaskIntoConstraints = false
+        coverWhiteView.backgroundColor = .white
+        view.addSubview(coverWhiteView)
+        
+        NSLayoutConstraint.activate([
+            coverWhiteView.topAnchor.constraint(equalTo: view.topAnchor),
+            coverWhiteView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            coverWhiteView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+        
+        guard let safeAreaTop = UIApplication.shared.windows.filter({$0.isKeyWindow}).first?.safeAreaInsets.top else {return}
+        coverWhiteView.heightAnchor.constraint(equalToConstant: safeAreaTop).isActive = true
+        
+        navigationController?.navigationBar.barTintColor = .white
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.tintColor = .white
+        
+        let titleView = UIView()
+        view.addSubview(titleView)
+        titleView.translatesAutoresizingMaskIntoConstraints = false
+        titleView.backgroundColor = .clear
+        
+        
+        mainTitle.text = title
+        mainTitle.font = UIFont.systemFont(ofSize: 26, weight: .heavy)
+        mainTitle.translatesAutoresizingMaskIntoConstraints = false
+        mainTitle.textColor = .systemPink
+        mainTitle.backgroundColor = .clear
+        titleView.addSubview(mainTitle)
+        NSLayoutConstraint.activate([
+            mainTitle.centerYAnchor.constraint(equalTo: titleView.centerYAnchor),
+            mainTitle.leadingAnchor.constraint(equalTo: titleView.leadingAnchor),
+            mainTitle.heightAnchor.constraint(equalToConstant: 40),
+            mainTitle.widthAnchor.constraint(equalToConstant: self.view.frame.width)
+        ])
+        
+        navigationItem.titleView = titleView
+        
     }
     
     fileprivate func setupBlurGradient(){
@@ -22,15 +68,15 @@ class CustomViewController: UIViewController {
         gradientLayer.locations = [0, 0.5, 1]
         gradientLayer.opacity = 1
         view.layer.addSublayer(gradientLayer)
-        gradientLayer.frame = view.bounds
         
         
         blurEffect = UIBlurEffect(style: .extraLight)
         
         let blurredEffectView = UIVisualEffectView(effect: blurEffect)
-        blurredEffectView.alpha = 1
+        blurredEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         blurredEffectView.frame = view.bounds
         view.addSubview(blurredEffectView)
+        
     }
     
     override func viewWillLayoutSubviews() {

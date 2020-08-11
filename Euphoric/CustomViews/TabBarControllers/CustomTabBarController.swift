@@ -13,13 +13,14 @@ class CustomTabBarController: UITabBarController {
         super.viewDidLoad()
         viewControllers = [createNavController(for: SearchController(), title: "Search")]
 //        tabBar.tintColor = .systemBlue
-        tabBar.barTintColor = .white
+//        tabBar.barTintColor = .white
+//        tabBar.isTranslucent = true
     }
     
     func createNavController(for vc:UIViewController, title:String) -> UINavigationController{
         
         let navController = UINavigationController(rootViewController: vc)
-        navController.title = title
+//        navController.title = title
         navController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
         return navController
         
