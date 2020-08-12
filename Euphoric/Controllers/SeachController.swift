@@ -10,7 +10,7 @@ import UIKit
 class SearchController: CustomViewController {
     
     var collectionView:UICollectionView!
-    lazy var searchBar = UISearchBar()
+    lazy var searchBar = CustomSearchBar(placeholder: "Listen your favorite podcast")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,14 +20,7 @@ class SearchController: CustomViewController {
     }
     
     func configureSearchBar(){
-        searchBar = UISearchBar()
-        searchBar.directionalLayoutMargins = .init(top: 0, leading: 20, bottom: 0, trailing: 20)
-        searchBar.placeholder = "Whatever you want"
-        searchBar.searchBarStyle = .minimal
         view.addSubview(searchBar)
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        searchBar.backgroundColor = UIColor.white.withAlphaComponent(0.97)
-        searchBar.setImage(UIImage(systemName: "music.note"), for: .search, state: .normal)
         
         NSLayoutConstraint.activate([
             searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
@@ -35,8 +28,6 @@ class SearchController: CustomViewController {
             searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             searchBar.heightAnchor.constraint(equalToConstant: 60)
         ])
-        
-//        view.bringSubviewToFront(searchView)
         
     }
     
@@ -55,17 +46,31 @@ class SearchController: CustomViewController {
 
 extension SearchController:UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = CustomViewController()
+        
+        vc.title = "xd"
+        let nav = UINavigationController(rootViewController: vc)
+        
+//        navigationController?.pushViewController(vc, animated: true)
+        present(nav, animated: true, completion: nil)
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
         let safeAreaTop = UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.safeAreaInsets.top ?? 0
         let offset = scrollView.contentOffset.y + safeAreaTop + (navigationController?.navigationBar.frame.height ?? 0)
         
         navigationController?.navigationBar.transform = .init(translationX: 0, y: min(0, -offset))
         
-        searchBar.transform = .init(translationX: 0, y: min(0, max(-offset, -safeAreaTop)))
+        if UIDevice.current.hasNotch{
+            searchBar.transform = .init(translationX: 0, y: min(0, max(-offset, -safeAreaTop)))
+        }else{
+            searchBar.transform = .init(translationX: 0, y: min(0, max(-offset, -safeAreaTop - 24)))
+        }
         
         let alpha = 1 - (offset / safeAreaTop)
         mainTitle.alpha = alpha
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -78,17 +83,27 @@ extension SearchController:UICollectionViewDelegate, UICollectionViewDataSource,
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width - 40, height: 94)
+        return CGSize(width: view.frame.width - 20 - 20, height: 110)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 74, left: 20, bottom: 0, right: 20)
+        return UIEdgeInsets(top: 74, left: 0, bottom: 0, right: 0)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 16
     }
-
-        
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 8
+    }
     
 }
+
+extension UIDevice {
+    var hasNotch: Bool {
+        let bottom = UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.safeAreaInsets.bottom ?? 0
+        return bottom > 0
+    }
+}
+
