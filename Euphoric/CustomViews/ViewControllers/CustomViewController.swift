@@ -38,10 +38,6 @@ class CustomViewController: UIViewController {
         guard let safeAreaTop = UIApplication.shared.windows.filter({$0.isKeyWindow}).first?.safeAreaInsets.top else {return}
         coverWhiteView.heightAnchor.constraint(equalToConstant: safeAreaTop).isActive = true
         
-        navigationController?.navigationBar.barTintColor = .white
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.tintColor = .white
-        
         titleView = UIView()
         view.addSubview(titleView)
         titleView.translatesAutoresizingMaskIntoConstraints = false

@@ -10,7 +10,7 @@ import UIKit
 class SearchController: CustomViewController {
     
     var collectionView:UICollectionView!
-    lazy var searchBar = CustomSearchBar(placeholder: "Listen your favorite podcast")
+    let searchBar = CustomSearchBar(placeholder: "Listen your favorite podcast")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +21,7 @@ class SearchController: CustomViewController {
     
     func configureSearchBar(){
         view.addSubview(searchBar)
-        
+        searchBar.delegate = self
         NSLayoutConstraint.activate([
             searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
             searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
@@ -39,7 +39,16 @@ class SearchController: CustomViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = .clear
+        collectionView.keyboardDismissMode = .onDrag
         collectionView.register(SearchCell.self, forCellWithReuseIdentifier: SearchCell.reusableId)
+    }
+    
+}
+
+extension SearchController:UISearchBarDelegate{
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print(searchBar.text ?? "")
     }
     
 }
@@ -94,16 +103,4 @@ extension SearchController:UICollectionViewDelegate, UICollectionViewDataSource,
         return 16
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 8
-    }
-    
 }
-
-extension UIDevice {
-    var hasNotch: Bool {
-        let bottom = UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.safeAreaInsets.bottom ?? 0
-        return bottom > 0
-    }
-}
-

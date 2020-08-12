@@ -24,6 +24,7 @@ class CustomSearchBar: UISearchBar {
     }
     
     fileprivate func configure(){
+//        showsCancelButton = true
         directionalLayoutMargins = .init(top: 0, leading: 20, bottom: 0, trailing: 20)
         searchBarStyle = .minimal
         translatesAutoresizingMaskIntoConstraints = false

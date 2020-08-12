@@ -31,7 +31,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func configureGlobalUI(){
         UINavigationBar.appearance().prefersLargeTitles = false
         UINavigationBar.appearance().isTranslucent = true
-//        UINavigationBar.appearance().tintColor = .normalDark
+        
+        UINavigationBar.appearance().barTintColor = .white
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().tintColor = .white
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
