@@ -6,14 +6,26 @@
 //
 
 import UIKit
+import SDWebImage
 
 class SearchCell: UICollectionViewCell {
+    
+    var podcast:Podcast?{
+        didSet{
+            guard let podcast = podcast else{ return }
+            guard let imageUrl = URL(string: podcast.artworkUrl600) else {return}
+            leftImage.sd_setImage(with: imageUrl)
+            authorLabel.text = podcast.artistName
+            podcastLabel.text = podcast.trackName
+            badge.categoryLabel.text = podcast.primaryGenreName
+        }
+    }
     
     static let reusableId = "SearchCell"
     lazy var leftImage = RoundedImageView(image: UIImage(named: "person")!)
     let badge = CategoryBadge()
-    let podcastLabel = TitleLabel(title: "Sales for founders The Podcast Compnay ")
-    let authorLabel = SubtitleLabel(text: "Brian Voong and company")
+    var podcastLabel = TitleLabel()
+    let authorLabel = SubtitleLabel()
     var overallStackView = UIStackView()
     
     override init(frame: CGRect) {

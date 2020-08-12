@@ -20,13 +20,17 @@
 		045985F524E305C40056ED51 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985F424E305C40056ED51 /* UIHelper.swift */; };
 		045985F824E357130056ED51 /* CategoryBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985F724E357130056ED51 /* CategoryBadge.swift */; };
 		045985FB24E3881B0056ED51 /* TitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985FA24E3881B0056ED51 /* TitleLabel.swift */; };
+		04B7D99E24E4407C00B7584C /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B7D99D24E4407C00B7584C /* NetworkManager.swift */; };
+		04B7D9A124E441A000B7584C /* Podcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B7D9A024E441A000B7584C /* Podcast.swift */; };
 		04E8720C24E38A5C006E6299 /* SubtitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8720B24E38A5C006E6299 /* SubtitleLabel.swift */; };
 		04E8720F24E399F6006E6299 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8720E24E399F6006E6299 /* Constants.swift */; };
 		04E8721124E3A514006E6299 /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8721024E3A514006E6299 /* CustomSearchBar.swift */; };
 		04E8721324E3A71B006E6299 /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8721224E3A71B006E6299 /* UIDevice.swift */; };
+		6672EBC8F4775A69E1A083E5 /* Pods_Euphoric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0100FCE3062D132DD8B1C8FB /* Pods_Euphoric.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0100FCE3062D132DD8B1C8FB /* Pods_Euphoric.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Euphoric.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		045985C724E2F4C40056ED51 /* Euphoric.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Euphoric.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		045985CA24E2F4C40056ED51 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		045985CC24E2F4C40056ED51 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -42,10 +46,14 @@
 		045985F424E305C40056ED51 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		045985F724E357130056ED51 /* CategoryBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryBadge.swift; sourceTree = "<group>"; };
 		045985FA24E3881B0056ED51 /* TitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleLabel.swift; sourceTree = "<group>"; };
+		04B7D99D24E4407C00B7584C /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		04B7D9A024E441A000B7584C /* Podcast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Podcast.swift; sourceTree = "<group>"; };
 		04E8720B24E38A5C006E6299 /* SubtitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitleLabel.swift; sourceTree = "<group>"; };
 		04E8720E24E399F6006E6299 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		04E8721024E3A514006E6299 /* CustomSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
 		04E8721224E3A71B006E6299 /* UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
+		1CA34E8E869CF118EC811A0F /* Pods-Euphoric.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Euphoric.release.xcconfig"; path = "Target Support Files/Pods-Euphoric/Pods-Euphoric.release.xcconfig"; sourceTree = "<group>"; };
+		94807B71366032E143A4CC62 /* Pods-Euphoric.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Euphoric.debug.xcconfig"; path = "Target Support Files/Pods-Euphoric/Pods-Euphoric.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6672EBC8F4775A69E1A083E5 /* Pods_Euphoric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,6 +73,8 @@
 			children = (
 				045985C924E2F4C40056ED51 /* Euphoric */,
 				045985C824E2F4C40056ED51 /* Products */,
+				3681E71116A68B101EBF32A8 /* Pods */,
+				CAE6AE106036B46930499E64 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -78,6 +89,8 @@
 		045985C924E2F4C40056ED51 /* Euphoric */ = {
 			isa = PBXGroup;
 			children = (
+				04B7D99F24E4419600B7584C /* Models */,
+				04B7D99C24E4406F00B7584C /* Managers */,
 				045985F124E305730056ED51 /* Utilities */,
 				045985E624E2F9170056ED51 /* CustomViews */,
 				045985DE24E2F6440056ED51 /* Extension */,
@@ -180,6 +193,40 @@
 			path = Labels;
 			sourceTree = "<group>";
 		};
+		04B7D99C24E4406F00B7584C /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				04B7D99D24E4407C00B7584C /* NetworkManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		04B7D99F24E4419600B7584C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				04B7D9A024E441A000B7584C /* Podcast.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		3681E71116A68B101EBF32A8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				94807B71366032E143A4CC62 /* Pods-Euphoric.debug.xcconfig */,
+				1CA34E8E869CF118EC811A0F /* Pods-Euphoric.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		CAE6AE106036B46930499E64 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0100FCE3062D132DD8B1C8FB /* Pods_Euphoric.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -187,9 +234,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 045985DB24E2F4C70056ED51 /* Build configuration list for PBXNativeTarget "Euphoric" */;
 			buildPhases = (
+				1353211AEB506BBF571030A4 /* [CP] Check Pods Manifest.lock */,
 				045985C324E2F4C40056ED51 /* Sources */,
 				045985C424E2F4C40056ED51 /* Frameworks */,
 				045985C524E2F4C40056ED51 /* Resources */,
+				BABD2E89AB88E98828FEFC61 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -244,15 +293,59 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1353211AEB506BBF571030A4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Euphoric-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BABD2E89AB88E98828FEFC61 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Euphoric/Pods-Euphoric-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Euphoric/Pods-Euphoric-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Euphoric/Pods-Euphoric-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		045985C324E2F4C40056ED51 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				04E8721124E3A514006E6299 /* CustomSearchBar.swift in Sources */,
+				04B7D9A124E441A000B7584C /* Podcast.swift in Sources */,
 				045985F024E302060056ED51 /* RoundedImageView.swift in Sources */,
 				045985E524E2F8730056ED51 /* SeachController.swift in Sources */,
 				045985CB24E2F4C40056ED51 /* AppDelegate.swift in Sources */,
+				04B7D99E24E4407C00B7584C /* NetworkManager.swift in Sources */,
 				045985FB24E3881B0056ED51 /* TitleLabel.swift in Sources */,
 				045985EA24E2F9B40056ED51 /* CustomTabBarController.swift in Sources */,
 				045985ED24E301940056ED51 /* SearchCell.swift in Sources */,
@@ -399,6 +492,7 @@
 		};
 		045985DC24E2F4C70056ED51 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 94807B71366032E143A4CC62 /* Pods-Euphoric.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -419,6 +513,7 @@
 		};
 		045985DD24E2F4C70056ED51 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1CA34E8E869CF118EC811A0F /* Pods-Euphoric.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

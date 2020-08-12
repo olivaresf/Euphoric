@@ -7,16 +7,25 @@
 
 import UIKit
 
+enum Section {
+    case main
+}
+
 class SearchController: CustomViewController {
     
     var collectionView:UICollectionView!
     let searchBar = CustomSearchBar(placeholder: "Listen your favorite podcast")
+    var podcasts:[Podcast] = []
+    var dataSource:UICollectionViewDiffableDataSource<Section,Podcast>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
         setupNavbar(title: "Search")
         configureSearchBar()
+        configureDataSource()
+        let locale = Locale.current
+        print(locale)
     }
     
     func configureSearchBar(){
@@ -32,15 +41,30 @@ class SearchController: CustomViewController {
     }
     
     fileprivate func configureCollectionView(){
-        let flowLayout = UICollectionViewFlowLayout()
-        
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: flowLayout)
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UICollectionViewFlowLayout())
         view.addSubview(collectionView)
         collectionView.delegate = self
-        collectionView.dataSource = self
         collectionView.backgroundColor = .clear
         collectionView.keyboardDismissMode = .onDrag
         collectionView.register(SearchCell.self, forCellWithReuseIdentifier: SearchCell.reusableId)
+    }
+    
+    func configureDataSource(){
+        dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { (collectionView, indexPath, podcast) -> UICollectionViewCell? in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCell.reusableId, for: indexPath) as! SearchCell
+            cell.podcast = podcast
+            return cell
+        })
+    }
+    
+    func updateData(){
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Podcast>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(podcasts)
+        
+        DispatchQueue.main.async {
+            self.dataSource.apply(snapshot, animatingDifferences: true)
+        }
     }
     
 }
@@ -48,20 +72,29 @@ class SearchController: CustomViewController {
 extension SearchController:UISearchBarDelegate{
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print(searchBar.text ?? "")
+        
+        let formattedText = searchText.replacingOccurrences(of: " ", with: "+")
+        NetworkManager.shared.getPodcasts(for: formattedText) {[weak self] (result) in
+            
+            guard let self = self else {return}
+            switch result{
+            case .failure(let err):
+                print(err.localizedDescription)
+            case .success(let podcasts):
+                self.podcasts = podcasts
+                self.updateData()
+            }
+        }
     }
     
 }
 
-extension SearchController:UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+extension SearchController:UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = CustomViewController()
-        
         vc.title = "xd"
         let nav = UINavigationController(rootViewController: vc)
-        
-//        navigationController?.pushViewController(vc, animated: true)
         present(nav, animated: true, completion: nil)
     }
     
@@ -80,15 +113,6 @@ extension SearchController:UICollectionViewDelegate, UICollectionViewDataSource,
         
         let alpha = 1 - (offset / safeAreaTop)
         mainTitle.alpha = alpha
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCell.reusableId, for: indexPath) as! SearchCell
-        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

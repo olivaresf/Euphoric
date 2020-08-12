@@ -26,6 +26,8 @@ class SubtitleLabel: UILabel {
     fileprivate func configure(){
         font = UIFont.systemFont(ofSize: 14, weight: .regular)
         textColor = UIColor.darkGray
+        numberOfLines = 2
+        lineBreakMode = .byTruncatingTail
     }
     
 }
