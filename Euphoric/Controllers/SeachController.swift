@@ -92,10 +92,10 @@ extension SearchController:UISearchBarDelegate{
 extension SearchController:UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = CustomViewController()
-        vc.title = "xd"
-        let nav = UINavigationController(rootViewController: vc)
-        present(nav, animated: true, completion: nil)
+        let vc = PodcastController()
+        vc.podcast = podcasts[indexPath.item]
+        navigationController?.pushViewController(vc, animated: true)
+//        present(nav, animated: true, completion: nil)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

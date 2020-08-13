@@ -25,9 +25,9 @@ class NetworkManager {
         let baseUrl = "https://itunes.apple.com/search?explicit=Yes&media=podcast&term="
         guard let podcastUrl = URL(string: baseUrl + term) else { return }
         
-        print(podcastUrl.absoluteString)
-        
         URLSession.shared.dataTask(with: podcastUrl) { (data, res, err) in
+            
+            #warning("Improve error handling")
             
             if let _ = err {
                 completed(.failure(.badRequest))
@@ -37,8 +37,6 @@ class NetworkManager {
                 completed(.failure(.badRequest))
                 return
             }
-            
-//            print(String(data: data, encoding: .utf8) ?? "")
             
             do{
                 let decoder = JSONDecoder()

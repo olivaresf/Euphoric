@@ -23,7 +23,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         configureGlobalUI()
         
-        window?.rootViewController = CustomTabBarController()
+//        window?.rootViewController = CustomTabBarController()
+        window?.rootViewController = PodcastController()
         
         
     }
@@ -34,7 +35,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         UINavigationBar.appearance().barTintColor = .white
         UINavigationBar.appearance().shadowImage = UIImage()
-        UINavigationBar.appearance().tintColor = .white
+        UINavigationBar.appearance().tintColor = .systemPink
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

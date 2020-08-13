@@ -14,9 +14,10 @@ class TitleLabel: UILabel {
         configure()
     }
     
-    convenience init(title:String) {
+    convenience init(title:String, size: CGFloat) {
         self.init()
         text = title
+        font = UIFont.systemFont(ofSize: size, weight: .semibold)
     }
     
     required init?(coder: NSCoder) {
@@ -24,9 +25,9 @@ class TitleLabel: UILabel {
     }
     
     fileprivate func configure(){
+        translatesAutoresizingMaskIntoConstraints = false
         numberOfLines = 2
         lineBreakMode = .byTruncatingTail
-        font = UIFont.systemFont(ofSize: 18, weight: .medium)
         textColor = .normalDark
     }
     

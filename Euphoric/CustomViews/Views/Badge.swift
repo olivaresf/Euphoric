@@ -7,13 +7,13 @@
 
 import UIKit
 
-class CategoryBadge: UIView {
+class Badge: UIView {
     
     let containerView:UIView = {
         let view = UIView()
         view.layer.cornerRadius = 3
         view.layer.borderWidth = 0.5
-        view.layer.borderColor = UIColor.systemPurple.cgColor
+//        view.layer.borderColor = UIColor.systemPurple.cgColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -31,6 +31,12 @@ class CategoryBadge: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+    }
+    
+    convenience init(color:UIColor) {
+        self.init()
+        containerView.layer.borderColor = color.cgColor
+        categoryLabel.textColor = color
     }
     
     func setupUI(){

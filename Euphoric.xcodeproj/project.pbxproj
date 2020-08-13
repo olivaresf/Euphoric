@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,10 +18,13 @@
 		045985ED24E301940056ED51 /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985EC24E301940056ED51 /* SearchCell.swift */; };
 		045985F024E302060056ED51 /* RoundedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985EF24E302060056ED51 /* RoundedImageView.swift */; };
 		045985F524E305C40056ED51 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985F424E305C40056ED51 /* UIHelper.swift */; };
-		045985F824E357130056ED51 /* CategoryBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985F724E357130056ED51 /* CategoryBadge.swift */; };
+		045985F824E357130056ED51 /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985F724E357130056ED51 /* Badge.swift */; };
 		045985FB24E3881B0056ED51 /* TitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985FA24E3881B0056ED51 /* TitleLabel.swift */; };
 		04B7D99E24E4407C00B7584C /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B7D99D24E4407C00B7584C /* NetworkManager.swift */; };
 		04B7D9A124E441A000B7584C /* Podcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B7D9A024E441A000B7584C /* Podcast.swift */; };
+		04B7D9A724E4BD9E00B7584C /* PodcastController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B7D9A624E4BD9E00B7584C /* PodcastController.swift */; };
+		04B7D9A924E4DBBA00B7584C /* PodcastHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B7D9A824E4DBBA00B7584C /* PodcastHeaderCell.swift */; };
+		04B7D9AB24E4F08400B7584C /* UIView+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B7D9AA24E4F08300B7584C /* UIView+Layout.swift */; };
 		04E8720C24E38A5C006E6299 /* SubtitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8720B24E38A5C006E6299 /* SubtitleLabel.swift */; };
 		04E8720F24E399F6006E6299 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8720E24E399F6006E6299 /* Constants.swift */; };
 		04E8721124E3A514006E6299 /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8721024E3A514006E6299 /* CustomSearchBar.swift */; };
@@ -44,10 +47,13 @@
 		045985EC24E301940056ED51 /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
 		045985EF24E302060056ED51 /* RoundedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedImageView.swift; sourceTree = "<group>"; };
 		045985F424E305C40056ED51 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
-		045985F724E357130056ED51 /* CategoryBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryBadge.swift; sourceTree = "<group>"; };
+		045985F724E357130056ED51 /* Badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
 		045985FA24E3881B0056ED51 /* TitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleLabel.swift; sourceTree = "<group>"; };
 		04B7D99D24E4407C00B7584C /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		04B7D9A024E441A000B7584C /* Podcast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Podcast.swift; sourceTree = "<group>"; };
+		04B7D9A624E4BD9E00B7584C /* PodcastController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastController.swift; sourceTree = "<group>"; };
+		04B7D9A824E4DBBA00B7584C /* PodcastHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastHeaderCell.swift; sourceTree = "<group>"; };
+		04B7D9AA24E4F08300B7584C /* UIView+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Layout.swift"; sourceTree = "<group>"; };
 		04E8720B24E38A5C006E6299 /* SubtitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitleLabel.swift; sourceTree = "<group>"; };
 		04E8720E24E399F6006E6299 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		04E8721024E3A514006E6299 /* CustomSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
@@ -109,6 +115,7 @@
 			children = (
 				045985E124E2F6CE0056ED51 /* UIColor+theme.swift */,
 				04E8721224E3A71B006E6299 /* UIDevice.swift */,
+				04B7D9AA24E4F08300B7584C /* UIView+Layout.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -117,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				045985E424E2F8730056ED51 /* SeachController.swift */,
+				04B7D9A624E4BD9E00B7584C /* PodcastController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -154,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				045985EC24E301940056ED51 /* SearchCell.swift */,
+				04B7D9A824E4DBBA00B7584C /* PodcastHeaderCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -178,7 +187,7 @@
 		045985F624E356D80056ED51 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				045985F724E357130056ED51 /* CategoryBadge.swift */,
+				045985F724E357130056ED51 /* Badge.swift */,
 				04E8721024E3A514006E6299 /* CustomSearchBar.swift */,
 			);
 			path = Views;
@@ -215,7 +224,6 @@
 				94807B71366032E143A4CC62 /* Pods-Euphoric.debug.xcconfig */,
 				1CA34E8E869CF118EC811A0F /* Pods-Euphoric.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -344,6 +352,7 @@
 				04B7D9A124E441A000B7584C /* Podcast.swift in Sources */,
 				045985F024E302060056ED51 /* RoundedImageView.swift in Sources */,
 				045985E524E2F8730056ED51 /* SeachController.swift in Sources */,
+				04B7D9AB24E4F08400B7584C /* UIView+Layout.swift in Sources */,
 				045985CB24E2F4C40056ED51 /* AppDelegate.swift in Sources */,
 				04B7D99E24E4407C00B7584C /* NetworkManager.swift in Sources */,
 				045985FB24E3881B0056ED51 /* TitleLabel.swift in Sources */,
@@ -353,8 +362,10 @@
 				04E8720F24E399F6006E6299 /* Constants.swift in Sources */,
 				045985CD24E2F4C40056ED51 /* SceneDelegate.swift in Sources */,
 				04E8721324E3A71B006E6299 /* UIDevice.swift in Sources */,
-				045985F824E357130056ED51 /* CategoryBadge.swift in Sources */,
+				045985F824E357130056ED51 /* Badge.swift in Sources */,
+				04B7D9A924E4DBBA00B7584C /* PodcastHeaderCell.swift in Sources */,
 				045985E224E2F6CE0056ED51 /* UIColor+theme.swift in Sources */,
+				04B7D9A724E4BD9E00B7584C /* PodcastController.swift in Sources */,
 				04E8720C24E38A5C006E6299 /* SubtitleLabel.swift in Sources */,
 				045985E024E2F66A0056ED51 /* CustomViewController.swift in Sources */,
 			);

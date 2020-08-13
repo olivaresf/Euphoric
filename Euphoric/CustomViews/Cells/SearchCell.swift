@@ -23,9 +23,9 @@ class SearchCell: UICollectionViewCell {
     
     static let reusableId = "SearchCell"
     lazy var leftImage = RoundedImageView(image: UIImage(named: "person")!)
-    let badge = CategoryBadge()
-    var podcastLabel = TitleLabel()
-    let authorLabel = SubtitleLabel()
+    let badge = Badge()
+    var podcastLabel = TitleLabel(title: "", size: 18)
+    let authorLabel = SubtitleLabel(text: "", size: 14)
     var overallStackView = UIStackView()
     
     override init(frame: CGRect) {

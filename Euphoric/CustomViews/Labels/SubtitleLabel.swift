@@ -14,9 +14,10 @@ class SubtitleLabel: UILabel {
         configure()
     }
     
-    convenience init(text:String) {
+    convenience init(text:String, size:CGFloat) {
         self.init()
         self.text = text
+        font = UIFont.systemFont(ofSize: size, weight: .regular)
     }
     
     required init?(coder: NSCoder) {
@@ -24,7 +25,7 @@ class SubtitleLabel: UILabel {
     }
     
     fileprivate func configure(){
-        font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        translatesAutoresizingMaskIntoConstraints = false
         textColor = UIColor.darkGray
         numberOfLines = 2
         lineBreakMode = .byTruncatingTail
