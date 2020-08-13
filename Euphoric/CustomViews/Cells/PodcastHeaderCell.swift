@@ -9,6 +9,18 @@ import UIKit
 
 class PodcastHeaderCell: UICollectionReusableView {
     
+    var podcast:Podcast?{
+        didSet{
+            guard let podcast = podcast else {return}
+            podcastLabel.text = podcast.trackName
+            podcastImage.sd_setImage(with: URL(string: podcast.artworkUrl600))
+            episodesAvailableLabel.text = "\(podcast.trackCount) Episodes available"
+            authorLabel.text = podcast.artistName
+            categoryBadge.categoryLabel.text = podcast.primaryGenreName
+            print(podcast.feedUrl)
+        }
+    }
+    
     let podcastImage = RoundedImageView(image: #imageLiteral(resourceName: "person"))
     let podcastLabel = TitleLabel(title: "This is a very impressive podcast title", size: 24)
     let episodesAvailableLabel = SubtitleLabel(text: "2 Episodes available", size: 15)
@@ -52,13 +64,13 @@ class PodcastHeaderCell: UICollectionReusableView {
             imageSize = 150
         }
         
-        podcastLabel.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: padding + 8, left: padding, bottom: 0, right: padding))
-        episodesAvailableLabel.anchor(top: podcastLabel.bottomAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: padding, left: padding, bottom: 0, right: padding))
-        podcastImage.anchor(top: episodesAvailableLabel.bottomAnchor, leading: leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: padding, left: padding, bottom: 0, right: padding), size: .init(width: imageSize, height: imageSize))
+        podcastLabel.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: padding + 8, left: 0, bottom: 0, right: 0))
+        episodesAvailableLabel.anchor(top: podcastLabel.bottomAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: padding, left: 0, bottom: 0, right: 0))
+        podcastImage.anchor(top: episodesAvailableLabel.bottomAnchor, leading: leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: padding, left: 0, bottom: 0, right: 0), size: .init(width: imageSize, height: imageSize))
     
         categoryBadge.anchor(top: podcastImage.topAnchor, leading: podcastImage.trailingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: padding, left: padding, bottom: 0, right: padding) ,size: .init(width: 0, height: 18))
-        authorLabel.anchor(top: categoryBadge.bottomAnchor, leading: podcastImage.trailingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 7, left: padding, bottom: 0, right: padding))
-        podcastDescription.anchor(top: authorLabel.bottomAnchor, leading: podcastImage.trailingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 7, left: padding, bottom: 0, right: padding))
+        authorLabel.anchor(top: categoryBadge.bottomAnchor, leading: podcastImage.trailingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 7, left: padding, bottom: 0, right: 0))
+        podcastDescription.anchor(top: authorLabel.bottomAnchor, leading: podcastImage.trailingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 7, left: padding, bottom: 0, right: 0))
         
     }
     

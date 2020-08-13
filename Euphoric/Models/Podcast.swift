@@ -13,6 +13,8 @@ struct Podcast:Codable, Hashable {
     let artistName:String
     let artworkUrl600:String
     let primaryGenreName:String
+    let trackCount:Int
+    let feedUrl:String
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(trackName)

@@ -94,8 +94,8 @@ extension SearchController:UICollectionViewDelegate, UICollectionViewDelegateFlo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = PodcastController()
         vc.podcast = podcasts[indexPath.item]
-        navigationController?.pushViewController(vc, animated: true)
-//        present(nav, animated: true, completion: nil)
+//        navigationController?.pushViewController(vc, animated: true)
+        present(vc, animated: true, completion: nil)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

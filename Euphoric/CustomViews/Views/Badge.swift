@@ -13,7 +13,7 @@ class Badge: UIView {
         let view = UIView()
         view.layer.cornerRadius = 3
         view.layer.borderWidth = 0.5
-//        view.layer.borderColor = UIColor.systemPurple.cgColor
+        view.layer.borderColor = UIColor.systemPurple.cgColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -22,7 +22,7 @@ class Badge: UIView {
         let label = UILabel()
         label.text = "Technology"
         label.textColor = .systemPurple
-        label.font = UIFont.systemFont(ofSize: 10, weight: .medium)
+        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.lineBreakMode = .byTruncatingTail
         return label
@@ -49,8 +49,8 @@ class Badge: UIView {
             
             containerView.heightAnchor.constraint(equalToConstant: 15),
             
-            categoryLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10),
-            categoryLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
+            categoryLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8),
+            categoryLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
             categoryLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
             categoryLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ])

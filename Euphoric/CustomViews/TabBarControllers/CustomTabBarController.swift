@@ -13,7 +13,7 @@ class CustomTabBarController: UITabBarController {
         super.viewDidLoad()
         viewControllers = [createNavController(for: SearchController(), title: "Search")]
 //        tabBar.tintColor = .systemBlue
-        tabBar.barTintColor = UIColor.white.withAlphaComponent(0.2)
+//        tabBar.barTintColor = UIColor.white.withAlphaComponent(0.2)
         tabBar.isTranslucent = true
     }
     

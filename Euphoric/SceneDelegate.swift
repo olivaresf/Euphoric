@@ -23,10 +23,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         configureGlobalUI()
         
-//        window?.rootViewController = CustomTabBarController()
-        window?.rootViewController = PodcastController()
-        
-        
+        window?.rootViewController = CustomTabBarController()
+//        window?.rootViewController = PodcastController()
     }
     
     func configureGlobalUI(){
