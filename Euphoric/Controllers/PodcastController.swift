@@ -21,7 +21,7 @@ class PodcastController: CustomViewController {
     
     var collectionView:UICollectionView!
     var episodes: [Episode] = []
-    var dataSource:UICollectionViewDiffableDataSource<Section2,Episode>!
+    let activityView = UIActivityIndicatorView(style: .large)
     
     
     override func viewDidLoad() {
@@ -32,9 +32,7 @@ class PodcastController: CustomViewController {
         if let flowLayout = layout as? UICollectionViewFlowLayout {
             flowLayout.estimatedItemSize = CGSize(
                 width: collectionView.widestCellWidth,
-                // Make the height a reasonable estimate to
-                // ensure the scroll bar remains smooth
-                height: 120
+                height: 130
             )
         }
     }
@@ -44,10 +42,14 @@ class PodcastController: CustomViewController {
         NetworkManager.shared.fetchEpisodes(feedUrl: feedUrl) { [weak self] (episodes) in
             
             guard let self = self else { return }
+            
             self.episodes = episodes
+            
             DispatchQueue.main.async {
+                self.activityView.stopAnimating()
                 self.collectionView.reloadData()
             }
+            
         }
         
     }
@@ -62,7 +64,13 @@ class PodcastController: CustomViewController {
         
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: customFlowLayout)
         view.addSubview(collectionView)
-        collectionView.contentInset = .init(top: 18, left: 18, bottom: 0, right: 18)
+        view.addSubview(activityView)
+        
+        activityView.center = self.view.center
+        activityView.hidesWhenStopped = true
+        activityView.startAnimating()
+        
+        collectionView.contentInset = .init(top: 18, left: 18, bottom: 18, right: 18)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = .clear
@@ -99,20 +107,8 @@ extension PodcastController:UICollectionViewDelegate, UICollectionViewDelegateFl
         return sectionHeader
     }
     
-    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    //        return CGSize(width: view.frame.width - 18 - 18, height: 0)
-    //    }
-    
-    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-    //        return CGSize(width: view.frame.width, height: 290)
-    //    }
-    
-//        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-//                return .init(top: 0, left: 18, bottom: 0, right: 18)
-//        }
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 18
+        return 19
     }
     
 }
