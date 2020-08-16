@@ -31,9 +31,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         UINavigationBar.appearance().prefersLargeTitles = false
         UINavigationBar.appearance().isTranslucent = true
         
-        UINavigationBar.appearance().barTintColor = .systemGroupedBackground
+//        UINavigationBar.appearance().barTintColor = .systemGroupedBackground
+        UINavigationBar.appearance().barTintColor = .systemBackground
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().tintColor = .systemPink
+        
+//        UINavigationController.navigationItem.backBarButtonItem
+        
+//        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

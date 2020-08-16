@@ -27,7 +27,9 @@ class PodcastController: CustomViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "suit.heart.fill"), style: .done, target: self, action: #selector(handleHeart))
+        let heartItem = UIBarButtonItem(image: UIImage(systemName: "suit.heart.fill"), style: .done, target: self, action: #selector(handleHeart))
+        let moreItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .done, target: self, action: #selector(handleHeart))
+        navigationItem.rightBarButtonItems = [heartItem, moreItem]
         let layout = collectionView.collectionViewLayout
         if let flowLayout = layout as? UICollectionViewFlowLayout {
             flowLayout.estimatedItemSize = CGSize(
@@ -96,7 +98,14 @@ extension PodcastController:UICollectionViewDelegate, UICollectionViewDelegateFl
         
         let rootController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController
         let searchController = rootController?.viewControllers.first as? SearchController
-        searchController?.setEpisode(episode: episodes[indexPath.item])
+        
+        var selectedEpisode = episodes[indexPath.item]
+        
+        if selectedEpisode.author.isEmpty{
+            selectedEpisode.author = podcast?.artistName ?? ""
+        }
+        
+        searchController?.setEpisode(episode: selectedEpisode)
 
     }
     

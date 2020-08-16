@@ -14,7 +14,6 @@ class EpisodeCell: UICollectionViewCell {
             guard let episode = episode else {return}
             episodeTitle.text = episode.title
             episodeDescription.text = episode.description
-            customLabel.text = "XDXDXD"
         }
     }
     
@@ -28,17 +27,7 @@ class EpisodeCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    let customLabel:UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        label.textColor = .softDark
-//        label.numberOfLines = 2
-//        label.text = "xdxdxdxd"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
+ 
     let episodeDescription:UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
@@ -49,18 +38,31 @@ class EpisodeCell: UICollectionViewCell {
         return label
     }()
     
-    let dateLabel = SubtitleLabel(text: "21-Jun-2018", size: 11)
-    let durationLabel = SubtitleLabel(text: "17m 38s", size: 11)
+    let dateLabel = SubtitleLabel(text: "21-Jun-2018", size: 10)
+    let durationLabel = SubtitleLabel(text: "17m 38s", size: 10)
     let badgeButton = Badge()
     let episodeImage = RoundedImageView(image: #imageLiteral(resourceName: "play"))
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
+//        configureShadow()
+    }
+    
+    fileprivate func configureShadow(){
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.07
+        layer.shadowOffset = .init(width: 3, height: 3)
+        layer.shadowRadius = 6
+        
+        layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
+        layer.shouldRasterize = true
+        layer.rasterizationScale = UIScreen.main.scale
     }
 
     func setupViews(){
-//        backgroundColor = UIColor.white.withAlphaComponent(0.2)
+        backgroundColor = UIColor.systemBackground
+        layer.cornerRadius = 12
         [episodeTitle, episodeDescription, dateLabel, durationLabel, episodeImage ].forEach{addSubview($0)}
         
         
@@ -77,8 +79,6 @@ class EpisodeCell: UICollectionViewCell {
         dateLabel.anchor(top: episodeDescription.bottomAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: nil, padding: .init(top: 10, left: 0, bottom: 0, right: 0))
         durationLabel.anchor(top: episodeDescription.bottomAnchor, leading: dateLabel.trailingAnchor, bottom: bottomAnchor, trailing: nil, padding: .init(top: 10, left: 12, bottom: 0, right: 0))
         
-//        customLabel.anchor(top: dateLabel.bottomAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: nil, padding: .init(top: 10, left: 14, bottom: 0, right: 0), size: .init(width: 0, height: 10))
-        
     }
     
     required init?(coder: NSCoder) {
@@ -89,17 +89,8 @@ class EpisodeCell: UICollectionViewCell {
         _ targetSize: CGSize,
         withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority,
         verticalFittingPriority: UILayoutPriority) -> CGSize {
-        
-        // Replace the height in the target size to
-        // allow the cell to flexibly compute its height
         var targetSize = targetSize
         targetSize.height = CGFloat.greatestFiniteMagnitude
-        
-        // The .required horizontal fitting priority means
-        // the desired cell width (targetSize.width) will be
-        // preserved. However, the vertical fitting priority is
-        // .fittingSizeLevel meaning the cell will find the
-        // height that best fits the content
         let size = super.systemLayoutSizeFitting(
             targetSize,
             withHorizontalFittingPriority: .required,

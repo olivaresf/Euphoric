@@ -16,7 +16,7 @@ class CustomViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemGroupedBackground
+        view.backgroundColor = .systemBackground
 //        setupBlurGradient()
     }
     
@@ -26,7 +26,7 @@ class CustomViewController: UIViewController {
         
         let coverWhiteView = UIView()
         coverWhiteView.translatesAutoresizingMaskIntoConstraints = false
-        coverWhiteView.backgroundColor = .systemGroupedBackground
+        coverWhiteView.backgroundColor = .systemBackground
         view.addSubview(coverWhiteView)
         
         NSLayoutConstraint.activate([

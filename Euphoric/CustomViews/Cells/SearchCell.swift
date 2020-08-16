@@ -24,20 +24,32 @@ class SearchCell: UICollectionViewCell {
     static let reusableId = "SearchCell"
     lazy var leftImage = RoundedImageView(image: UIImage(named: "person")!)
     let badge = Badge()
-    var podcastLabel = TitleLabel(title: "", size: 18)
-    let authorLabel = SubtitleLabel(text: "", size: 14)
+    var podcastLabel = TitleLabel(title: "", size: 16)
+    let authorLabel = SubtitleLabel(text: "", size: 13)
     var overallStackView = UIStackView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureLayout()
         configureUI()
+        configureShadow()
+    }
+    
+    fileprivate func configureShadow(){
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.07
+        layer.shadowOffset = .init(width: 3, height: 3)
+        layer.shadowRadius = 6
+        
+        layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
+        layer.shouldRasterize = true
+        layer.rasterizationScale = UIScreen.main.scale
     }
     
     fileprivate func configureUI(){
-        backgroundColor = .secondarySystemGroupedBackground
+        backgroundColor = .tertiarySystemBackground
         layer.cornerRadius = 14
-        clipsToBounds = true
+//        clipsToBounds = true
     }
     
     fileprivate func configureLayout(){

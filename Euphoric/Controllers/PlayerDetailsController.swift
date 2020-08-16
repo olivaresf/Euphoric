@@ -15,17 +15,40 @@ class PlayerDetailsController: UIViewController {
     var episode:Episode!{
         didSet{
             episodeTitle.text = episode.title
+            
+            guard let imageUrl = URL(string: episode.imageUrl ?? "") else {return}
+            
+            DispatchQueue.global().async { [weak self] in
+                if let data = try? Data(contentsOf: imageUrl) {
+                    if let image = UIImage(data: data) {
+                        DispatchQueue.main.async {
+                            let newColor = image.averageColor?.cgColor ?? UIColor.topColor.cgColor
+                            self?.gradientLayer.colors = [newColor, UIColor.bottomColor.cgColor]
+                            self?.view.layoutIfNeeded()
+                        }
+                    }
+                }
+            }
+            
             podcastImage.sd_setImage(with: URL(string: episode.imageUrl ?? ""))
+            alert.title = episode.title
+            alert.message = episode.description
+            setupNowPlayingInfo()
             playEpisode()
         }
     }
     
+    //    let topColor:UIColor!
     
-    let fullView: CGFloat = 140
+    //    let fullView:CGFloat = 240
     var partialView: CGFloat {
         return UIScreen.main.bounds.height - (view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0) - 60
     }
     let largeConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .bold, scale: .default)
+    
+    fileprivate let gradientLayer = CAGradientLayer()
+    fileprivate var blurEffect = UIBlurEffect()
+    fileprivate var blurredEffectView = UIVisualEffectView()
     
     let player:AVPlayer = {
         let avPlayer = AVPlayer()
@@ -41,7 +64,7 @@ class PlayerDetailsController: UIViewController {
         
         player.play()
     }
-
+    
     var soundAnimation:AnimationView = {
         let animation = AnimationView(name: "bars")
         animation.contentMode = .scaleAspectFit
@@ -49,7 +72,7 @@ class PlayerDetailsController: UIViewController {
         animation.animationSpeed = 0.5
         animation.translatesAutoresizingMaskIntoConstraints = false
         animation.backgroundBehavior = .pauseAndRestore
-//        animation.play()
+        //        animation.play()
         return animation
     }()
     
@@ -84,7 +107,6 @@ class PlayerDetailsController: UIViewController {
         return label
     }()
     
-
     let goForwardButton:UIButton = {
         let btn = UIButton(type: .system)
         let image = UIImage(systemName: "goforward.30")
@@ -109,6 +131,62 @@ class PlayerDetailsController: UIViewController {
         return btn
     }()
     
+    let dotsButton:UIButton = {
+        let btn = UIButton(type: .system)
+        btn.contentMode = .scaleAspectFit
+        btn.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.tintColor = .systemPink
+        btn.contentHorizontalAlignment = .fill
+        btn.addTarget(self, action: #selector(handleSheet), for: .touchUpInside)
+//        btn.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        return btn
+    }()
+    
+    let airplayButton:UIButton = {
+        let btn = UIButton(type: .system)
+        btn.contentMode = .scaleAspectFit
+        btn.setImage(UIImage(systemName: "airplayaudio"), for: .normal)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.tintColor = .systemPink
+        btn.contentHorizontalAlignment = .fill
+//        btn.addTarget(self, action: #selector(handlePlayPause), for: .touchUpInside)
+        return btn
+    }()
+    
+    let randomButton:UIButton = {
+        let btn = UIButton(type: .system)
+        btn.contentMode = .scaleAspectFit
+        btn.setImage(UIImage(systemName: "square.and.arrow.down"), for: .normal)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.tintColor = .systemPink
+        btn.contentHorizontalAlignment = .fill
+//        btn.addTarget(self, action: #selector(handlePlayPause), for: .touchUpInside)
+        return btn
+    }()
+    
+    let alert = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
+    
+    func setupAlerts(){
+        alert.view.tintColor = .systemPink
+        let firstAction = UIAlertAction(title: "Approve", style: .default) { (_) in
+            print("first")
+        }
+        firstAction.setValue(UIImage(systemName: "heart"), forKey: "image")
+        alert.addAction(firstAction)
+
+        let dismissAction = UIAlertAction(title: "Dismiss", style: .cancel) { (_) in
+            print("Dismiss")
+        }
+        alert.addAction(dismissAction)
+    }
+    
+    @objc func handleSheet(){
+        self.present(alert, animated: true, completion: {
+            print("completion block")
+        })
+    }
+    
     @objc func handleForward(){
         let fifteenSeconds = CMTimeMake(value: 15, timescale: 1)
         let seekTime = CMTimeAdd(player.currentTime(), fifteenSeconds)
@@ -129,6 +207,14 @@ class PlayerDetailsController: UIViewController {
         player.seek(to: seekTime)
     }
     
+    fileprivate func setupNowPlayingInfo(){
+        
+        var nowPlayingInfo = [String: Any]()
+        nowPlayingInfo[MPMediaItemPropertyTitle] = episode.title
+        nowPlayingInfo[MPMediaItemPropertyArtist] = episode.author
+        
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+    }
     
     fileprivate func observePlayerCurrentTime() {
         let interval = CMTimeMake(value: 1, timescale: 1)
@@ -196,22 +282,37 @@ class PlayerDetailsController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupGradient()
         setupViews()
-        
+        setupAlerts()
         setupRemoteControl()
         setupAudioSession()
         observePlayerCurrentTime()
         observePlayerStart()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setupBackground()
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         showPlayerDetail()
+    }
+    
+    func setupGradient(){
+        gradientLayer.colors = [UIColor.topColor.cgColor, UIColor.bottomColor.cgColor]
+        gradientLayer.locations = [0, 0.5]
+        gradientLayer.opacity = 1
+        view.layer.addSublayer(gradientLayer)
+        
+        blurEffect = UIBlurEffect(style: .extraLight)
+        
+        blurredEffectView = UIVisualEffectView(effect: blurEffect)
+        blurredEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurredEffectView.frame = view.bounds
+        view.addSubview(blurredEffectView)
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        gradientLayer.frame = view.bounds
     }
     
     func showPlayerDetail(){
@@ -232,18 +333,6 @@ class PlayerDetailsController: UIViewController {
             player.pause()
             playButton.setImage(UIImage(systemName: "play.fill", withConfiguration: largeConfig), for: .normal)
         }
-    }
-
-    func setupBackground(){
-        let blurEffect = UIBlurEffect.init(style: .light)
-        let visualEffect = UIVisualEffectView.init(effect: blurEffect)
-        let bluredView = UIVisualEffectView.init(effect: blurEffect)
-        bluredView.contentView.addSubview(visualEffect)
-        
-        visualEffect.frame = UIScreen.main.bounds
-        bluredView.frame = UIScreen.main.bounds
-        
-        view.insertSubview(bluredView, at: 0)
     }
     
     @objc func panGesture(_ recognizer: UIPanGestureRecognizer) {
@@ -267,19 +356,20 @@ class PlayerDetailsController: UIViewController {
                 } else {
                     self.view.frame = CGRect(x: 0, y: self.fullView, width: self.view.frame.width, height: self.view.frame.height)
                 }
-
-                }, completion: nil)
+                
+            }, completion: nil)
             
         }
     }
     
     let topStackView = UIStackView()
     
+    var fullView:CGFloat!
+    
     fileprivate func setupViews(){
-        
+        fullView = view.frame.height / 2 - 80
         let gesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture))
-//        view.addGestureRecognizer(gesture)
-        topStackView.addGestureRecognizer(gesture)
+        view.addGestureRecognizer(gesture)
         view.layer.cornerRadius = 24
         view.clipsToBounds = true
         
@@ -312,7 +402,17 @@ class PlayerDetailsController: UIViewController {
         durationsStackView.distribution = .fillEqually
         view.addSubview(durationsStackView)
         durationsStackView.anchor(top: currentTimeSlider.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 8, left: 18, bottom: 0, right: 18), size: .init(width: 0, height: 24))
-
+        
+        let routePickerView = AVRoutePickerView()
+        routePickerView.tintColor = .systemPink
+        
+        let bottomStack = UIStackView(arrangedSubviews: [UIView(), dotsButton,routePickerView, randomButton, UIView()])
+        bottomStack.translatesAutoresizingMaskIntoConstraints = false
+        bottomStack.axis = .horizontal
+        bottomStack.distribution = .equalSpacing
+        view.addSubview(bottomStack)
+        bottomStack.anchor(top: durationsStackView.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 18, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 50))
+        
     }
     
 }

@@ -13,7 +13,7 @@ class Badge: UIView {
         let view = UIView()
         view.layer.cornerRadius = 3
         view.layer.borderWidth = 0.5
-        view.layer.borderColor = UIColor.systemPurple.cgColor
+        view.layer.borderColor = UIColor.systemPink.cgColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -21,7 +21,7 @@ class Badge: UIView {
     let categoryLabel:UILabel = {
         let label = UILabel()
         label.text = "Technology"
-        label.textColor = .systemPurple
+        label.textColor = .systemPink
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.lineBreakMode = .byTruncatingTail

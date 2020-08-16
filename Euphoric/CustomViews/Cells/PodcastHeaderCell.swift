@@ -25,8 +25,8 @@ class PodcastHeaderCell: UICollectionReusableView {
     let podcastLabel = TitleLabel(title: "This is a very impressive podcast title", size: 24)
     let episodesAvailableLabel = SubtitleLabel(text: "2 Episodes available", size: 15)
     let authorLabel = TitleLabel(title: "Diego Isco", size: 18)
-    let categoryBadge = Badge(color: .systemPurple)
-    let explicitBadge = Badge(color: .systemRed)
+    let categoryBadge = Badge(color: .systemPink)
+//    let explicitBadge = Badge(color: .systemRed)
     var infoStackView:UIStackView!
     static let cellId = "PodcastHeaderId"
     
@@ -64,7 +64,7 @@ class PodcastHeaderCell: UICollectionReusableView {
             imageSize = 150
         }
         
-        podcastLabel.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: padding + 8, left: 0, bottom: 0, right: 0))
+        podcastLabel.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: padding, left: 0, bottom: 0, right: 0))
         episodesAvailableLabel.anchor(top: podcastLabel.bottomAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: padding, left: 0, bottom: 0, right: 0))
         podcastImage.anchor(top: episodesAvailableLabel.bottomAnchor, leading: leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: padding, left: 0, bottom: 0, right: 0), size: .init(width: imageSize, height: imageSize))
     

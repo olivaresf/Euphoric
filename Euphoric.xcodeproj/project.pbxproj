@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		041A262124E9CB6B00B2B55F /* bars.json in Resources */ = {isa = PBXBuildFile; fileRef = 041A262024E9CB6B00B2B55F /* bars.json */; };
+		0426C43024E99ABB00DA84C7 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426C42F24E99ABB00DA84C7 /* UIImage.swift */; };
 		0439C4CF24E78FAB004DF89A /* PlayerDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0439C4CE24E78FAB004DF89A /* PlayerDetailsController.swift */; };
 		045985CB24E2F4C40056ED51 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985CA24E2F4C40056ED51 /* AppDelegate.swift */; };
 		045985CD24E2F4C40056ED51 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985CC24E2F4C40056ED51 /* SceneDelegate.swift */; };
@@ -27,7 +29,6 @@
 		04B7D9A924E4DBBA00B7584C /* PodcastHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B7D9A824E4DBBA00B7584C /* PodcastHeaderCell.swift */; };
 		04B7D9AB24E4F08400B7584C /* UIView+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B7D9AA24E4F08300B7584C /* UIView+Layout.swift */; };
 		04B7D9AD24E5229D00B7584C /* Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B7D9AC24E5229D00B7584C /* Episode.swift */; };
-		04DD95C624E8C5F700ED86F8 /* bars.json in Resources */ = {isa = PBXBuildFile; fileRef = 04DD95C524E8C5F700ED86F8 /* bars.json */; };
 		04E8720C24E38A5C006E6299 /* SubtitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8720B24E38A5C006E6299 /* SubtitleLabel.swift */; };
 		04E8720F24E399F6006E6299 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8720E24E399F6006E6299 /* Constants.swift */; };
 		04E8721124E3A514006E6299 /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8721024E3A514006E6299 /* CustomSearchBar.swift */; };
@@ -39,6 +40,8 @@
 
 /* Begin PBXFileReference section */
 		0100FCE3062D132DD8B1C8FB /* Pods_Euphoric.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Euphoric.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		041A262024E9CB6B00B2B55F /* bars.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bars.json; sourceTree = "<group>"; };
+		0426C42F24E99ABB00DA84C7 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		0439C4CE24E78FAB004DF89A /* PlayerDetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDetailsController.swift; sourceTree = "<group>"; };
 		045985C724E2F4C40056ED51 /* Euphoric.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Euphoric.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		045985CA24E2F4C40056ED51 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -61,7 +64,6 @@
 		04B7D9A824E4DBBA00B7584C /* PodcastHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastHeaderCell.swift; sourceTree = "<group>"; };
 		04B7D9AA24E4F08300B7584C /* UIView+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Layout.swift"; sourceTree = "<group>"; };
 		04B7D9AC24E5229D00B7584C /* Episode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Episode.swift; sourceTree = "<group>"; };
-		04DD95C524E8C5F700ED86F8 /* bars.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bars.json; sourceTree = "<group>"; };
 		04E8720B24E38A5C006E6299 /* SubtitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitleLabel.swift; sourceTree = "<group>"; };
 		04E8720E24E399F6006E6299 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		04E8721024E3A514006E6299 /* CustomSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
@@ -105,7 +107,7 @@
 		045985C924E2F4C40056ED51 /* Euphoric */ = {
 			isa = PBXGroup;
 			children = (
-				04DD95C524E8C5F700ED86F8 /* bars.json */,
+				041A262024E9CB6B00B2B55F /* bars.json */,
 				04B7D99F24E4419600B7584C /* Models */,
 				04B7D99C24E4406F00B7584C /* Managers */,
 				045985F124E305730056ED51 /* Utilities */,
@@ -128,6 +130,7 @@
 				04E8721224E3A71B006E6299 /* UIDevice.swift */,
 				04B7D9AA24E4F08300B7584C /* UIView+Layout.swift */,
 				04FC529624E8EECD0036C9FA /* CMTime.swift */,
+				0426C42F24E99ABB00DA84C7 /* UIImage.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -309,7 +312,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04DD95C624E8C5F700ED86F8 /* bars.json in Resources */,
+				041A262124E9CB6B00B2B55F /* bars.json in Resources */,
 				045985D724E2F4C70056ED51 /* LaunchScreen.storyboard in Resources */,
 				045985D424E2F4C70056ED51 /* Assets.xcassets in Resources */,
 			);
@@ -365,6 +368,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04E8721124E3A514006E6299 /* CustomSearchBar.swift in Sources */,
+				0426C43024E99ABB00DA84C7 /* UIImage.swift in Sources */,
 				04B7D9A124E441A000B7584C /* Podcast.swift in Sources */,
 				045985F024E302060056ED51 /* RoundedImageView.swift in Sources */,
 				04EBE45F24E59C5F00312AB2 /* EpisodeCell.swift in Sources */,

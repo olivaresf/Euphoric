@@ -28,7 +28,8 @@ class CustomSearchBar: UISearchBar {
         directionalLayoutMargins = .init(top: 0, leading: 20, bottom: 0, trailing: 20)
         searchBarStyle = .minimal
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .systemGroupedBackground
+//        backgroundColor = .systemGroupedBackground
+        backgroundColor = .systemBackground
         setImage(UIImage(systemName: "music.note"), for: .search, state: .normal)
     }
     
