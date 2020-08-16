@@ -23,6 +23,10 @@ class CustomTabBarController: UITabBarController {
         return navController
     }
     
+    func prindd(){
+        print("xxdxdxd")
+    }
+    
     @objc func handleTap(){
         present(SearchController(), animated: true, completion: nil)
     }

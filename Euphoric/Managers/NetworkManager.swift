@@ -23,12 +23,7 @@ class NetworkManager {
     
     func fetchEpisodes(feedUrl: String, completionHandler: @escaping ([Episode]) -> ()) {
         
-//        let secureFeedUrl = feedUrl.contains("https") ? feedUrl : feedUrl.replacingOccurrences(of: "http", with: "https")
-        
         guard let url = URL(string: feedUrl) else { return }
-        
-//        print(secureFeedUrl)
-        
         DispatchQueue.global(qos: .background).async {
             
             let parser = FeedParser(URL: url)
@@ -36,11 +31,8 @@ class NetworkManager {
                 
                 switch result {
                 case .success(let feed):
-                    
                     guard let feed = feed.rssFeed else {return}
-                    
                     completionHandler(feed.toEpisodes())
-                    
                 case .failure(let error):
                     print("Error parsing the podcast", error)
                 }

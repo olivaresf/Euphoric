@@ -1,22 +1,26 @@
 PODS:
   - FeedKit (9.1.2)
+  - lottie-ios (3.1.8)
   - SDWebImage (5.8.4):
     - SDWebImage/Core (= 5.8.4)
   - SDWebImage/Core (5.8.4)
 
 DEPENDENCIES:
   - FeedKit (~> 9.0)
+  - lottie-ios
   - SDWebImage (~> 5.0)
 
 SPEC REPOS:
   trunk:
     - FeedKit
+    - lottie-ios
     - SDWebImage
 
 SPEC CHECKSUMS:
   FeedKit: 71653273ab08e618cd6fd1301ca08fc02dca6a9e
+  lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
   SDWebImage: cf6922231e95550934da2ada0f20f2becf2ceba9
 
-PODFILE CHECKSUM: d87201764c70223c86417eee375133dcfe29e2ee
+PODFILE CHECKSUM: d9dc14b7c9586dd84b9c4ed8ea9d76b92d9563f0
 
 COCOAPODS: 1.8.4

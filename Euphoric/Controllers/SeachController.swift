@@ -18,6 +18,8 @@ class SearchController: CustomViewController {
     var podcasts:[Podcast] = []
     var dataSource:UICollectionViewDiffableDataSource<Section,Podcast>!
     
+    let playerDetailsController = PlayerDetailsController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
@@ -36,6 +38,21 @@ class SearchController: CustomViewController {
                 self.updateData()
             }
         }
+        
+        let window = UIApplication.shared.windows.filter{$0.isKeyWindow}.first
+        window?.addSubview(playerDetailsController.view)
+
+        addChild(playerDetailsController)
+        playerDetailsController.didMove(toParent: self)
+
+        let height = view.frame.height
+        let width  = view.frame.width
+        playerDetailsController.view.frame = CGRect(x: 0, y: self.view.frame.maxY, width: width, height: height)
+        
+    }
+    
+    func setEpisode(episode:Episode){
+        playerDetailsController.episode = episode
     }
     
     func configureSearchBar(){
@@ -77,6 +94,8 @@ class SearchController: CustomViewController {
         }
     }
     
+    var timer: Timer?
+    
 }
 
 extension SearchController:UISearchBarDelegate{
@@ -84,18 +103,23 @@ extension SearchController:UISearchBarDelegate{
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         let formattedText = searchText.replacingOccurrences(of: " ", with: "+")
+        timer?.invalidate()
         
-        NetworkManager.shared.getPodcasts(for: formattedText) {[weak self] (result) in
+        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (_) in
             
-            guard let self = self else {return}
-            switch result{
-            case .failure(let err):
-                print(err.localizedDescription)
-            case .success(let podcasts):
-                self.podcasts = podcasts
-                self.updateData()
+            NetworkManager.shared.getPodcasts(for: formattedText) {[weak self] (result) in
+                
+                guard let self = self else {return}
+                switch result{
+                case .failure(let err):
+                    print(err.localizedDescription)
+                case .success(let podcasts):
+                    self.podcasts = podcasts
+                    self.updateData()
+                }
             }
-        }
+        })
+
     }
     
 }

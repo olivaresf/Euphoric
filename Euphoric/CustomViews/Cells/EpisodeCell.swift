@@ -68,8 +68,9 @@ class EpisodeCell: UICollectionViewCell {
             episodeImage.centerYAnchor.constraint(equalTo: centerYAnchor),
             episodeImage.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
-        episodeImage.constrainWidth(40)
-        episodeImage.constrainHeight(40)
+        episodeImage.constrainWidth(25)
+        episodeImage.constrainHeight(30)
+        episodeImage.layer.opacity = 0
         
         episodeTitle.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: episodeImage.leadingAnchor, padding: .init(top: 18, left: 0, bottom: 0, right: 28))
         episodeDescription.anchor(top: episodeTitle.bottomAnchor, leading: leadingAnchor, bottom: nil, trailing: episodeImage.leadingAnchor, padding: .init(top: 6, left: 0, bottom: 0, right: 28))

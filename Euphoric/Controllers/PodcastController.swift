@@ -94,21 +94,10 @@ extension PodcastController:UICollectionViewDelegate, UICollectionViewDelegateFl
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        
-        let playerDetailsController = PlayerDetailsController()
-        playerDetailsController.episode = episodes[indexPath.item]
-        let window = UIApplication.shared.windows.filter{$0.isKeyWindow}.first
-        window?.addSubview(playerDetailsController.view)
+        let rootController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController
+        let searchController = rootController?.viewControllers.first as? SearchController
+        searchController?.setEpisode(episode: episodes[indexPath.item])
 
-        addChild(playerDetailsController)
-        playerDetailsController.didMove(toParent: self)
-
-        let height = view.frame.height
-        let width  = view.frame.width
-        playerDetailsController.view.frame = CGRect(x: 0, y: self.view.frame.maxY, width: width, height: height)
-        
-        
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

@@ -8,4 +8,5 @@ target 'Euphoric' do
   # Pods for Euphoric
 pod 'SDWebImage', '~> 5.0'
 pod 'FeedKit', '~> 9.0'
+pod 'lottie-ios'
 end
