@@ -12,18 +12,19 @@ class CustomTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewControllers = [createNavController(for: SearchController(), title: "Search")]
-//        tabBar.tintColor = .systemBlue
-//        tabBar.barTintColor = UIColor.white.withAlphaComponent(0.2)
+        tabBar.tintColor = .systemPink
         tabBar.isTranslucent = true
     }
     
     func createNavController(for vc:UIViewController, title:String) -> UINavigationController{
         
         let navController = UINavigationController(rootViewController: vc)
-//        navController.title = title
         navController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
         return navController
-        
+    }
+    
+    @objc func handleTap(){
+        present(SearchController(), animated: true, completion: nil)
     }
     
 }

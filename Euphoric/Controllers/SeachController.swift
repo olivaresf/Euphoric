@@ -24,8 +24,18 @@ class SearchController: CustomViewController {
         setupNavbar(title: "Search")
         configureSearchBar()
         configureDataSource()
-        let locale = Locale.current
-        print(locale)
+    
+        NetworkManager.shared.getPodcasts(for: "Joe") {[weak self] (result) in
+            
+            guard let self = self else {return}
+            switch result{
+            case .failure(let err):
+                print(err.localizedDescription)
+            case .success(let podcasts):
+                self.podcasts = podcasts
+                self.updateData()
+            }
+        }
     }
     
     func configureSearchBar(){
@@ -74,6 +84,7 @@ extension SearchController:UISearchBarDelegate{
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         let formattedText = searchText.replacingOccurrences(of: " ", with: "+")
+        
         NetworkManager.shared.getPodcasts(for: formattedText) {[weak self] (result) in
             
             guard let self = self else {return}
@@ -93,9 +104,10 @@ extension SearchController:UICollectionViewDelegate, UICollectionViewDelegateFlo
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = PodcastController()
+        
         vc.podcast = podcasts[indexPath.item]
-//        navigationController?.pushViewController(vc, animated: true)
-        present(vc, animated: true, completion: nil)
+        navigationController?.pushViewController(vc, animated: true)
+
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

@@ -27,14 +27,18 @@ class PodcastController: CustomViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
-        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "suit.heart.fill"), style: .done, target: self, action: #selector(handleHeart))
         let layout = collectionView.collectionViewLayout
         if let flowLayout = layout as? UICollectionViewFlowLayout {
             flowLayout.estimatedItemSize = CGSize(
                 width: collectionView.widestCellWidth,
-                height: 130
+                height: 40
             )
         }
+    }
+    
+    @objc func handleHeart(){
+        
     }
     
     func fetchEpisodes(){
@@ -55,12 +59,11 @@ class PodcastController: CustomViewController {
     }
     
     var episode:Episode?
-    
-    
+
     func setupCollectionView(){
         
         let customFlowLayout = UICollectionViewFlowLayout()
-        customFlowLayout.headerReferenceSize = .init(width: view.frame.width, height: 290)
+        customFlowLayout.headerReferenceSize = .init(width: view.frame.width, height: 280)
         
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: customFlowLayout)
         view.addSubview(collectionView)
@@ -70,7 +73,7 @@ class PodcastController: CustomViewController {
         activityView.hidesWhenStopped = true
         activityView.startAnimating()
         
-        collectionView.contentInset = .init(top: 18, left: 18, bottom: 18, right: 18)
+        collectionView.contentInset = .init(top: 0, left: 18, bottom: 18, right: 18)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = .clear
@@ -82,10 +85,31 @@ class PodcastController: CustomViewController {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.transform = .identity
     }
+
+    
     
 }
 
 extension PodcastController:UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        
+        let playerDetailsController = PlayerDetailsController()
+        playerDetailsController.episode = episodes[indexPath.item]
+        let window = UIApplication.shared.windows.filter{$0.isKeyWindow}.first
+        window?.addSubview(playerDetailsController.view)
+
+        addChild(playerDetailsController)
+        playerDetailsController.didMove(toParent: self)
+
+        let height = view.frame.height
+        let width  = view.frame.width
+        playerDetailsController.view.frame = CGRect(x: 0, y: self.view.frame.maxY, width: width, height: height)
+        
+        
+        
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return episodes.count

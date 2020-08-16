@@ -23,15 +23,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         configureGlobalUI()
         
-        window?.rootViewController = CustomTabBarController()
-//        window?.rootViewController = PodcastController()
+//        window?.rootViewController = CustomTabBarController()
+        window?.rootViewController = UINavigationController(rootViewController: SearchController())
     }
     
     func configureGlobalUI(){
         UINavigationBar.appearance().prefersLargeTitles = false
         UINavigationBar.appearance().isTranslucent = true
         
-        UINavigationBar.appearance().barTintColor = .white
+        UINavigationBar.appearance().barTintColor = .systemGroupedBackground
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().tintColor = .systemPink
     }

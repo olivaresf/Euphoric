@@ -24,7 +24,7 @@ class PodcastHeaderCell: UICollectionReusableView {
     let podcastImage = RoundedImageView(image: #imageLiteral(resourceName: "person"))
     let podcastLabel = TitleLabel(title: "This is a very impressive podcast title", size: 24)
     let episodesAvailableLabel = SubtitleLabel(text: "2 Episodes available", size: 15)
-    let authorLabel = SubtitleLabel(text: "Diego Isco", size: 20)
+    let authorLabel = TitleLabel(title: "Diego Isco", size: 18)
     let categoryBadge = Badge(color: .systemPurple)
     let explicitBadge = Badge(color: .systemRed)
     var infoStackView:UIStackView!
@@ -32,10 +32,10 @@ class PodcastHeaderCell: UICollectionReusableView {
     
     let podcastDescription:UILabel = {
         let label = UILabel()
-        label.numberOfLines = 4
-        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        label.numberOfLines = 3
+        label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         label.lineBreakMode = .byTruncatingTail
-        label.textColor = .normalDark
+        label.textColor = .secondaryLabel
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "This is a very impressive podcast title and I really want to be part of this to set this to ne part of that but is very difficult that but is very difficult that but is very difficult"
         return label

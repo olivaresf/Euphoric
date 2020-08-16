@@ -14,8 +14,9 @@ class TitleLabel: UILabel {
         configure()
     }
     
-    convenience init(title:String, size: CGFloat) {
+    convenience init(title:String, size: CGFloat, alignment:NSTextAlignment = .left) {
         self.init()
+        textAlignment = alignment
         text = title
         font = UIFont.systemFont(ofSize: size, weight: .semibold)
     }
@@ -28,7 +29,7 @@ class TitleLabel: UILabel {
         translatesAutoresizingMaskIntoConstraints = false
         numberOfLines = 2
         lineBreakMode = .byTruncatingTail
-        textColor = .normalDark
+        textColor = UIColor(named: "primaryColor")
     }
     
 }

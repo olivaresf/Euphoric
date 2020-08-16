@@ -26,7 +26,7 @@ class SubtitleLabel: UILabel {
     
     fileprivate func configure(){
         translatesAutoresizingMaskIntoConstraints = false
-        textColor = UIColor.darkGray
+        textColor = .secondaryLabel
         numberOfLines = 2
         lineBreakMode = .byTruncatingTail
     }

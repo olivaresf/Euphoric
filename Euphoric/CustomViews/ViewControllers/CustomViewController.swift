@@ -16,8 +16,8 @@ class CustomViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        setupBlurGradient()
+        view.backgroundColor = .systemGroupedBackground
+//        setupBlurGradient()
     }
     
     let mainTitle = UITextView()
@@ -26,7 +26,7 @@ class CustomViewController: UIViewController {
         
         let coverWhiteView = UIView()
         coverWhiteView.translatesAutoresizingMaskIntoConstraints = false
-        coverWhiteView.backgroundColor = .white
+        coverWhiteView.backgroundColor = .systemGroupedBackground
         view.addSubview(coverWhiteView)
         
         NSLayoutConstraint.activate([
@@ -41,7 +41,8 @@ class CustomViewController: UIViewController {
         titleView = UIView()
         view.addSubview(titleView)
         titleView.translatesAutoresizingMaskIntoConstraints = false
-        titleView.backgroundColor = .clear
+//        titleView.backgroundColor = .red
+        
         
         
         mainTitle.text = title

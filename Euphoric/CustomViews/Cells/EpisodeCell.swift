@@ -14,7 +14,7 @@ class EpisodeCell: UICollectionViewCell {
             guard let episode = episode else {return}
             episodeTitle.text = episode.title
             episodeDescription.text = episode.description
-            badgeButton.categoryLabel.text = "Podcast details"
+            customLabel.text = "XDXDXD"
         }
     }
     
@@ -23,8 +23,18 @@ class EpisodeCell: UICollectionViewCell {
     let episodeTitle:UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17, weight: .medium)
-        label.textColor = .softDark
+        label.textColor = UIColor(named: "primaryLabel")
         label.numberOfLines = 2
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let customLabel:UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.textColor = .softDark
+//        label.numberOfLines = 2
+//        label.text = "xdxdxdxd"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -34,34 +44,39 @@ class EpisodeCell: UICollectionViewCell {
         label.numberOfLines = 2
         label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.lineBreakMode = .byTruncatingTail
-        label.textColor = UIColor(red: 90/255, green: 90/255, blue: 90/255, alpha: 1)
+        label.textColor = .secondaryLabel
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    let dateLabel = SubtitleLabel(text: "21-Jun-2018", size: 12)
-    let durationLabel = SubtitleLabel(text: "17m 38s", size: 12)
+    let dateLabel = SubtitleLabel(text: "21-Jun-2018", size: 11)
+    let durationLabel = SubtitleLabel(text: "17m 38s", size: 11)
     let badgeButton = Badge()
-    
+    let episodeImage = RoundedImageView(image: #imageLiteral(resourceName: "play"))
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
     }
 
     func setupViews(){
-//        backgroundColor = .black
-        [episodeTitle, episodeDescription, dateLabel, durationLabel, badgeButton].forEach{addSubview($0)}
+//        backgroundColor = UIColor.white.withAlphaComponent(0.2)
+        [episodeTitle, episodeDescription, dateLabel, durationLabel, episodeImage ].forEach{addSubview($0)}
         
-        badgeButton.containerView.layer.borderWidth = 0
-        badgeButton.containerView.backgroundColor = UIColor(red: 186/255, green: 186/255, blue: 186/255, alpha: 1)
-        badgeButton.categoryLabel.textColor = .white
         
-        episodeTitle.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0))
-        episodeDescription.anchor(top: episodeTitle.bottomAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 6, left: 0, bottom: 0, right: 12))
+        NSLayoutConstraint.activate([
+            episodeImage.centerYAnchor.constraint(equalTo: centerYAnchor),
+            episodeImage.trailingAnchor.constraint(equalTo: trailingAnchor)
+        ])
+        episodeImage.constrainWidth(40)
+        episodeImage.constrainHeight(40)
+        
+        episodeTitle.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: episodeImage.leadingAnchor, padding: .init(top: 18, left: 0, bottom: 0, right: 28))
+        episodeDescription.anchor(top: episodeTitle.bottomAnchor, leading: leadingAnchor, bottom: nil, trailing: episodeImage.leadingAnchor, padding: .init(top: 6, left: 0, bottom: 0, right: 28))
         dateLabel.anchor(top: episodeDescription.bottomAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: nil, padding: .init(top: 10, left: 0, bottom: 0, right: 0))
         durationLabel.anchor(top: episodeDescription.bottomAnchor, leading: dateLabel.trailingAnchor, bottom: bottomAnchor, trailing: nil, padding: .init(top: 10, left: 12, bottom: 0, right: 0))
         
-        badgeButton.anchor(top: episodeDescription.bottomAnchor, leading: nil, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 6, left: 0, bottom: 0, right: 0), size: .init(width: 120, height: 0))
+//        customLabel.anchor(top: dateLabel.bottomAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: nil, padding: .init(top: 10, left: 14, bottom: 0, right: 0), size: .init(width: 0, height: 10))
         
     }
     
@@ -94,5 +109,3 @@ class EpisodeCell: UICollectionViewCell {
     }
     
 }
-
-

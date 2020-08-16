@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0439C4CF24E78FAB004DF89A /* PlayerDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0439C4CE24E78FAB004DF89A /* PlayerDetailsController.swift */; };
 		045985CB24E2F4C40056ED51 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985CA24E2F4C40056ED51 /* AppDelegate.swift */; };
 		045985CD24E2F4C40056ED51 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985CC24E2F4C40056ED51 /* SceneDelegate.swift */; };
 		045985D424E2F4C70056ED51 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 045985D324E2F4C70056ED51 /* Assets.xcassets */; };
@@ -36,6 +37,7 @@
 
 /* Begin PBXFileReference section */
 		0100FCE3062D132DD8B1C8FB /* Pods_Euphoric.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Euphoric.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0439C4CE24E78FAB004DF89A /* PlayerDetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDetailsController.swift; sourceTree = "<group>"; };
 		045985C724E2F4C40056ED51 /* Euphoric.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Euphoric.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		045985CA24E2F4C40056ED51 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		045985CC24E2F4C40056ED51 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 			children = (
 				045985F724E357130056ED51 /* Badge.swift */,
 				04E8721024E3A514006E6299 /* CustomSearchBar.swift */,
+				0439C4CE24E78FAB004DF89A /* PlayerDetailsController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -369,6 +372,7 @@
 				04E8720F24E399F6006E6299 /* Constants.swift in Sources */,
 				045985CD24E2F4C40056ED51 /* SceneDelegate.swift in Sources */,
 				04E8721324E3A71B006E6299 /* UIDevice.swift in Sources */,
+				0439C4CF24E78FAB004DF89A /* PlayerDetailsController.swift in Sources */,
 				045985F824E357130056ED51 /* Badge.swift in Sources */,
 				04B7D9A924E4DBBA00B7584C /* PodcastHeaderCell.swift in Sources */,
 				04B7D9AD24E5229D00B7584C /* Episode.swift in Sources */,

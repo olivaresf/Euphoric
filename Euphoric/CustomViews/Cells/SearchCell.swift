@@ -35,7 +35,7 @@ class SearchCell: UICollectionViewCell {
     }
     
     fileprivate func configureUI(){
-        backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        backgroundColor = .secondarySystemGroupedBackground
         layer.cornerRadius = 14
         clipsToBounds = true
     }
