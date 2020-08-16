@@ -8,6 +8,7 @@
 import UIKit
 import AVKit
 import Lottie
+import MediaPlayer
 
 class PlayerDetailsController: UIViewController {
     
@@ -24,6 +25,7 @@ class PlayerDetailsController: UIViewController {
     var partialView: CGFloat {
         return UIScreen.main.bounds.height - (view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0) - 60
     }
+    let largeConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .bold, scale: .default)
     
     let player:AVPlayer = {
         let avPlayer = AVPlayer()
@@ -98,7 +100,7 @@ class PlayerDetailsController: UIViewController {
         let btn = UIButton(type: .system)
         btn.contentMode = .scaleAspectFit
         let largeConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .bold, scale: .default)
-        let largeBoldDoc = UIImage(systemName: "pause.fill", withConfiguration: largeConfig)
+        let largeBoldDoc = UIImage(systemName: "play.fill", withConfiguration: largeConfig)
         btn.setImage(largeBoldDoc, for: .normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.tintColor = .systemPink
@@ -114,7 +116,7 @@ class PlayerDetailsController: UIViewController {
     }
     
     @objc func handleSliderChange(){
-        #warning("Research prints")
+        #warning("Research prints and fix jumpy slider")
         let percentage = currentTimeSlider.value
         
         guard let duration = player.currentItem?.duration else {return}
@@ -145,18 +147,61 @@ class PlayerDetailsController: UIViewController {
         self.currentTimeSlider.value = Float(percentage)
     }
     
+    fileprivate func setupAudioSession(){
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback)
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch let err {
+            print("Fail to activate session: ", err)
+        }
+    }
+    
+    fileprivate func setupRemoteControl(){
+        UIApplication.shared.beginReceivingRemoteControlEvents()
+        
+        let commandCenter = MPRemoteCommandCenter.shared()
+        
+        commandCenter.playCommand.isEnabled = true
+        commandCenter.playCommand.addTarget { (_) -> MPRemoteCommandHandlerStatus in
+            self.player.play()
+            self.playButton.setImage(UIImage(systemName: "pause.fill", withConfiguration: self.largeConfig), for: .normal)
+            return .success
+        }
+        
+        commandCenter.pauseCommand.isEnabled = true
+        commandCenter.pauseCommand.addTarget { (_) -> MPRemoteCommandHandlerStatus in
+            self.player.pause()
+            self.playButton.setImage(UIImage(systemName: "play.fill", withConfiguration: self.largeConfig), for: .normal)
+            return .success
+        }
+        
+        commandCenter.togglePlayPauseCommand.isEnabled = true
+        commandCenter.togglePlayPauseCommand.addTarget { (_) -> MPRemoteCommandHandlerStatus in
+            self.handlePlayPause()
+            return .success
+        }
+        
+    }
+    
+    fileprivate func observePlayerStart() {
+        let time = CMTimeMake(value: 1, timescale: 10)
+        let times = NSValue(time: time)
+        
+        player.addBoundaryTimeObserver(forTimes: [times], queue: .main) { [weak self] in
+            guard let self = self else {return}
+            self.soundAnimation.play()
+            self.playButton.setImage(UIImage(systemName: "pause.fill", withConfiguration: self.largeConfig), for: .normal)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         
+        setupRemoteControl()
+        setupAudioSession()
         observePlayerCurrentTime()
-        
-        let time = CMTimeMake(value: 1, timescale: 10)
-        let times = NSValue(time: time)
-        player.addBoundaryTimeObserver(forTimes: [times], queue: .main) { [weak self] in
-            self?.soundAnimation.play()
-        }
-        
+        observePlayerStart()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -178,21 +223,14 @@ class PlayerDetailsController: UIViewController {
     }
     
     @objc func handlePlayPause(){
-        
-        #warning("Refactor")
-
         if player.timeControlStatus == .paused{
             soundAnimation.play()
             player.play()
-            let largeConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .bold, scale: .default)
-            let largeBoldDoc = UIImage(systemName: "pause.fill", withConfiguration: largeConfig)
-            playButton.setImage(largeBoldDoc, for: .normal)
+            playButton.setImage(UIImage(systemName: "pause.fill", withConfiguration: largeConfig), for: .normal)
         }else{
             soundAnimation.pause()
             player.pause()
-            let largeConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .bold, scale: .default)
-            let largeBoldDoc = UIImage(systemName: "play.fill", withConfiguration: largeConfig)
-            playButton.setImage(largeBoldDoc, for: .normal)
+            playButton.setImage(UIImage(systemName: "play.fill", withConfiguration: largeConfig), for: .normal)
         }
     }
 
