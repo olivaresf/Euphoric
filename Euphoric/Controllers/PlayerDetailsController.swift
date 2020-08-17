@@ -32,15 +32,11 @@ class PlayerDetailsController: UIViewController {
             
             podcastImage.sd_setImage(with: URL(string: episode.imageUrl ?? ""))
             alert.title = episode.title
-            alert.message = episode.description
             setupNowPlayingInfo()
             playEpisode()
         }
     }
     
-    //    let topColor:UIColor!
-    
-    //    let fullView:CGFloat = 240
     var partialView: CGFloat {
         return UIScreen.main.bounds.height - (view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0) - 60
     }
@@ -169,8 +165,10 @@ class PlayerDetailsController: UIViewController {
     
     func setupAlerts(){
         alert.view.tintColor = .systemPink
-        let firstAction = UIAlertAction(title: "Approve", style: .default) { (_) in
-            print("first")
+        let firstAction = UIAlertAction(title: "Episode Details", style: .default) { (_) in
+            let eDetailsController = EpisodeDetailsController()
+            eDetailsController.episode = self.episode
+            self.present(eDetailsController, animated: true)
         }
         firstAction.setValue(UIImage(systemName: "heart"), forKey: "image")
         alert.addAction(firstAction)
@@ -367,7 +365,7 @@ class PlayerDetailsController: UIViewController {
     var fullView:CGFloat!
     
     fileprivate func setupViews(){
-        fullView = view.frame.height / 2 - 80
+        fullView = view.frame.height / 2 - 120
         let gesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture))
         view.addGestureRecognizer(gesture)
         view.layer.cornerRadius = 24

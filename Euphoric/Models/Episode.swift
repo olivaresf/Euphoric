@@ -17,15 +17,18 @@ struct Episode: Codable, Hashable {
   let streamUrl: String
   let summary:String
   var fileUrl: String?
+    var htmlDescription:String?
   
   init(feedItem: RSSFeedItem) {
     self.title = feedItem.title ?? ""
     self.pubDate = feedItem.pubDate ?? Date()
-    self.description = feedItem.iTunes?.iTunesSubtitle ?? feedItem.description ?? ""
+    self.description = feedItem.iTunes?.iTunesSubtitle?.htmlToString ?? feedItem.description?.htmlToString ?? ""
     self.author = feedItem.iTunes?.iTunesAuthor ?? feedItem.author ?? ""
     self.imageUrl = feedItem.iTunes?.iTunesImage?.attributes?.href
-    self.summary = feedItem.iTunes?.iTunesSummary ?? ""
+    self.summary = feedItem.iTunes?.iTunesSummary?.htmlToString ?? ""
     self.streamUrl = feedItem.enclosure?.attributes?.url ?? ""
+    
+    self.htmlDescription = feedItem.description ?? "No description provided"
   }
 }
 
