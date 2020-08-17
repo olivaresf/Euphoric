@@ -25,6 +25,9 @@
 		045985F524E305C40056ED51 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985F424E305C40056ED51 /* UIHelper.swift */; };
 		045985F824E357130056ED51 /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985F724E357130056ED51 /* Badge.swift */; };
 		045985FB24E3881B0056ED51 /* TitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985FA24E3881B0056ED51 /* TitleLabel.swift */; };
+		0479156924EB3A0700089884 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0479156824EB3A0700089884 /* SettingsController.swift */; };
+		0479156D24EB3A3500089884 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0479156C24EB3A3500089884 /* SettingsCell.swift */; };
+		0479156F24EB3A5B00089884 /* SettingsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0479156E24EB3A5B00089884 /* SettingsSection.swift */; };
 		04B7D99E24E4407C00B7584C /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B7D99D24E4407C00B7584C /* NetworkManager.swift */; };
 		04B7D9A124E441A000B7584C /* Podcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B7D9A024E441A000B7584C /* Podcast.swift */; };
 		04B7D9A724E4BD9E00B7584C /* PodcastController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B7D9A624E4BD9E00B7584C /* PodcastController.swift */; };
@@ -36,6 +39,10 @@
 		04E8721124E3A514006E6299 /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8721024E3A514006E6299 /* CustomSearchBar.swift */; };
 		04E8721324E3A71B006E6299 /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8721224E3A71B006E6299 /* UIDevice.swift */; };
 		04EBE45F24E59C5F00312AB2 /* EpisodeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EBE45E24E59C5F00312AB2 /* EpisodeCell.swift */; };
+		04EF178824EADF6B00114462 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EF178724EADF6B00114462 /* HomeController.swift */; };
+		04EF178B24EAE08300114462 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EF178A24EAE08300114462 /* MenuController.swift */; };
+		04EF178D24EAE08B00114462 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EF178C24EAE08B00114462 /* MenuCell.swift */; };
+		04EF179024EAE43600114462 /* DiscoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EF178F24EAE43600114462 /* DiscoverController.swift */; };
 		04FC529724E8EECD0036C9FA /* CMTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FC529624E8EECD0036C9FA /* CMTime.swift */; };
 		6672EBC8F4775A69E1A083E5 /* Pods_Euphoric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0100FCE3062D132DD8B1C8FB /* Pods_Euphoric.framework */; };
 /* End PBXBuildFile section */
@@ -62,6 +69,9 @@
 		045985F424E305C40056ED51 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		045985F724E357130056ED51 /* Badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
 		045985FA24E3881B0056ED51 /* TitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleLabel.swift; sourceTree = "<group>"; };
+		0479156824EB3A0700089884 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		0479156C24EB3A3500089884 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
+		0479156E24EB3A5B00089884 /* SettingsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSection.swift; sourceTree = "<group>"; };
 		04B7D99D24E4407C00B7584C /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		04B7D9A024E441A000B7584C /* Podcast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Podcast.swift; sourceTree = "<group>"; };
 		04B7D9A624E4BD9E00B7584C /* PodcastController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastController.swift; sourceTree = "<group>"; };
@@ -73,6 +83,10 @@
 		04E8721024E3A514006E6299 /* CustomSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
 		04E8721224E3A71B006E6299 /* UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
 		04EBE45E24E59C5F00312AB2 /* EpisodeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeCell.swift; sourceTree = "<group>"; };
+		04EF178724EADF6B00114462 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
+		04EF178A24EAE08300114462 /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
+		04EF178C24EAE08B00114462 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
+		04EF178F24EAE43600114462 /* DiscoverController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverController.swift; sourceTree = "<group>"; };
 		04FC529624E8EECD0036C9FA /* CMTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMTime.swift; sourceTree = "<group>"; };
 		1CA34E8E869CF118EC811A0F /* Pods-Euphoric.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Euphoric.release.xcconfig"; path = "Target Support Files/Pods-Euphoric/Pods-Euphoric.release.xcconfig"; sourceTree = "<group>"; };
 		94807B71366032E143A4CC62 /* Pods-Euphoric.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Euphoric.debug.xcconfig"; path = "Target Support Files/Pods-Euphoric/Pods-Euphoric.debug.xcconfig"; sourceTree = "<group>"; };
@@ -143,10 +157,14 @@
 		045985E324E2F7E10056ED51 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				0479156724EB39DC00089884 /* Settings */,
+				04EF178E24EAE42900114462 /* HomeControllers */,
+				04EF178924EAE07400114462 /* Menu */,
 				045985E424E2F8730056ED51 /* SeachController.swift */,
 				04B7D9A624E4BD9E00B7584C /* PodcastController.swift */,
 				0439C4CE24E78FAB004DF89A /* PlayerDetailsController.swift */,
 				041A262224E9F64C00B2B55F /* EpisodesDetailsController.swift */,
+				04EF178724EADF6B00114462 /* HomeController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -186,6 +204,7 @@
 				045985EC24E301940056ED51 /* SearchCell.swift */,
 				04B7D9A824E4DBBA00B7584C /* PodcastHeaderCell.swift */,
 				04EBE45E24E59C5F00312AB2 /* EpisodeCell.swift */,
+				0479156C24EB3A3500089884 /* SettingsCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -225,6 +244,14 @@
 			path = Labels;
 			sourceTree = "<group>";
 		};
+		0479156724EB39DC00089884 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				0479156824EB3A0700089884 /* SettingsController.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		04B7D99C24E4406F00B7584C /* Managers */ = {
 			isa = PBXGroup;
 			children = (
@@ -238,8 +265,26 @@
 			children = (
 				04B7D9A024E441A000B7584C /* Podcast.swift */,
 				04B7D9AC24E5229D00B7584C /* Episode.swift */,
+				0479156E24EB3A5B00089884 /* SettingsSection.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		04EF178924EAE07400114462 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				04EF178A24EAE08300114462 /* MenuController.swift */,
+				04EF178C24EAE08B00114462 /* MenuCell.swift */,
+			);
+			path = Menu;
+			sourceTree = "<group>";
+		};
+		04EF178E24EAE42900114462 /* HomeControllers */ = {
+			isa = PBXGroup;
+			children = (
+				04EF178F24EAE43600114462 /* DiscoverController.swift */,
+			);
+			path = HomeControllers;
 			sourceTree = "<group>";
 		};
 		3681E71116A68B101EBF32A8 /* Pods */ = {
@@ -378,7 +423,11 @@
 				04B7D9A124E441A000B7584C /* Podcast.swift in Sources */,
 				041A262524EA17A000B2B55F /* String.swift in Sources */,
 				045985F024E302060056ED51 /* RoundedImageView.swift in Sources */,
+				04EF178B24EAE08300114462 /* MenuController.swift in Sources */,
 				04EBE45F24E59C5F00312AB2 /* EpisodeCell.swift in Sources */,
+				04EF179024EAE43600114462 /* DiscoverController.swift in Sources */,
+				0479156F24EB3A5B00089884 /* SettingsSection.swift in Sources */,
+				0479156924EB3A0700089884 /* SettingsController.swift in Sources */,
 				045985E524E2F8730056ED51 /* SeachController.swift in Sources */,
 				04B7D9AB24E4F08400B7584C /* UIView+Layout.swift in Sources */,
 				045985CB24E2F4C40056ED51 /* AppDelegate.swift in Sources */,
@@ -389,6 +438,7 @@
 				045985F524E305C40056ED51 /* UIHelper.swift in Sources */,
 				04E8720F24E399F6006E6299 /* Constants.swift in Sources */,
 				045985CD24E2F4C40056ED51 /* SceneDelegate.swift in Sources */,
+				04EF178824EADF6B00114462 /* HomeController.swift in Sources */,
 				04E8721324E3A71B006E6299 /* UIDevice.swift in Sources */,
 				0439C4CF24E78FAB004DF89A /* PlayerDetailsController.swift in Sources */,
 				045985F824E357130056ED51 /* Badge.swift in Sources */,
@@ -397,9 +447,11 @@
 				041A262324E9F64C00B2B55F /* EpisodesDetailsController.swift in Sources */,
 				045985E224E2F6CE0056ED51 /* UIColor+theme.swift in Sources */,
 				04B7D9A724E4BD9E00B7584C /* PodcastController.swift in Sources */,
+				04EF178D24EAE08B00114462 /* MenuCell.swift in Sources */,
 				04E8720C24E38A5C006E6299 /* SubtitleLabel.swift in Sources */,
 				04FC529724E8EECD0036C9FA /* CMTime.swift in Sources */,
 				045985E024E2F66A0056ED51 /* CustomViewController.swift in Sources */,
+				0479156D24EB3A3500089884 /* SettingsCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

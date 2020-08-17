@@ -23,14 +23,22 @@ class PlayerDetailsController: UIViewController {
                     if let image = UIImage(data: data) {
                         DispatchQueue.main.async {
                             let newColor = image.averageColor?.cgColor ?? UIColor.topColor.cgColor
-                            self?.gradientLayer.colors = [newColor, UIColor.bottomColor.cgColor]
+                            self?.gradientLayer.colors = [newColor, UIColor.white.withAlphaComponent(0).cgColor]
                             self?.view.layoutIfNeeded()
                         }
                     }
                 }
             }
             
-            podcastImage.sd_setImage(with: URL(string: episode.imageUrl ?? ""))
+            podcastImage.sd_setImage(with: URL(string: episode.imageUrl ?? "")) { (image, _, _, _) in
+                guard let image = image else {return}
+                var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo
+                let artwork = MPMediaItemArtwork(boundsSize: image.size) { (_) -> UIImage in
+                    return image
+                }
+                nowPlayingInfo?[MPMediaItemPropertyArtwork] = artwork
+                MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+            }
             alert.title = episode.title
             setupNowPlayingInfo()
             playEpisode()
@@ -41,13 +49,14 @@ class PlayerDetailsController: UIViewController {
         return UIScreen.main.bounds.height - (view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0) - 60
     }
     let largeConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .bold, scale: .default)
+    let mediumConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .regular, scale: .default)
     
     fileprivate let gradientLayer = CAGradientLayer()
     fileprivate var blurEffect = UIBlurEffect()
     fileprivate var blurredEffectView = UIVisualEffectView()
     
-    let player:AVPlayer = {
-        let avPlayer = AVPlayer()
+    let player:AVQueuePlayer = {
+        let avPlayer = AVQueuePlayer()
         avPlayer.automaticallyWaitsToMinimizeStalling = false
         return avPlayer
     }()
@@ -55,9 +64,7 @@ class PlayerDetailsController: UIViewController {
     fileprivate func playEpisode(){
         guard let url = URL(string: episode.streamUrl) else { return }
         let playerItem = AVPlayerItem(url: url)
-        
         player.replaceCurrentItem(with: playerItem)
-        
         player.play()
     }
     
@@ -68,7 +75,6 @@ class PlayerDetailsController: UIViewController {
         animation.animationSpeed = 0.5
         animation.translatesAutoresizingMaskIntoConstraints = false
         animation.backgroundBehavior = .pauseAndRestore
-        //        animation.play()
         return animation
     }()
     
@@ -130,23 +136,12 @@ class PlayerDetailsController: UIViewController {
     let dotsButton:UIButton = {
         let btn = UIButton(type: .system)
         btn.contentMode = .scaleAspectFit
-        btn.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+        btn.setImage(UIImage(systemName: "ellipsis", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .regular, scale: .default)), for: .normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.tintColor = .systemPink
         btn.contentHorizontalAlignment = .fill
         btn.addTarget(self, action: #selector(handleSheet), for: .touchUpInside)
 //        btn.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        return btn
-    }()
-    
-    let airplayButton:UIButton = {
-        let btn = UIButton(type: .system)
-        btn.contentMode = .scaleAspectFit
-        btn.setImage(UIImage(systemName: "airplayaudio"), for: .normal)
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.tintColor = .systemPink
-        btn.contentHorizontalAlignment = .fill
-//        btn.addTarget(self, action: #selector(handlePlayPause), for: .touchUpInside)
         return btn
     }()
     
@@ -165,17 +160,28 @@ class PlayerDetailsController: UIViewController {
     
     func setupAlerts(){
         alert.view.tintColor = .systemPink
-        let firstAction = UIAlertAction(title: "Episode Details", style: .default) { (_) in
+        
+        let firstAction = UIAlertAction(title: "Episode details", style: .default) { (_) in
             let eDetailsController = EpisodeDetailsController()
             eDetailsController.episode = self.episode
             self.present(eDetailsController, animated: true)
         }
-        firstAction.setValue(UIImage(systemName: "heart"), forKey: "image")
+        firstAction.setValue(UIImage(systemName: "info.circle", withConfiguration: mediumConfig), forKey: "image")
         alert.addAction(firstAction)
-
-        let dismissAction = UIAlertAction(title: "Dismiss", style: .cancel) { (_) in
-            print("Dismiss")
+        
+        let shareAlert = UIAlertAction(title: "Share episode", style: .default) { (_) in
+            print("Share alert")
         }
+        shareAlert.setValue(UIImage(systemName: "square.and.arrow.up", withConfiguration: mediumConfig), forKey: "image")
+        alert.addAction(shareAlert)
+        
+        let playNextAlert = UIAlertAction(title: "Play next", style: .default) { (_) in
+            print("Share alert")
+        }
+        playNextAlert.setValue(UIImage(systemName: "arrow.up.right", withConfiguration: mediumConfig), forKey: "image")
+        alert.addAction(playNextAlert)
+
+        let dismissAction = UIAlertAction(title: "Dismiss", style: .cancel)
         alert.addAction(dismissAction)
     }
     
@@ -211,6 +217,7 @@ class PlayerDetailsController: UIViewController {
         nowPlayingInfo[MPMediaItemPropertyTitle] = episode.title
         nowPlayingInfo[MPMediaItemPropertyArtist] = episode.author
         
+        
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
     }
     
@@ -220,8 +227,25 @@ class PlayerDetailsController: UIViewController {
             guard let self = self else {return}
             self.currentTimeLabel.text = time.toDisplayString()
             self.durationTimeLabel.text = self.player.currentItem?.duration.toDisplayString()
+            
+            self.setupLockscreenCurrentTime()
             self.updateCurrentTimeSlider()
         }
+    }
+    
+    fileprivate func setupLockscreenCurrentTime(){
+//        var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo
+//        guard let currentItem = player.currentItem else {return}
+//        let durationInSeconds = CMTimeGetSeconds(currentItem.duration)
+//
+//        let elapsedTime = CMTimeGetSeconds(player.currentTime())
+//
+//        nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = elapsedTime
+//        nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] = durationInSeconds
+//        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+        guard let duration = player.currentItem?.duration else {return}
+        let durationSeconds = CMTimeGetSeconds(duration)
+        MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] = durationSeconds
     }
     
     fileprivate func updateCurrentTimeSlider(){
@@ -275,6 +299,7 @@ class PlayerDetailsController: UIViewController {
             guard let self = self else {return}
             self.soundAnimation.play()
             self.playButton.setImage(UIImage(systemName: "pause.fill", withConfiguration: self.largeConfig), for: .normal)
+            self.setupLockscreenCurrentTime()
         }
     }
     
@@ -289,13 +314,8 @@ class PlayerDetailsController: UIViewController {
         observePlayerStart()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        showPlayerDetail()
-    }
-    
     func setupGradient(){
-        gradientLayer.colors = [UIColor.topColor.cgColor, UIColor.bottomColor.cgColor]
+        gradientLayer.colors = [UIColor.topColor.cgColor, UIColor.white.withAlphaComponent(0).cgColor]
         gradientLayer.locations = [0, 0.5]
         gradientLayer.opacity = 1
         view.layer.addSublayer(gradientLayer)
@@ -365,9 +385,10 @@ class PlayerDetailsController: UIViewController {
     var fullView:CGFloat!
     
     fileprivate func setupViews(){
-        fullView = view.frame.height / 2 - 120
         let gesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture))
         view.addGestureRecognizer(gesture)
+        fullView = view.frame.height / 2 - 120
+        
         view.layer.cornerRadius = 24
         view.clipsToBounds = true
         
@@ -404,7 +425,7 @@ class PlayerDetailsController: UIViewController {
         let routePickerView = AVRoutePickerView()
         routePickerView.tintColor = .systemPink
         
-        let bottomStack = UIStackView(arrangedSubviews: [UIView(), dotsButton,routePickerView, randomButton, UIView()])
+        let bottomStack = UIStackView(arrangedSubviews: [UIView(), dotsButton, routePickerView, randomButton, UIView()])
         bottomStack.translatesAutoresizingMaskIntoConstraints = false
         bottomStack.axis = .horizontal
         bottomStack.distribution = .equalSpacing

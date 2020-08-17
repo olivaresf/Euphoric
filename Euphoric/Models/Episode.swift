@@ -22,7 +22,7 @@ struct Episode: Codable, Hashable {
   init(feedItem: RSSFeedItem) {
     self.title = feedItem.title ?? ""
     self.pubDate = feedItem.pubDate ?? Date()
-    self.description = feedItem.iTunes?.iTunesSubtitle?.htmlToString ?? feedItem.description?.htmlToString ?? ""
+    self.description = feedItem.iTunes?.iTunesSubtitle?.htmlToString ?? feedItem.description?.htmlToString ?? "No description provided"
     self.author = feedItem.iTunes?.iTunesAuthor ?? feedItem.author ?? ""
     self.imageUrl = feedItem.iTunes?.iTunesImage?.attributes?.href
     self.summary = feedItem.iTunes?.iTunesSummary?.htmlToString ?? ""

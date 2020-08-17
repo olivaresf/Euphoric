@@ -24,21 +24,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         configureGlobalUI()
         
 //        window?.rootViewController = CustomTabBarController()
-        window?.rootViewController = UINavigationController(rootViewController: SearchController())
+//        window?.rootViewController = UINavigationController(rootViewController: SearchController())
+//        window?.rootViewController = UINavigationController(rootViewController: HomeController(collectionViewLayout: UICollectionViewFlowLayout()))
+//        window?.rootViewController = HomeController(collectionViewLayout: UICollectionViewFlowLayout())
+        let homeController = HomeController(collectionViewLayout: UICollectionViewFlowLayout())
+        let navigationController = UINavigationController(rootViewController: homeController)
+//        navigationController.
+        window?.rootViewController = navigationController
+        window?.makeKeyAndVisible()
     }
     
     func configureGlobalUI(){
         UINavigationBar.appearance().prefersLargeTitles = false
         UINavigationBar.appearance().isTranslucent = true
         
-//        UINavigationBar.appearance().barTintColor = .systemGroupedBackground
         UINavigationBar.appearance().barTintColor = .systemBackground
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().tintColor = .systemPink
-        
-//        UINavigationController.navigationItem.backBarButtonItem
-        
-//        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

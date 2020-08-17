@@ -11,22 +11,21 @@ enum Section {
     case main
 }
 
-class SearchController: CustomViewController {
+class SearchController: UIViewController {
     
     var collectionView:UICollectionView!
     let searchBar = CustomSearchBar(placeholder: "Listen your favorite podcast")
     var podcasts:[Podcast] = []
     var dataSource:UICollectionViewDiffableDataSource<Section,Podcast>!
     
-    let playerDetailsController = PlayerDetailsController()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
-        setupNavbar(title: "Search")
+//        setupNavbar(title: "Search")
         configureSearchBar()
         configureDataSource()
-    
+        view.backgroundColor = .systemBackground
+        
         NetworkManager.shared.getPodcasts(for: "Joe") {[weak self] (result) in
             
             guard let self = self else {return}
@@ -39,20 +38,6 @@ class SearchController: CustomViewController {
             }
         }
         
-        let window = UIApplication.shared.windows.filter{$0.isKeyWindow}.first
-        window?.addSubview(playerDetailsController.view)
-
-        addChild(playerDetailsController)
-        playerDetailsController.didMove(toParent: self)
-
-        let height = view.frame.height
-        let width  = view.frame.width
-        playerDetailsController.view.frame = CGRect(x: 0, y: self.view.frame.maxY, width: width, height: height)
-        
-    }
-    
-    func setEpisode(episode:Episode){
-        playerDetailsController.episode = episode
     }
     
     func configureSearchBar(){
@@ -80,6 +65,9 @@ class SearchController: CustomViewController {
         dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { (collectionView, indexPath, podcast) -> UICollectionViewCell? in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCell.reusableId, for: indexPath) as! SearchCell
             cell.podcast = podcast
+            
+            self.addInteraction(toCell: cell)
+            
             return cell
         })
     }
@@ -119,7 +107,11 @@ extension SearchController:UISearchBarDelegate{
                 }
             }
         })
-
+    }
+    
+    private func addInteraction(toCell cell: UICollectionViewCell) {
+        let interaction = UIContextMenuInteraction(delegate: self)
+        cell.addInteraction(interaction)
     }
     
 }
@@ -134,20 +126,20 @@ extension SearchController:UICollectionViewDelegate, UICollectionViewDelegateFlo
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        
+//        let safeAreaTop = UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.safeAreaInsets.top ?? 0
+//        let offset = scrollView.contentOffset.y + safeAreaTop + (navigationController?.navigationBar.frame.height ?? 0)
+//
+//        navigationController?.navigationBar.transform = .init(translationX: 0, y: min(0, -offset))
+//        
+//        if UIDevice.current.hasNotch{
+//            searchBar.transform = .init(translationX: 0, y: min(0, max(-offset, -safeAreaTop)))
+//        }else{
+//            searchBar.transform = .init(translationX: 0, y: min(0, max(-offset, -safeAreaTop - 24)))
+//        }
         
-        let safeAreaTop = UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.safeAreaInsets.top ?? 0
-        let offset = scrollView.contentOffset.y + safeAreaTop + (navigationController?.navigationBar.frame.height ?? 0)
-        
-        navigationController?.navigationBar.transform = .init(translationX: 0, y: min(0, -offset))
-        
-        if UIDevice.current.hasNotch{
-            searchBar.transform = .init(translationX: 0, y: min(0, max(-offset, -safeAreaTop)))
-        }else{
-            searchBar.transform = .init(translationX: 0, y: min(0, max(-offset, -safeAreaTop - 24)))
-        }
-        
-        let alpha = 1 - (offset / safeAreaTop)
-        mainTitle.alpha = alpha
+//        let alpha = 1 - (offset / safeAreaTop)
+//        mainTitle.alpha = alpha
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -161,5 +153,27 @@ extension SearchController:UICollectionViewDelegate, UICollectionViewDelegateFlo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 16
     }
+    
+}
+
+extension SearchController:UIContextMenuInteractionDelegate{
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ -> UIMenu? in
+            let shareAction = UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up")) { _ in
+                // do whatever actions you want to perform...
+            }
+            let editAction = UIAction(title: "Edit", image: UIImage(systemName: "square.and.pencil")) { _ in
+                // do whatever actions you want to perform...
+            }
+            let deleteAction = UIAction(title: "Delete", image: UIImage(systemName: "trash"), attributes: .destructive) { _ in
+                // do whatever actions you want to perform...
+            }
+            return UIMenu(title: "", children: [shareAction, editAction, deleteAction])
+        }
+        
+    }
+    
     
 }

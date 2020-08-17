@@ -6,17 +6,16 @@
 //
 
 import UIKit
-import SwiftSoup
 import WebKit
 
 class EpisodeDetailsController: UIViewController {
-    let webView2 = WKWebView()
+    let webView = WKWebView()
     
     var episode:Episode?{
         didSet{
             guard let episode = episode else {return}
             navigationItem.title = episode.title
-            webView2.loadHTMLString("<span style=\"font-family: -apple-system; font-size: 42\">\(episode.htmlDescription ?? "")</span>", baseURL: nil)
+            webView.loadHTMLString("<span style=\"font-family: -apple-system; font-size: 42\">\(episode.htmlDescription ?? "")</span>", baseURL: nil)
         }
     }
     
@@ -31,9 +30,9 @@ class EpisodeDetailsController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        view.addSubview(webView2)
-        webView2.navigationDelegate = self
-        webView2.fillSuperview(padding: .init(top: 18, left: 14, bottom: 18, right: 14))
+        view.addSubview(webView)
+        webView.navigationDelegate = self
+        webView.fillSuperview(padding: .init(top: 18, left: 14, bottom: 18, right: 14))
     }
 }
 

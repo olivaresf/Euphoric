@@ -75,7 +75,7 @@ class PodcastController: CustomViewController {
         activityView.hidesWhenStopped = true
         activityView.startAnimating()
         
-        collectionView.contentInset = .init(top: 0, left: 18, bottom: 18, right: 18)
+        collectionView.contentInset = .init(top: 0, left: 18, bottom: 94, right: 18)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = .clear
@@ -87,7 +87,11 @@ class PodcastController: CustomViewController {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.transform = .identity
     }
-
+    
+    private func addInteraction(toCell cell: UICollectionViewCell) {
+        let interaction = UIContextMenuInteraction(delegate: self)
+        cell.addInteraction(interaction)
+    }
     
     
 }
@@ -97,7 +101,7 @@ extension PodcastController:UICollectionViewDelegate, UICollectionViewDelegateFl
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let rootController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController
-        let searchController = rootController?.viewControllers.first as? SearchController
+        let searchController = rootController?.viewControllers.first as? HomeController
         
         var selectedEpisode = episodes[indexPath.item]
         
@@ -106,6 +110,7 @@ extension PodcastController:UICollectionViewDelegate, UICollectionViewDelegateFl
         }
         
         searchController?.setEpisode(episode: selectedEpisode)
+//        searchController?.showPlayer()
 
     }
     
@@ -117,6 +122,7 @@ extension PodcastController:UICollectionViewDelegate, UICollectionViewDelegateFl
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EpisodeCell.cellId, for: indexPath) as! EpisodeCell
         self.episode = self.episodes[indexPath.item]
         cell.episode = episode
+        self.addInteraction(toCell: cell)
         return cell
     }
     
@@ -141,3 +147,28 @@ extension UICollectionView {
         return bounds.width - insets
     }
 }
+
+extension PodcastController:UIContextMenuInteractionDelegate{
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ -> UIMenu? in
+            let shareAction = UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up")) { _ in
+                // do whatever actions you want to perform...
+            }
+            let editAction = UIAction(title: "Edit", image: UIImage(systemName: "square.and.pencil")) { _ in
+                // do whatever actions you want to perform...
+            }
+            let deleteAction = UIAction(title: "Delete", image: UIImage(systemName: "trash"), attributes: .destructive) { _ in
+                // do whatever actions you want to perform...
+            }
+            return UIMenu(title: "", children: [shareAction, editAction, deleteAction])
+        }
+        
+    }
+    
+    
+}
+
+
+
