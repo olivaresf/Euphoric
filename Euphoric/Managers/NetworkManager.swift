@@ -21,6 +21,68 @@ class NetworkManager {
     
     static let shared = NetworkManager()
     
+    func fetchTopPodcastsByCountry(country:String = "PE", limit:Int = 10, completion: @escaping (Result<[Podcast], ErrorManager>) -> ()){
+        
+        let baseUrl = "https://itunes.apple.com/search?explicit=Yes&term=podcast&limit=\(limit)&country=\(country)"
+        
+        guard let url = URL(string: baseUrl) else {return}
+        
+        URLSession.shared.dataTask(with: url) { (data, res, err) in
+            
+            if let _ = err {
+                completion(.failure(.badRequest))
+            }
+            
+            guard let data = data, let res = res as? HTTPURLResponse, res.statusCode == 200 else {
+                completion(.failure(.badRequest))
+                return
+            }
+            
+            do{
+                let decoder = JSONDecoder()
+                let podcastResult = try decoder.decode(SearchResults.self, from: data)
+                
+                completion(.success(podcastResult.results))
+                
+            }catch let err{
+                print(err.localizedDescription)
+            }
+            
+        }.resume()
+        
+    }
+    
+    func fetchTopPodcasts(limit:Int = 10, completion: @escaping (Result<[Podcast], ErrorManager>) -> ()){
+        
+        let baseUrl = "https://itunes.apple.com/search?explicit=Yes&term=podcast&limit=10"
+        
+        guard let url = URL(string: baseUrl) else {return}
+        
+        URLSession.shared.dataTask(with: url) { (data, res, err) in
+            
+            if let _ = err {
+                completion(.failure(.badRequest))
+            }
+            
+            guard let data = data, let res = res as? HTTPURLResponse, res.statusCode == 200 else {
+                completion(.failure(.badRequest))
+                return
+            }
+            
+            do{
+                let decoder = JSONDecoder()
+                let podcastResult = try decoder.decode(SearchResults.self, from: data)
+                
+                completion(.success(podcastResult.results))
+                
+            }catch let err{
+                print(err.localizedDescription)
+            }
+            
+        }.resume()
+        
+    }
+    
     func fetchEpisodes(feedUrl: String, completionHandler: @escaping ([Episode]) -> ()) {
         
         guard let url = URL(string: feedUrl) else { return }
