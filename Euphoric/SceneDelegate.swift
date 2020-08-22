@@ -13,9 +13,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
@@ -23,24 +20,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         configureGlobalUI()
         
-//        window?.rootViewController = CustomTabBarController()
-//        window?.rootViewController = UINavigationController(rootViewController: SearchController())
-//        window?.rootViewController = UINavigationController(rootViewController: HomeController(collectionViewLayout: UICollectionViewFlowLayout()))
-//        window?.rootViewController = HomeController(collectionViewLayout: UICollectionViewFlowLayout())
+
         let homeController = HomeController(collectionViewLayout: UICollectionViewFlowLayout())
         let navigationController = UINavigationController(rootViewController: homeController)
-//        navigationController.
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
     
     func configureGlobalUI(){
+        let defaults = UserDefaults.standard
         UINavigationBar.appearance().prefersLargeTitles = false
         UINavigationBar.appearance().isTranslucent = true
         
         UINavigationBar.appearance().barTintColor = .systemBackground
         UINavigationBar.appearance().shadowImage = UIImage()
-        UINavigationBar.appearance().tintColor = .systemPink
+        UINavigationBar.appearance().tintColor = defaults.colorForKey(key: "tintColor") ?? .systemPink
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

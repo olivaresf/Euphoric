@@ -30,6 +30,10 @@
 		045985F524E305C40056ED51 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985F424E305C40056ED51 /* UIHelper.swift */; };
 		045985F824E357130056ED51 /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985F724E357130056ED51 /* Badge.swift */; };
 		045985FB24E3881B0056ED51 /* TitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985FA24E3881B0056ED51 /* TitleLabel.swift */; };
+		04725F6824F0CC0800BD23E9 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04725F6724F0CC0800BD23E9 /* UserDefaults.swift */; };
+		04725F6A24F0D05400BD23E9 /* AppTintController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04725F6924F0D05400BD23E9 /* AppTintController.swift */; };
+		04725F6C24F0D05E00BD23E9 /* SupportController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04725F6B24F0D05E00BD23E9 /* SupportController.swift */; };
+		04725F6F24F0D08D00BD23E9 /* AppTintCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04725F6E24F0D08D00BD23E9 /* AppTintCell.swift */; };
 		0479156924EB3A0700089884 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0479156824EB3A0700089884 /* SettingsController.swift */; };
 		0479156D24EB3A3500089884 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0479156C24EB3A3500089884 /* SettingsCell.swift */; };
 		0479156F24EB3A5B00089884 /* SettingsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0479156E24EB3A5B00089884 /* SettingsSection.swift */; };
@@ -45,6 +49,7 @@
 		04E8721124E3A514006E6299 /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8721024E3A514006E6299 /* CustomSearchBar.swift */; };
 		04E8721324E3A71B006E6299 /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8721224E3A71B006E6299 /* UIDevice.swift */; };
 		04EBE45F24E59C5F00312AB2 /* EpisodeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EBE45E24E59C5F00312AB2 /* EpisodeCell.swift */; };
+		04ED383524EF363100404ACC /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED383424EF363100404ACC /* StoreKit.framework */; };
 		04EF178824EADF6B00114462 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EF178724EADF6B00114462 /* HomeController.swift */; };
 		04EF178B24EAE08300114462 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EF178A24EAE08300114462 /* MenuController.swift */; };
 		04EF178D24EAE08B00114462 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EF178C24EAE08B00114462 /* MenuCell.swift */; };
@@ -79,6 +84,10 @@
 		045985F424E305C40056ED51 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		045985F724E357130056ED51 /* Badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
 		045985FA24E3881B0056ED51 /* TitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleLabel.swift; sourceTree = "<group>"; };
+		04725F6724F0CC0800BD23E9 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		04725F6924F0D05400BD23E9 /* AppTintController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTintController.swift; sourceTree = "<group>"; };
+		04725F6B24F0D05E00BD23E9 /* SupportController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportController.swift; sourceTree = "<group>"; };
+		04725F6E24F0D08D00BD23E9 /* AppTintCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTintCell.swift; sourceTree = "<group>"; };
 		0479156824EB3A0700089884 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		0479156C24EB3A3500089884 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		0479156E24EB3A5B00089884 /* SettingsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSection.swift; sourceTree = "<group>"; };
@@ -94,6 +103,7 @@
 		04E8721024E3A514006E6299 /* CustomSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
 		04E8721224E3A71B006E6299 /* UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
 		04EBE45E24E59C5F00312AB2 /* EpisodeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeCell.swift; sourceTree = "<group>"; };
+		04ED383424EF363100404ACC /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		04EF178724EADF6B00114462 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		04EF178A24EAE08300114462 /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		04EF178C24EAE08B00114462 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
@@ -108,6 +118,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6672EBC8F4775A69E1A083E5 /* Pods_Euphoric.framework in Frameworks */,
+				04ED383524EF363100404ACC /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,6 +197,7 @@
 				04FC529624E8EECD0036C9FA /* CMTime.swift */,
 				0426C42F24E99ABB00DA84C7 /* UIImage.swift */,
 				041A262424EA17A000B2B55F /* String.swift */,
+				04725F6724F0CC0800BD23E9 /* UserDefaults.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -236,6 +248,7 @@
 		045985EB24E301830056ED51 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				04725F6D24F0D08300BD23E9 /* Settings */,
 				0448C03B24EC26E400190140 /* Discover */,
 				045985EC24E301940056ED51 /* SearchCell.swift */,
 				04B7D9A824E4DBBA00B7584C /* PodcastHeaderCell.swift */,
@@ -280,10 +293,20 @@
 			path = Labels;
 			sourceTree = "<group>";
 		};
+		04725F6D24F0D08300BD23E9 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				04725F6E24F0D08D00BD23E9 /* AppTintCell.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		0479156724EB39DC00089884 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
 				0479156824EB3A0700089884 /* SettingsController.swift */,
+				04725F6924F0D05400BD23E9 /* AppTintController.swift */,
+				04725F6B24F0D05E00BD23E9 /* SupportController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -338,6 +361,7 @@
 		CAE6AE106036B46930499E64 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				04ED383424EF363100404ACC /* StoreKit.framework */,
 				0100FCE3062D132DD8B1C8FB /* Pods_Euphoric.framework */,
 			);
 			name = Frameworks;
@@ -481,8 +505,10 @@
 				045985F524E305C40056ED51 /* UIHelper.swift in Sources */,
 				04E8720F24E399F6006E6299 /* Constants.swift in Sources */,
 				045985CD24E2F4C40056ED51 /* SceneDelegate.swift in Sources */,
+				04725F6F24F0D08D00BD23E9 /* AppTintCell.swift in Sources */,
 				04EF178824EADF6B00114462 /* HomeController.swift in Sources */,
 				04E8721324E3A71B006E6299 /* UIDevice.swift in Sources */,
+				04725F6A24F0D05400BD23E9 /* AppTintController.swift in Sources */,
 				0439C4CF24E78FAB004DF89A /* PlayerDetailsController.swift in Sources */,
 				045985F824E357130056ED51 /* Badge.swift in Sources */,
 				04B7D9A924E4DBBA00B7584C /* PodcastHeaderCell.swift in Sources */,
@@ -493,9 +519,11 @@
 				04EF178D24EAE08B00114462 /* MenuCell.swift in Sources */,
 				0448C03D24EC26FB00190140 /* TopCategoriesCell.swift in Sources */,
 				04E8720C24E38A5C006E6299 /* SubtitleLabel.swift in Sources */,
+				04725F6824F0CC0800BD23E9 /* UserDefaults.swift in Sources */,
 				04FC529724E8EECD0036C9FA /* CMTime.swift in Sources */,
 				045985E024E2F66A0056ED51 /* CustomViewController.swift in Sources */,
 				0479156D24EB3A3500089884 /* SettingsCell.swift in Sources */,
+				04725F6C24F0D05E00BD23E9 /* SupportController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

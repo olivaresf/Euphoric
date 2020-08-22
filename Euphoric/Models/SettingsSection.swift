@@ -9,126 +9,96 @@ import UIKit
 
 protocol SectionType:CustomStringConvertible {
     var containsSwitch:Bool{ get }
-//    var containsDisclosure:Bool{ get }
+    var containsDisclosure:Bool{ get }
 }
 
 enum SettingsSection:Int, CaseIterable, CustomStringConvertible {
-    case Social
-    case Communications
     
-    var description: String{
+    case LookFeel
+    case Social
+    
+    var description:String{
         switch self {
+        case .LookFeel:
+            return "Look & Feel"
         case .Social:
             return "Social"
-        case .Communications:
-            return "Communications"
         }
     }
+
 }
+
+
+enum LookFeelOptions:Int,CaseIterable, SectionType{
+    case theme
+    case appTint
+    case reduceMotion
+    
+    var description:String{
+        switch self {
+        case .theme:
+            return "Theme"
+        case .appTint:
+            return "App Tint"
+        case .reduceMotion:
+            return "Reduce Motion"
+        }
+    }
+    
+    var icon:String{
+        switch self {
+        case .theme:
+            return "paintpalette"
+        case .appTint:
+            return "paintbrush"
+        case .reduceMotion:
+            return "wind"
+        }
+    }
+    
+    var viewControllerAssociated:UIViewController{
+        switch self {
+        case .appTint:
+            return AppTintController(collectionViewLayout: UICollectionViewFlowLayout())
+        case .theme:
+            return UIViewController()
+        case .reduceMotion:
+            return UIViewController()
+        }
+    }
+    
+    var containsDisclosure:Bool{
+        switch self {
+        case .reduceMotion:
+            return false
+        default:
+            return true
+        }
+    }
+    
+    var containsSwitch:Bool{
+        switch self {
+        case .reduceMotion:
+            return true
+        default:
+            return false
+        }
+    }
+    
+}
+
 
 enum SocialOptions:Int, CaseIterable, SectionType {
-    case editProfile
-    case logout
     
-    var containsSwitch:Bool{
-        switch self {
-        case .editProfile:
-            return true
-        case .logout:
-            return false
-        }
-    }
+    case support
     
-//    var containsDisclosure:Bool{
-//        switch self {
-//        case .editProfile:
-//            return false
-//        case .logout:
-//            return true
-//        }
-//    }
+    var containsSwitch:Bool{ return false }
     
-    var description: String{
-        switch self {
-        case .editProfile:
-            return "Edit profile"
-        case .logout:
-            return "Logout"
-        }
-    }
+    var containsDisclosure:Bool{return true}
     
-    var image:String{
-        switch self {
-        case .editProfile:
-            return "person"
-        case .logout:
-            return "scribble"
-        }
-    }
-
+    var description: String{ return "Support the Creator 💙"}
+    
+    var icon:String{ return "Support"}
+    
+    var viewControllerAssociated: UIViewController{return UIViewController()}
 }
-
-enum CommunicationsOptions:Int, CaseIterable, SectionType {
-    case notifications
-    case email
-    case reportCrashes
-    
-    var containsSwitch:Bool{
-        switch self {
-        case .notifications:
-            return true
-        case .email:
-            return true
-            
-        case .reportCrashes:
-            return false
-        }
-    }
-    
-//    var containsDisclosure:Bool{
-//        switch self {
-//        case .notifications:
-//            return false
-//        case .email:
-//            return false
-//        case .reportCrashes:
-//            return true
-//        }
-//    }
-    
-    var description: String{
-        switch self {
-        case .notifications:
-            return "Notifications"
-        case .email:
-            return "Email"
-        case .reportCrashes:
-            return "Report Crashes"
-        }
-    }
-    
-    var image:String{
-        switch self {
-        case .notifications:
-            return "bell"
-        case .email:
-            return "tray"
-        case .reportCrashes:
-            return "pencil"
-        }
-    }
-    
-    var viewControllerAssociated: UIViewController{
-        switch self {
-        case .notifications:
-            return UIViewController()
-        case .email:
-            return UIViewController()
-        case .reportCrashes:
-//            let vc = CrashesViewController()
-            return UIViewController()
-        }
-    }
-}
-
-

@@ -23,9 +23,11 @@ class SettingsCell: UITableViewCell {
     }
     
     lazy var switchControl:UISwitch = {
+        let userDefaults = UserDefaults.standard
+        let color = userDefaults.string(forKey: "tintColor") ?? ""
         let switchControl = UISwitch()
         switchControl.isOn = true
-        switchControl.onTintColor = .systemPink
+        switchControl.onTintColor = userDefaults.colorForKey(key: "tintColor")
         switchControl.translatesAutoresizingMaskIntoConstraints = false
         switchControl.addTarget(self, action: #selector(handleSwitch), for: .valueChanged)
         return switchControl
@@ -41,7 +43,7 @@ class SettingsCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         backgroundColor = .tertiarySystemBackground
-        tintColor = .systemPink
+        tintColor = .normalDark
         textLabel?.textColor = .label
         
         addSubview(switchControl)
@@ -53,4 +55,3 @@ class SettingsCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
