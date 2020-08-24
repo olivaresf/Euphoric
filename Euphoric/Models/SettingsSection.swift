@@ -15,12 +15,15 @@ protocol SectionType:CustomStringConvertible {
 enum SettingsSection:Int, CaseIterable, CustomStringConvertible {
     
     case LookFeel
+    case Player
     case Social
     
     var description:String{
         switch self {
         case .LookFeel:
             return "Look & Feel"
+        case .Player:
+            return "Player"
         case .Social:
             return "Social"
         }
@@ -30,14 +33,14 @@ enum SettingsSection:Int, CaseIterable, CustomStringConvertible {
 
 
 enum LookFeelOptions:Int,CaseIterable, SectionType{
-    case theme
+//    case theme
     case appTint
     case reduceMotion
     
     var description:String{
         switch self {
-        case .theme:
-            return "Theme"
+//        case .theme:
+//            return "Theme"
         case .appTint:
             return "App Tint"
         case .reduceMotion:
@@ -47,8 +50,8 @@ enum LookFeelOptions:Int,CaseIterable, SectionType{
     
     var icon:String{
         switch self {
-        case .theme:
-            return "paintpalette"
+//        case .theme:
+//            return "paintpalette"
         case .appTint:
             return "paintbrush"
         case .reduceMotion:
@@ -60,8 +63,8 @@ enum LookFeelOptions:Int,CaseIterable, SectionType{
         switch self {
         case .appTint:
             return AppTintController(collectionViewLayout: UICollectionViewFlowLayout())
-        case .theme:
-            return UIViewController()
+//        case .theme:
+//            return UIViewController()
         case .reduceMotion:
             return UIViewController()
         }
@@ -87,18 +90,52 @@ enum LookFeelOptions:Int,CaseIterable, SectionType{
     
 }
 
+enum PlayerOptions:Int, CaseIterable, SectionType{
+
+    case resetFavorites
+    
+    var description: String{return "Reset Favorites"}
+    
+    var containsSwitch: Bool{ return false }
+    
+    var containsDisclosure: Bool{ return true }
+    
+    var icon:String{return "xmark"}
+    
+}
+
 
 enum SocialOptions:Int, CaseIterable, SectionType {
     
     case support
+    case rate
+    case euphoric
+    
     
     var containsSwitch:Bool{ return false }
     
     var containsDisclosure:Bool{return true}
     
-    var description: String{ return "Support the Creator 💙"}
+    var description: String{
+        switch self {
+        case .euphoric:
+            return "Euphoric 1.0"
+        case .rate:
+            return "Rate on the AppStore"
+        case .support:
+            return "Support the Creator"
+        }
+    }
     
-    var icon:String{ return "Support"}
+    var icon:String{
+        switch self {
+        case .euphoric:
+            return "euphoric"
+        case .rate:
+            return "star"
+        case .support:
+            return "heart.fill"
+    }}
     
     var viewControllerAssociated: UIViewController{return UIViewController()}
 }

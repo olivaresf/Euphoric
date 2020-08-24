@@ -29,7 +29,7 @@ class EpisodeDetailsController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = UIColor(named: "blueBackground")
         view.addSubview(webView)
         webView.navigationDelegate = self
         webView.fillSuperview(padding: .init(top: 18, left: 14, bottom: 18, right: 14))

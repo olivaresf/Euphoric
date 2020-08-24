@@ -26,13 +26,7 @@ class HomeController: UICollectionViewController {
         setupCollectionView()
         presentPlayerController()
     }
-    
-    @objc func handleSettings(){
-        let settingsVC = SettingsController()
-        let navController = UINavigationController(rootViewController: settingsVC)
-        present(navController, animated: true)
-    }
-    
+
     func setEpisode(episode:Episode){
         playerDetailsController.episode = episode
     }
@@ -76,17 +70,39 @@ class HomeController: UICollectionViewController {
         
         self.collectionView.scrollToItem(at: IndexPath(item: 1, section: 0), at: .centeredHorizontally, animated: true)
         
-        collectionView.backgroundColor = .white
+//        collectionView.backgroundColor = .white
         collectionView.anchor(top: menuView.bottomAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor)
     }
     
     fileprivate func setupLayout() {
         view.backgroundColor = .white
-        navigationItem.title = "Euforic"
+        navigationItem.title = "Euphoric"
         let search = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .done, target: self, action: #selector(handleSearch))
         let settings = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .done, target: self, action: #selector(handleSettings))
-        navigationItem.rightBarButtonItems = [search, settings]
-        navigationItem.rightBarButtonItems?.forEach({$0.tintColor = .darkGray})
+        let downloads = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.down"), style: .done, target: self, action: #selector(handleDownloads))
+        navigationItem.rightBarButtonItems = [search, downloads]
+        navigationItem.leftBarButtonItem = settings
+        navigationItem.rightBarButtonItems?.forEach({$0.tintColor = UIColor.secondaryLabel})
+        navigationItem.leftBarButtonItem?.tintColor = UIColor.secondaryLabel
+    }
+    
+    @objc func handleSettings(){
+        let settingsVC = SettingsController()
+        let navController = UINavigationController(rootViewController: settingsVC)
+        present(navController, animated: true)
+    }
+    
+    
+    @objc func handleSearch(){
+        let searchVC = SearchController()
+        let nav = UINavigationController(rootViewController: searchVC)
+        present(nav, animated: true)
+    }
+    
+    @objc func handleDownloads(){
+        let searchVC = SearchController()
+        let nav = UINavigationController(rootViewController: searchVC)
+        present(nav, animated: true)
     }
     
     fileprivate func statusBarHeight() -> CGFloat {
@@ -108,6 +124,7 @@ extension HomeController:UICollectionViewDelegateFlowLayout{
             return cell
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: libraryCellId, for: indexPath) as! dummyLibraryCell
+            cell.libraryController.delegate = self
             return cell
         default:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: downloadsCellId, for: indexPath) as! dummyDownloadsCell
@@ -123,7 +140,15 @@ extension HomeController:UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 //        let statusBar = statusBarHeight()
         let topSafeArea = view.safeAreaInsets.top
-        return .init(width: view.frame.width, height: view.frame.height - 60 - topSafeArea)
+        
+        var navBarHeight:CGFloat = 0
+        
+        if DeviceTypes.isiPhone8Standard || DeviceTypes.isiPhoneSE || DeviceTypes.isiPhone8PlusZoomed || DeviceTypes.isiPhone8PlusStandard{
+            navBarHeight = UIApplication.shared.statusBarFrame.size.height +
+                (navigationController?.navigationBar.frame.height ?? 0.0)
+        }
+        
+        return .init(width: view.frame.width, height: view.frame.height - 60 - topSafeArea - navBarHeight)
     }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -141,7 +166,13 @@ extension HomeController:UICollectionViewDelegateFlowLayout{
     
 }
 
-extension HomeController:MenuControllerDelegate, DiscoverControllerDelegate{
+extension HomeController:MenuControllerDelegate, DiscoverControllerDelegate, LibraryControllerDelegate{
+    
+    func didTapLibraryPodcast(podcast: Podcast) {
+        let podcastController = PodcastController()
+        podcastController.podcast = podcast
+        self.navigationController?.pushViewController(podcastController, animated: true)
+    }
     
     func didTapPodcast(podcast: Podcast) {
         let podcastController = PodcastController()
@@ -151,12 +182,6 @@ extension HomeController:MenuControllerDelegate, DiscoverControllerDelegate{
     
     func didTapMenuItem(_ indexPath: IndexPath) {
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-    }
-    
-    @objc func handleSearch(){
-        let searchVC = SearchController()
-        let nav = UINavigationController(rootViewController: searchVC)
-        present(nav, animated: true)
     }
     
 }
@@ -181,7 +206,7 @@ class dummyDownloadsCell: UICollectionViewCell {
 
 class dummyLibraryCell: UICollectionViewCell {
     
-    let libraryController = LibraryController()
+    let libraryController = LibraryController(collectionViewLayout: UICollectionViewFlowLayout())
     
     override init(frame: CGRect) {
         super.init(frame: frame)

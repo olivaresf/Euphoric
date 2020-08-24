@@ -21,10 +21,8 @@ class SearchController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
-//        setupNavbar(title: "Search")
         configureSearchBar()
         configureDataSource()
-        view.backgroundColor = .systemBackground
         
         NetworkManager.shared.getPodcasts(for: "Joe") {[weak self] (result) in
             
@@ -56,7 +54,7 @@ class SearchController: UIViewController {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UICollectionViewFlowLayout())
         view.addSubview(collectionView)
         collectionView.delegate = self
-        collectionView.backgroundColor = .clear
+        collectionView.backgroundColor = UIColor(named: "blueBackground")
         collectionView.keyboardDismissMode = .onDrag
         collectionView.register(SearchCell.self, forCellWithReuseIdentifier: SearchCell.reusableId)
     }

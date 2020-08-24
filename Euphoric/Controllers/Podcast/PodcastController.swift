@@ -31,7 +31,6 @@ class PodcastController: CustomViewController {
         setupCollectionView()
         heartItem = UIBarButtonItem(image: UIImage(systemName: "suit.heart"), style: .done, target: self, action: #selector(handleHeart))
         navigationItem.rightBarButtonItems = [heartItem, moreItem]
-        //        setupHeart()
         
         let layout = collectionView.collectionViewLayout
         if let flowLayout = layout as? UICollectionViewFlowLayout {
@@ -43,7 +42,6 @@ class PodcastController: CustomViewController {
     }
     
     override func viewWillLayoutSubviews() {
-        print("Re layout")
         setupHeart()
     }
     
@@ -95,6 +93,7 @@ class PodcastController: CustomViewController {
     func savePodcastToUserDefault(_ podcast:Podcast){
         var listOfPodcasts = UserDefaults.standard.savedPodcasts()
         listOfPodcasts.append(podcast)
+        print(podcast.trackCount)
         do {
             let data = try NSKeyedArchiver.archivedData(withRootObject: listOfPodcasts, requiringSecureCoding: false)
             UserDefaults.standard.set(data, forKey: UserDefaults.favoritedPodcastKey)
@@ -125,7 +124,7 @@ class PodcastController: CustomViewController {
     func setupCollectionView(){
         
         let customFlowLayout = UICollectionViewFlowLayout()
-        customFlowLayout.headerReferenceSize = .init(width: view.frame.width, height: 280)
+        customFlowLayout.headerReferenceSize = .init(width: view.frame.width, height: 230)
         
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: customFlowLayout)
         view.addSubview(collectionView)
@@ -138,15 +137,15 @@ class PodcastController: CustomViewController {
         collectionView.contentInset = .init(top: 0, left: 18, bottom: 94, right: 18)
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.backgroundColor = .clear
+        collectionView.backgroundColor = UIColor(named: "blueBackground")
         collectionView.register(PodcastHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: PodcastHeaderCell.cellId)
         collectionView.register(EpisodeCell.self, forCellWithReuseIdentifier: EpisodeCell.cellId)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.navigationBar.transform = .identity
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        navigationController?.navigationBar.transform = .identity
+//    }
     
     private func addInteraction(toCell cell: UICollectionViewCell) {
         let interaction = UIContextMenuInteraction(delegate: self)

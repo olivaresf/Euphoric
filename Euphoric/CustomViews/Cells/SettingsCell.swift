@@ -44,7 +44,7 @@ class SettingsCell: UITableViewCell {
         
         backgroundColor = .tertiarySystemBackground
         tintColor = .normalDark
-        textLabel?.textColor = .label
+        textLabel?.textColor = UIColor(named: "primaryLabel")
         
         addSubview(switchControl)
         switchControl.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true

@@ -15,7 +15,7 @@ protocol MenuControllerDelegate {
 class MenuController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     fileprivate let cellId = "cellId"
-    fileprivate let menuItems = ["Discover", "Library", "Downloads"]
+    fileprivate let menuItems = ["Discover", "Favorites", "Listen Now"]
     
     var delegate: MenuControllerDelegate?
     
@@ -23,7 +23,7 @@ class MenuController: UICollectionViewController, UICollectionViewDelegateFlowLa
        let v = UIView()
         v.backgroundColor = .normalDark
         v.clipsToBounds = true
-        v.layer.cornerRadius = 2
+//        v.layer.cornerRadius = 2
         return v
     }()
     
@@ -34,7 +34,8 @@ class MenuController: UICollectionViewController, UICollectionViewDelegateFlowLa
     override func viewDidLoad() {
         super.viewDidLoad()
 //        view.backgroundColor = .red
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .systemBackground
+//        collectionView.backgroundColor = UIColor(named: "blueBackground")
         collectionView.register(MenuCell.self, forCellWithReuseIdentifier: cellId)
         
         if let layout = collectionViewLayout as? UICollectionViewFlowLayout {

@@ -17,26 +17,26 @@ class PlayerDetailsController: UIViewController {
     var episode:Episode!{
         didSet{
             episodeTitle.text = episode.title
-            
             guard let imageUrl = URL(string: episode.imageUrl ?? "") else {return}
-            self.absorbeAverageColor(imageUrl: imageUrl)
-
-            podcastImage.sd_setImage(with: URL(string: episode.imageUrl ?? "")) { (image, _, _, _) in
-                guard let image = image else {return}
-                var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo
-                let artwork = MPMediaItemArtwork(boundsSize: image.size) { (_) -> UIImage in
-                    return image
-                }
-                nowPlayingInfo?[MPMediaItemPropertyArtwork] = artwork
-                MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-            }
+            
+            self.absorbeAverageColor(of: imageUrl)
+            setPodcastImageandCC(with: imageUrl)
             alert.title = episode.title
             setupNowPlayingInfo()
             playEpisode()
+            
+            UIView.animate(withDuration: 0.3) {
+                self.view.transform = CGAffineTransform(translationX: 0, y: -20)
+            } completion: { (_) in
+                UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut) {
+                    self.view.transform = .identity
+                } completion: { (_) in }
+            }
+            
         }
     }
     
-
+    
     var partialView: CGFloat {
         return UIScreen.main.bounds.height - (view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0) - 60
     }
@@ -71,11 +71,23 @@ class PlayerDetailsController: UIViewController {
         animation.animationSpeed = 0.5
         animation.translatesAutoresizingMaskIntoConstraints = false
         animation.backgroundBehavior = .pauseAndRestore
-
+        
         return animation
     }()
     
     let podcastImage = RoundedImageView(image: #imageLiteral(resourceName: "headphones"))
+    
+    fileprivate func setPodcastImageandCC(with imageUrl:URL) {
+        podcastImage.sd_setImage(with: imageUrl) { (image, _, _, _) in
+            guard let image = image else {return}
+            var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo
+            let artwork = MPMediaItemArtwork(boundsSize: image.size) { (_) -> UIImage in
+                return image
+            }
+            nowPlayingInfo?[MPMediaItemPropertyArtwork] = artwork
+            MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+        }
+    }
     
     lazy var currentTimeSlider:UISlider = {
         let slider = UISlider()
@@ -87,21 +99,21 @@ class PlayerDetailsController: UIViewController {
     }()
     
     let episodeTitle:UILabel = {
-    let label = UILabel()
-    label.text = "Play your favorite Podcast and swipe me!"
-    label.translatesAutoresizingMaskIntoConstraints = false
-    label.textColor = .normalDark
+        let label = UILabel()
+        label.text = "Play your favorite Podcast and swipe me!"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .normalDark
         label.numberOfLines = 2
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-    label.textAlignment = .left
-    return label
-}()
+        label.textAlignment = .left
+        return label
+    }()
     
     let currentTimeLabel:UILabel  = {
         let label = UILabel()
         label.text = "00:00:00"
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .black
+        label.textColor = .normalDark
         label.textAlignment = .left
         return label
     }()
@@ -110,7 +122,7 @@ class PlayerDetailsController: UIViewController {
         let label = UILabel()
         label.text = "00:00:00"
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .black
+        label.textColor = .normalDark
         label.textAlignment = .right
         return label
     }()
@@ -147,7 +159,7 @@ class PlayerDetailsController: UIViewController {
         btn.tintColor = .normalDark
         btn.contentHorizontalAlignment = .fill
         btn.addTarget(self, action: #selector(handleSheet), for: .touchUpInside)
-//        btn.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        //        btn.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         return btn
     }()
     
@@ -158,7 +170,7 @@ class PlayerDetailsController: UIViewController {
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.tintColor = .normalDark
         btn.contentHorizontalAlignment = .fill
-//        btn.addTarget(self, action: #selector(handlePlayPause), for: .touchUpInside)
+        //        btn.addTarget(self, action: #selector(handlePlayPause), for: .touchUpInside)
         return btn
     }()
     
@@ -186,7 +198,7 @@ class PlayerDetailsController: UIViewController {
         }
         playNextAlert.setValue(UIImage(systemName: "arrow.up.right", withConfiguration: mediumConfig), forKey: "image")
         alert.addAction(playNextAlert)
-
+        
         let dismissAction = UIAlertAction(title: "Dismiss", style: .cancel)
         alert.addAction(dismissAction)
     }
@@ -217,7 +229,7 @@ class PlayerDetailsController: UIViewController {
         player.seek(to: seekTime)
     }
     
-    func absorbeAverageColor(imageUrl:URL){
+    func absorbeAverageColor(of imageUrl:URL){
         DispatchQueue.global().async { [weak self] in
             if let data = try? Data(contentsOf: imageUrl) {
                 if let image = UIImage(data: data) {
@@ -269,15 +281,15 @@ class PlayerDetailsController: UIViewController {
     }
     
     fileprivate func setupLockscreenCurrentTime(){
-//        var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo
-//        guard let currentItem = player.currentItem else {return}
-//        let durationInSeconds = CMTimeGetSeconds(currentItem.duration)
-//
-//        let elapsedTime = CMTimeGetSeconds(player.currentTime())
-//
-//        nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = elapsedTime
-//        nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] = durationInSeconds
-//        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+        //        var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo
+        //        guard let currentItem = player.currentItem else {return}
+        //        let durationInSeconds = CMTimeGetSeconds(currentItem.duration)
+        //
+        //        let elapsedTime = CMTimeGetSeconds(player.currentTime())
+        //
+        //        nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = elapsedTime
+        //        nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] = durationInSeconds
+        //        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
         guard let duration = player.currentItem?.duration else {return}
         let durationSeconds = CMTimeGetSeconds(duration)
         MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] = durationSeconds
@@ -342,6 +354,7 @@ class PlayerDetailsController: UIViewController {
         super.viewDidLoad()
         setupGradient()
         setupViews()
+//        configureShadow()
         setupAlerts()
         setupRemoteControl()
         setupAudioSession()
@@ -349,15 +362,25 @@ class PlayerDetailsController: UIViewController {
         observePlayerStart()
     }
     
+    fileprivate func configureShadow(){
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 1
+        view.layer.shadowOffset = .init(width: 0, height: 10)
+        view.layer.shadowRadius = 24
+        view.layer.shadowPath = UIBezierPath(rect: self.view.bounds).cgPath
+        view.layer.shouldRasterize = true
+        view.layer.rasterizationScale = UIScreen.main.scale
+    }
+    
     func setupGradient(){
-//        view.backgroundColor = .white
+        //        view.backgroundColor = .white
         gradientLayer.colors = [UIColor.topColor.cgColor, UIColor.white.cgColor]
         gradientLayer.locations = [0, 0.5]
         gradientLayer.opacity = 1
         view.layer.addSublayer(gradientLayer)
-
+        
         blurEffect = UIBlurEffect(style: .extraLight)
-
+        
         blurredEffectView = UIVisualEffectView(effect: blurEffect)
         blurredEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         blurredEffectView.frame = view.bounds
@@ -391,29 +414,33 @@ class PlayerDetailsController: UIViewController {
     
     @objc func panGesture(_ recognizer: UIPanGestureRecognizer) {
         
-        let translation = recognizer.translation(in: self.view)
-        let velocity = recognizer.velocity(in: self.view)
-        let y = self.view.frame.minY
-        if ( y + translation.y >= fullView) && (y + translation.y <= partialView ) {
-            self.view.frame = CGRect(x: 0, y: y + translation.y, width: view.frame.width, height: view.frame.height)
-            recognizer.setTranslation(CGPoint.zero, in: self.view)
+        if episode != nil{
+            let translation = recognizer.translation(in: self.view)
+            let velocity = recognizer.velocity(in: self.view)
+            let y = self.view.frame.minY
+            if ( y + translation.y >= fullView) && (y + translation.y <= partialView ) {
+                self.view.frame = CGRect(x: 0, y: y + translation.y, width: view.frame.width, height: view.frame.height)
+                recognizer.setTranslation(CGPoint.zero, in: self.view)
+            }
+            
+            if recognizer.state == .ended {
+                var duration =  velocity.y < 0 ? Double((y - fullView) / -velocity.y) : Double((partialView - y) / velocity.y )
+                
+                duration = duration > 1.3 ? 1 : duration
+                
+                UIView.animate(withDuration: duration, delay: 0.0, options: [.allowUserInteraction], animations: {
+                    if  velocity.y >= 0 {
+                        self.view.frame = CGRect(x: 0, y: self.partialView, width: self.view.frame.width, height: self.view.frame.height)
+                    } else {
+                        self.view.frame = CGRect(x: 0, y: self.fullView, width: self.view.frame.width, height: self.view.frame.height)
+                    }
+                    
+                }, completion: nil)
+                
+            }
         }
         
-        if recognizer.state == .ended {
-            var duration =  velocity.y < 0 ? Double((y - fullView) / -velocity.y) : Double((partialView - y) / velocity.y )
-            
-            duration = duration > 1.3 ? 1 : duration
-            
-            UIView.animate(withDuration: duration, delay: 0.0, options: [.allowUserInteraction], animations: {
-                if  velocity.y >= 0 {
-                    self.view.frame = CGRect(x: 0, y: self.partialView, width: self.view.frame.width, height: self.view.frame.height)
-                } else {
-                    self.view.frame = CGRect(x: 0, y: self.fullView, width: self.view.frame.width, height: self.view.frame.height)
-                }
-                
-            }, completion: nil)
-            
-        }
+        
     }
     
     let topStackView = UIStackView()
@@ -422,10 +449,26 @@ class PlayerDetailsController: UIViewController {
     
     let routePickerView = AVRoutePickerView()
     
+    
     fileprivate func setupViews(){
-        let gesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture))
-        view.addGestureRecognizer(gesture)
-        fullView = view.frame.height / 2 - 120
+        let swipeGesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture))
+        view.addGestureRecognizer(swipeGesture)
+        
+        var constant:CGFloat = 0
+        
+        if DeviceTypes.isiPhoneXsMaxAndXr {
+            constant = 70
+        }
+        
+        if DeviceTypes.isiPhoneX || DeviceTypes.isiPhone8PlusStandard{
+            constant = 140
+        }
+        
+        if DeviceTypes.isiPhoneSE || DeviceTypes.isiPhone8Standard || DeviceTypes.isiPhone8PlusZoomed{
+            constant = 160
+        }
+//
+        fullView = view.frame.height / 2 - constant
         
         view.layer.cornerRadius = 24
         view.clipsToBounds = true

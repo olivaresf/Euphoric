@@ -47,9 +47,8 @@ class SearchCell: UICollectionViewCell {
     }
     
     fileprivate func configureUI(){
-        backgroundColor = .tertiarySystemBackground
+        backgroundColor = .secondarySystemGroupedBackground
         layer.cornerRadius = 14
-//        clipsToBounds = true
     }
     
     fileprivate func configureLayout(){

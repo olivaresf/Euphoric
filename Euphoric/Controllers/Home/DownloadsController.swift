@@ -48,7 +48,7 @@ class DownloadsController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = UIColor(named: "blueBackground")
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
     }
     

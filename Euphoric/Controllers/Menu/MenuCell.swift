@@ -13,13 +13,15 @@ class MenuCell: UICollectionViewCell {
         let l = UILabel()
         l.text = "Menu Item"
         l.textAlignment = .center
-        l.textColor = .lightGray
+        l.textColor = .tertiaryLabel
+        l.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         return l
     }()
     
     override var isSelected: Bool {
         didSet {
-            label.textColor = isSelected ? .normalDark : .lightGray
+            label.textColor = isSelected ? UIColor(named: "primaryLabel") : .tertiaryLabel
+            label.font = isSelected ? UIFont.systemFont(ofSize: 17, weight: .heavy) : UIFont.systemFont(ofSize: 16, weight: .regular)
         }
     }
     
@@ -27,6 +29,7 @@ class MenuCell: UICollectionViewCell {
         super.init(frame: frame)
         addSubview(label)
         label.fillSuperview()
+        backgroundColor = UIColor(named: "blueBackground")
     }
     
     

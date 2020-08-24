@@ -31,7 +31,8 @@ class SettingsController: UIViewController {
         tableView = UITableView(frame: view.bounds, style: .insetGrouped)
         view.addSubview(tableView)
 
-        tableView.backgroundColor = .secondarySystemBackground
+        navigationController?.navigationBar.barTintColor = .systemGroupedBackground
+        tableView.backgroundColor = .systemGroupedBackground
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(SettingsCell.self, forCellReuseIdentifier: "cellId")
@@ -54,6 +55,8 @@ extension SettingsController:UITableViewDelegate,UITableViewDataSource{
             return LookFeelOptions.allCases.count
         case .Social:
             return SocialOptions.allCases.count
+        case .Player:
+            return PlayerOptions.allCases.count
         }
 
     }
@@ -72,11 +75,20 @@ extension SettingsController:UITableViewDelegate,UITableViewDataSource{
             let lookFeel = LookFeelOptions(rawValue: indexPath.row)
             cell.sectionType = lookFeel
             cell.imageView?.image = UIImage(systemName: lookFeel?.icon ?? "")
+        case .Player:
+            let player = PlayerOptions(rawValue: indexPath.row)
+            cell.imageView?.image = UIImage(systemName: player?.icon ?? "")
+            cell.imageView?.tintColor = .systemPink
+            cell.sectionType = player
+            cell.textLabel?.textColor = .systemPink
         case .Social:
             let social = SocialOptions(rawValue: indexPath.row)
             cell.sectionType = social
             cell.imageView?.image = UIImage(systemName: social?.icon ?? "")
         }
+        
+        cell.tintColor = UIColor(named: "primaryLabel")
+        
         return cell
     }
 
@@ -126,10 +138,12 @@ extension SettingsController:UITableViewDelegate,UITableViewDataSource{
                 navigationController?.pushViewController(lookFeel?.viewControllerAssociated ?? UIViewController(), animated: true)
             default: return
             }
-
+        case .Player:
+            break
         case .Social:
             let social = SocialOptions(rawValue: row)
             navigationController?.pushViewController(social?.viewControllerAssociated ?? UIViewController(), animated: true)
+        
         }
 
     }

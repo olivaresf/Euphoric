@@ -22,7 +22,7 @@ class Podcast:NSObject, Decodable, NSCoding {
         coder.encode(artworkUrl600 ?? "", forKey: "artworkKey")
         coder.encode(feedUrl ?? "", forKey: "feedKey")
         coder.encode(primaryGenreName ?? "", forKey: "primaryGenreName")
-        coder.encode(trackCount ?? 0, forKey: "trackCount")
+        coder.encode(trackCount ?? "", forKey: "trackCount")
     }
     
     required init?(coder: NSCoder) {

@@ -20,7 +20,7 @@ class TopCategoriesCell: UICollectionViewCell {
     }
     
     static let reusableId = "topCategoriesId"
-    let categoryImage = RoundedImageView(image: #imageLiteral(resourceName: "art"))
+    let categoryImage = RoundedImageView(image: #imageLiteral(resourceName: "headphones"))
     let textContainer:UIView = {
         let view = UIView()
 //        view.backgroundColor = UIColor(red: 246/255, green: 246/255, blue: 246/255, alpha: 1)

@@ -46,7 +46,6 @@ class EpisodeCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
-//        configureShadow()
     }
     
     fileprivate func configureShadow(){
@@ -61,7 +60,7 @@ class EpisodeCell: UICollectionViewCell {
     }
 
     func setupViews(){
-        backgroundColor = UIColor.systemBackground
+        backgroundColor = UIColor(named: "blueBackground")
         layer.cornerRadius = 12
         [episodeTitle, episodeDescription, dateLabel, durationLabel, episodeImage ].forEach{addSubview($0)}
         

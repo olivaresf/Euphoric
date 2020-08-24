@@ -19,10 +19,8 @@ class DiscoverController: UICollectionViewController {
             NSCollectionLayoutSection? in
             
             if sectionNumber == 0{
-                return DiscoverController.topSection()
-            }else if sectionNumber == 1{
                 return DiscoverController.middleSection()
-            }else {
+            }else{
                 return DiscoverController.bottomSection()
             }
         }
@@ -33,10 +31,10 @@ class DiscoverController: UICollectionViewController {
         
         let label:UILabel = {
             let lbl = UILabel()
-            lbl.font = UIFont.systemFont(ofSize: 28, weight: .bold)
+            lbl.font = UIFont.systemFont(ofSize: 28, weight: .heavy)
             lbl.translatesAutoresizingMaskIntoConstraints = false
             lbl.text = "Top Picks"
-            lbl.textColor = .normalDark
+            lbl.textColor = UIColor(named: "primaryLabel")
             return lbl
         }()
         
@@ -57,24 +55,20 @@ class DiscoverController: UICollectionViewController {
         
         switch indexPath.section {
         case 0:
-            header.label.text = "Top Categories"
-            return header
-        case 1:
             header.label.text = "Featured Podcasts"
             return header
         default:
-            header.label.text = "Reccomended for you"
+            header.label.text = "For you"
             return header
         }
 
-        
     }
     
     static func bottomSection() -> NSCollectionLayoutSection{
-        let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(130)))
+        let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(120)))
         item.contentInsets.bottom = 12
         
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(150)), subitems: [item])
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(135)), subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets.leading = 18
         section.contentInsets.trailing = 18
@@ -135,7 +129,7 @@ class DiscoverController: UICollectionViewController {
     let headerId = "headerId"
     var delegate:DiscoverControllerDelegate?
     
-    let categories:[Category] = Category.createCategories()
+//    let categories:[Category] = Category.createCategories()
     var topPodcasts:[Podcast] = []
     var topPodcastsByCountry:[Podcast] = []
     
@@ -146,14 +140,15 @@ class DiscoverController: UICollectionViewController {
     }
     
     fileprivate func setupCollectionView() {
-        collectionView.backgroundColor = .systemBackground
-        navigationItem.title = "Diego"
+//        collectionView.backgroundColor = .systemBackground
+        collectionView.backgroundColor = UIColor(named: "blueBackground")
         collectionView.register(CompositionalHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
         
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
-        collectionView.register(TopCategoriesCell.self, forCellWithReuseIdentifier: TopCategoriesCell.reusableId)
+//        collectionView.register(TopCategoriesCell.self, forCellWithReuseIdentifier: TopCategoriesCell.reusableId)
         collectionView.register(TopPodcastCell.self, forCellWithReuseIdentifier: TopPodcastCell.reusableId)
         collectionView.register(SearchCell.self, forCellWithReuseIdentifier: SearchCell.reusableId)
+        collectionView.contentInset.bottom = 78
     }
     
     func fetchPodcasts(){
@@ -189,15 +184,13 @@ class DiscoverController: UICollectionViewController {
     }
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
+        return 2
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         switch section {
         case 0:
-            return categories.count
-        case 1:
             return topPodcasts.count
         default:
             return topPodcastsByCountry.count
@@ -209,8 +202,6 @@ class DiscoverController: UICollectionViewController {
         
         switch indexPath.section {
         case 0:
-            print("Header")
-        case 1:
             delegate?.didTapPodcast(podcast: topPodcasts[indexPath.item])
         default:
             delegate?.didTapPodcast(podcast: topPodcastsByCountry[indexPath.item])
@@ -222,10 +213,6 @@ class DiscoverController: UICollectionViewController {
         
         switch indexPath.section {
         case 0:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopCategoriesCell.reusableId, for: indexPath) as! TopCategoriesCell
-            cell.category = categories[indexPath.item]
-            return cell
-        case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopPodcastCell.reusableId, for: indexPath) as! TopPodcastCell
             let podcast = topPodcasts[indexPath.item]
             cell.showImage.sd_setImage(with: URL(string: podcast.artworkUrl600 ?? ""))
@@ -234,6 +221,7 @@ class DiscoverController: UICollectionViewController {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCell.reusableId, for: indexPath) as! SearchCell
             cell.podcast = topPodcastsByCountry[indexPath.item]
             return cell
+            
         }
         
         
