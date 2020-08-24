@@ -8,30 +8,63 @@
 import UIKit
 
 extension UserDefaults {
-  func colorForKey(key: String) -> UIColor? {
-    var colorReturnded: UIColor?
-    if let colorData = data(forKey: key) {
-      do {
-        if let color = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(colorData) as? UIColor {
-          colorReturnded = color
+    
+    static let favoritedPodcastKey = "favoritedPodcastKey"
+    
+    func colorForKey(key: String) -> UIColor? {
+        var colorReturnded: UIColor?
+        if let colorData = data(forKey: key) {
+            do {
+                if let color = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(colorData) as? UIColor {
+                    colorReturnded = color
+                }
+            } catch {
+                print("Error UserDefaults")
+            }
         }
-      } catch {
-        print("Error UserDefaults")
-      }
+        return colorReturnded
     }
-    return colorReturnded
-  }
-  
-  func setColor(color: UIColor?, forKey key: String) {
-    var colorData: NSData?
-    if let color = color {
-      do {
-        let data = try NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: false) as NSData?
-        colorData = data
-      } catch {
-        print("Error UserDefaults")
-      }
+    
+    
+    func setColor(color: UIColor?, forKey key: String) {
+        var colorData: NSData?
+        if let color = color {
+            do {
+                let data = try NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: false) as NSData?
+                colorData = data
+            } catch {
+                print("Error UserDefaults")
+            }
+        }
+        set(colorData, forKey: key)
     }
-    set(colorData, forKey: key)
-  }
+    
+    func savedPodcasts() -> [Podcast]{
+        guard let savedPodcastsData = UserDefaults.standard.data(forKey: UserDefaults.favoritedPodcastKey) else { return [] }
+        
+        do {
+            guard let savedPodcasts = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(savedPodcastsData) as? [Podcast] else { return [] }
+            return savedPodcasts
+        } catch let err {
+            print(err)
+        }
+        
+        return []
+    }
+    
+    func deletePodcast(_ podcast: Podcast) {
+        let podcasts = savedPodcasts()
+        let filteredPodcasts = podcasts.filter { (p) -> Bool in
+            return p.trackName != podcast.trackName && p.artistName != podcast.artistName
+        }
+        
+        do {
+            let data = try NSKeyedArchiver.archivedData(withRootObject: filteredPodcasts, requiringSecureCoding: false)
+            UserDefaults.standard.set(data, forKey: UserDefaults.favoritedPodcastKey)
+        } catch let err {
+            print("Error deleting podcast", err)
+        }
+        
+    }
+    
 }

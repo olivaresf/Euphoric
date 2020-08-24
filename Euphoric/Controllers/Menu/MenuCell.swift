@@ -19,16 +19,18 @@ class MenuCell: UICollectionViewCell {
     
     override var isSelected: Bool {
         didSet {
-            label.textColor = isSelected ? .black : .lightGray
+            label.textColor = isSelected ? .normalDark : .lightGray
         }
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        backgroundColor = .green
         addSubview(label)
         label.fillSuperview()
     }
+    
+    
+ 
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

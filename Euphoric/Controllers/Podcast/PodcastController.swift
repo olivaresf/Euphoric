@@ -22,14 +22,17 @@ class PodcastController: CustomViewController {
     var collectionView:UICollectionView!
     var episodes: [Episode] = []
     let activityView = UIActivityIndicatorView(style: .large)
+    var heartItem:UIBarButtonItem!
     
+    let moreItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .done, target: self, action: #selector(handleHeart))
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
-        let heartItem = UIBarButtonItem(image: UIImage(systemName: "suit.heart.fill"), style: .done, target: self, action: #selector(handleHeart))
-        let moreItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .done, target: self, action: #selector(handleHeart))
+        heartItem = UIBarButtonItem(image: UIImage(systemName: "suit.heart"), style: .done, target: self, action: #selector(handleHeart))
         navigationItem.rightBarButtonItems = [heartItem, moreItem]
+        //        setupHeart()
+        
         let layout = collectionView.collectionViewLayout
         if let flowLayout = layout as? UICollectionViewFlowLayout {
             flowLayout.estimatedItemSize = CGSize(
@@ -39,8 +42,65 @@ class PodcastController: CustomViewController {
         }
     }
     
-    @objc func handleHeart(){
+    override func viewWillLayoutSubviews() {
+        print("Re layout")
+        setupHeart()
+    }
+    
+    func setupHeart(){
+        let listOfPodcasts = UserDefaults.standard.savedPodcasts()
         
+        guard let podcast = podcast else {return}
+        
+        for p in listOfPodcasts {
+            if p.trackName == podcast.trackName && p.artistName == podcast.artistName{
+                heartItem.image = UIImage(systemName: "suit.heart.fill")
+                break
+            }else{
+                heartItem.image = UIImage(systemName: "suit.heart")
+            }
+        }
+        
+    }
+    
+    @objc func handleHeart(){
+        let notificationName = Notification.Name(rawValue: favoritedNotificationKey)
+        
+        guard let podcast = self.podcast else {return}
+        let listOfPodcasts = UserDefaults.standard.savedPodcasts()
+
+        if listOfPodcasts.isEmpty{
+            savePodcastToUserDefault(podcast)
+            heartItem.image = UIImage(systemName: "suit.heart.fill")
+            NotificationCenter.default.post(name: notificationName, object: nil)
+            return
+        }else{
+
+            for p in listOfPodcasts{
+                if p.trackName == podcast.trackName && p.artistName == podcast.artistName{
+                    UserDefaults.standard.deletePodcast(p)
+                    heartItem.image = UIImage(systemName: "suit.heart")
+                    NotificationCenter.default.post(name: notificationName, object: nil)
+                    return
+                }
+            }
+
+            savePodcastToUserDefault(podcast)
+            heartItem.image = UIImage(systemName: "suit.heart.fill")
+            NotificationCenter.default.post(name: notificationName, object: nil)
+        }
+        
+    }
+    
+    func savePodcastToUserDefault(_ podcast:Podcast){
+        var listOfPodcasts = UserDefaults.standard.savedPodcasts()
+        listOfPodcasts.append(podcast)
+        do {
+            let data = try NSKeyedArchiver.archivedData(withRootObject: listOfPodcasts, requiringSecureCoding: false)
+            UserDefaults.standard.set(data, forKey: UserDefaults.favoritedPodcastKey)
+        } catch let err {
+            print(err)
+        }
     }
     
     func fetchEpisodes(){
@@ -61,7 +121,7 @@ class PodcastController: CustomViewController {
     }
     
     var episode:Episode?
-
+    
     func setupCollectionView(){
         
         let customFlowLayout = UICollectionViewFlowLayout()
@@ -110,8 +170,7 @@ extension PodcastController:UICollectionViewDelegate, UICollectionViewDelegateFl
         }
         
         searchController?.setEpisode(episode: selectedEpisode)
-//        searchController?.showPlayer()
-
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

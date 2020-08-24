@@ -39,6 +39,10 @@ class AppTintController: UICollectionViewController, UICollectionViewDelegateFlo
         let userDefault = UserDefaults.standard
         let cell = collectionView.cellForItem(at: indexPath)
         userDefault.setColor(color: cell?.backgroundColor, forKey: "tintColor")
+//        dismiss(animated: true)
+        dismiss(animated: true) {
+            self.view.setNeedsDisplay()
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

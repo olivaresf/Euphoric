@@ -13,7 +13,7 @@ class SearchCell: UICollectionViewCell {
     var podcast:Podcast?{
         didSet{
             guard let podcast = podcast else{ return }
-            guard let imageUrl = URL(string: podcast.artworkUrl600) else {return}
+            guard let imageUrl = URL(string: podcast.artworkUrl600 ?? "") else {return}
             leftImage.sd_setImage(with: imageUrl)
             authorLabel.text = podcast.artistName
             podcastLabel.text = podcast.trackName
@@ -57,10 +57,10 @@ class SearchCell: UICollectionViewCell {
         addSubview(badge)
 
         NSLayoutConstraint.activate([
-            leftImage.topAnchor.constraint(equalTo: topAnchor, constant: 12),
+            leftImage.topAnchor.constraint(equalTo: topAnchor, constant: 9),
             leftImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
-            leftImage.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12),
-            leftImage.widthAnchor.constraint(equalToConstant: 84),
+            leftImage.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -9),
+            leftImage.widthAnchor.constraint(equalToConstant: 92),
         ])
     
         [podcastLabel, authorLabel, badge].forEach({overallStackView.addArrangedSubview($0)})

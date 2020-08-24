@@ -9,15 +9,17 @@ import UIKit
 
 class PodcastHeaderCell: UICollectionReusableView {
     
+    let userDefaults = UserDefaults.standard
+    
     var podcast:Podcast?{
         didSet{
             guard let podcast = podcast else {return}
             podcastLabel.text = podcast.trackName
-            podcastImage.sd_setImage(with: URL(string: podcast.artworkUrl600))
-            episodesAvailableLabel.text = "\(podcast.trackCount) Episodes available"
+            podcastImage.sd_setImage(with: URL(string: podcast.artworkUrl600 ?? ""))
+            episodesAvailableLabel.text = "\(podcast.trackCount ?? 0) Episodes available"
             authorLabel.text = podcast.artistName
             categoryBadge.categoryLabel.text = podcast.primaryGenreName
-            print(podcast.feedUrl)
+//            print(podcast.feedUrl)
         }
     }
     
@@ -25,8 +27,7 @@ class PodcastHeaderCell: UICollectionReusableView {
     let podcastLabel = TitleLabel(title: "This is a very impressive podcast title", size: 24)
     let episodesAvailableLabel = SubtitleLabel(text: "2 Episodes available", size: 15)
     let authorLabel = TitleLabel(title: "Diego Isco", size: 18)
-    let categoryBadge = Badge(color: .systemPink)
-//    let explicitBadge = Badge(color: .systemRed)
+    lazy var categoryBadge = Badge(color: userDefaults.colorForKey(key: "tintColor") ?? .systemPink)
     var infoStackView:UIStackView!
     static let cellId = "PodcastHeaderId"
     

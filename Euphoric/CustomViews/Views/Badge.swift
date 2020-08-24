@@ -9,19 +9,21 @@ import UIKit
 
 class Badge: UIView {
     
-    let containerView:UIView = {
+    let userDefaults = UserDefaults.standard
+    
+    lazy var containerView:UIView = {
         let view = UIView()
         view.layer.cornerRadius = 3
         view.layer.borderWidth = 0.5
-        view.layer.borderColor = UIColor.systemPink.cgColor
+        view.layer.borderColor = userDefaults.colorForKey(key: "tintColor")?.cgColor ?? UIColor.systemPink.cgColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let categoryLabel:UILabel = {
+    lazy var categoryLabel:UILabel = {
         let label = UILabel()
         label.text = "Technology"
-        label.textColor = .systemPink
+        label.textColor = userDefaults.colorForKey(key: "tintColor") ?? .systemPink
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.lineBreakMode = .byTruncatingTail

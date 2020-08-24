@@ -35,6 +35,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         UINavigationBar.appearance().barTintColor = .systemBackground
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().tintColor = defaults.colorForKey(key: "tintColor") ?? .systemPink
+        
+//        UserDefaults.resetStandardUserDefaults()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

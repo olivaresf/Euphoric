@@ -44,7 +44,7 @@ class CustomViewController: UIViewController {
         mainTitle.text = title
         mainTitle.font = UIFont.systemFont(ofSize: 28, weight: .heavy)
         mainTitle.translatesAutoresizingMaskIntoConstraints = false
-        mainTitle.textColor = .systemPink
+//        mainTitle.textColor = .systemPink
         mainTitle.backgroundColor = .clear
         titleView.addSubview(mainTitle)
         NSLayoutConstraint.activate([

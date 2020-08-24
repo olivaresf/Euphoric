@@ -89,12 +89,12 @@ class DiscoverController: UICollectionViewController {
     
     static func middleSection() -> NSCollectionLayoutSection{
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                              heightDimension: .fractionalHeight(0.45))
+                                              heightDimension: .fractionalHeight(0.47))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = .init(top: 0, leading: 0, bottom: 16, trailing: 16)
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.45),
-                                               heightDimension: .absolute(400))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.40),
+                                               heightDimension: .absolute(350))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
 
         let section = NSCollectionLayoutSection(group: group)
@@ -113,7 +113,7 @@ class DiscoverController: UICollectionViewController {
         let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
         item.contentInsets.trailing = 18
         
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.75), heightDimension: .absolute(200)), subitems: [item])
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.60), heightDimension: .absolute(160)), subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
@@ -228,7 +228,7 @@ class DiscoverController: UICollectionViewController {
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopPodcastCell.reusableId, for: indexPath) as! TopPodcastCell
             let podcast = topPodcasts[indexPath.item]
-            cell.showImage.sd_setImage(with: URL(string: podcast.artworkUrl600))
+            cell.showImage.sd_setImage(with: URL(string: podcast.artworkUrl600 ?? ""))
             return cell
         default:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCell.reusableId, for: indexPath) as! SearchCell

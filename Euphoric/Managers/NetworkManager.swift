@@ -84,8 +84,10 @@ class NetworkManager {
     }
     
     func fetchEpisodes(feedUrl: String, completionHandler: @escaping ([Episode]) -> ()) {
+        #warning("Implement incremental loading")
         
         guard let url = URL(string: feedUrl) else { return }
+        
         DispatchQueue.global(qos: .background).async {
             
             let parser = FeedParser(URL: url)
@@ -138,19 +140,24 @@ class NetworkManager {
 extension RSSFeed {
   
   func toEpisodes() -> [Episode] {
+    
     let imageUrl = iTunes?.iTunesImage?.attributes?.href
     
     var episodes: [Episode] = []
+    
     items?.forEach({ (feedItem) in
-      var episode = Episode(feedItem: feedItem)
-      
-      if episode.imageUrl == nil {
-        episode.imageUrl = imageUrl
-      }
-      
-      episodes.append(episode)
+        var episode = Episode(feedItem: feedItem)
+        
+        if episode.imageUrl == nil {
+          episode.imageUrl = imageUrl
+        }
+        
+        episodes.append(episode)
+        
     })
+    
     return episodes
+    
   }
   
 }

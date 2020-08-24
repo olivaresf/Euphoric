@@ -23,7 +23,7 @@ class EpisodeDetailsController: UIViewController {
         let tv = UITextView()
         tv.isUserInteractionEnabled = false
         tv.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        tv.textColor = .black
+        tv.textColor = .normalDark
         return tv
     }()
     

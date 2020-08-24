@@ -12,7 +12,7 @@ class CustomTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewControllers = [createNavController(for: SearchController(), title: "Search")]
-        tabBar.tintColor = .systemPink
+//        tabBar.tintColor = .systemPink
         tabBar.isTranslucent = true
     }
     

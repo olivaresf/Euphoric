@@ -12,24 +12,15 @@ import MediaPlayer
 
 class PlayerDetailsController: UIViewController {
     
+    let userDefaults = UserDefaults.standard
+    
     var episode:Episode!{
         didSet{
             episodeTitle.text = episode.title
             
             guard let imageUrl = URL(string: episode.imageUrl ?? "") else {return}
-            
-            DispatchQueue.global().async { [weak self] in
-                if let data = try? Data(contentsOf: imageUrl) {
-                    if let image = UIImage(data: data) {
-                        DispatchQueue.main.async {
-                            let newColor = image.averageColor?.cgColor ?? UIColor.topColor.cgColor
-                            self?.gradientLayer.colors = [newColor, UIColor.white.withAlphaComponent(0).cgColor]
-                            self?.view.layoutIfNeeded()
-                        }
-                    }
-                }
-            }
-            
+            self.absorbeAverageColor(imageUrl: imageUrl)
+
             podcastImage.sd_setImage(with: URL(string: episode.imageUrl ?? "")) { (image, _, _, _) in
                 guard let image = image else {return}
                 var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo
@@ -45,6 +36,7 @@ class PlayerDetailsController: UIViewController {
         }
     }
     
+
     var partialView: CGFloat {
         return UIScreen.main.bounds.height - (view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0) - 60
     }
@@ -68,28 +60,42 @@ class PlayerDetailsController: UIViewController {
         player.play()
     }
     
-    var soundAnimation:AnimationView = {
+    lazy var soundAnimation:AnimationView = {
         let animation = AnimationView(name: "bars")
+        let keypath = AnimationKeypath(keys: ["**", "Fill 1", "**", "Color"])
+        let colorProvider = ColorValueProvider(UIColor.normalDark.lottieColorValue)
+        animation.setValueProvider(colorProvider, keypath: keypath)
+        
         animation.contentMode = .scaleAspectFit
         animation.loopMode = .loop
         animation.animationSpeed = 0.5
         animation.translatesAutoresizingMaskIntoConstraints = false
         animation.backgroundBehavior = .pauseAndRestore
+
         return animation
     }()
     
-    let podcastImage = RoundedImageView(image: #imageLiteral(resourceName: "person"))
+    let podcastImage = RoundedImageView(image: #imageLiteral(resourceName: "headphones"))
     
-    let currentTimeSlider:UISlider = {
+    lazy var currentTimeSlider:UISlider = {
         let slider = UISlider()
         slider.backgroundColor = .clear
-        slider.tintColor = .systemPink
+        slider.tintColor = .normalDark
         slider.translatesAutoresizingMaskIntoConstraints = false
         slider.addTarget(self, action: #selector(handleSliderChange), for: .valueChanged)
         return slider
     }()
     
-    let episodeTitle = TitleLabel(title: "Play your favorite Podcast and swipe me 😜", size: 16)
+    let episodeTitle:UILabel = {
+    let label = UILabel()
+    label.text = "Play your favorite Podcast and swipe me!"
+    label.translatesAutoresizingMaskIntoConstraints = false
+    label.textColor = .normalDark
+        label.numberOfLines = 2
+        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+    label.textAlignment = .left
+    return label
+}()
     
     let currentTimeLabel:UILabel  = {
         let label = UILabel()
@@ -109,48 +115,48 @@ class PlayerDetailsController: UIViewController {
         return label
     }()
     
-    let goForwardButton:UIButton = {
+    lazy var goForwardButton:UIButton = {
         let btn = UIButton(type: .system)
         let image = UIImage(systemName: "goforward.30")
         btn.setImage(image, for: .normal)
         btn.contentMode = .scaleAspectFit
         btn.addTarget(self, action: #selector(handleForward), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.tintColor = .systemPink
+        btn.tintColor = .normalDark
         return btn
     }()
     
-    let playButton:UIButton = {
+    lazy var playButton:UIButton = {
         let btn = UIButton(type: .system)
         btn.contentMode = .scaleAspectFit
         let largeConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .bold, scale: .default)
         let largeBoldDoc = UIImage(systemName: "play.fill", withConfiguration: largeConfig)
         btn.setImage(largeBoldDoc, for: .normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.tintColor = .systemPink
+        btn.tintColor = .normalDark
         btn.contentHorizontalAlignment = .fill
         btn.addTarget(self, action: #selector(handlePlayPause), for: .touchUpInside)
         return btn
     }()
     
-    let dotsButton:UIButton = {
+    lazy var dotsButton:UIButton = {
         let btn = UIButton(type: .system)
         btn.contentMode = .scaleAspectFit
         btn.setImage(UIImage(systemName: "ellipsis", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .regular, scale: .default)), for: .normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.tintColor = .systemPink
+        btn.tintColor = .normalDark
         btn.contentHorizontalAlignment = .fill
         btn.addTarget(self, action: #selector(handleSheet), for: .touchUpInside)
 //        btn.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         return btn
     }()
     
-    let randomButton:UIButton = {
+    lazy var randomButton:UIButton = {
         let btn = UIButton(type: .system)
         btn.contentMode = .scaleAspectFit
         btn.setImage(UIImage(systemName: "square.and.arrow.down"), for: .normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.tintColor = .systemPink
+        btn.tintColor = .normalDark
         btn.contentHorizontalAlignment = .fill
 //        btn.addTarget(self, action: #selector(handlePlayPause), for: .touchUpInside)
         return btn
@@ -159,7 +165,7 @@ class PlayerDetailsController: UIViewController {
     let alert = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
     
     func setupAlerts(){
-        alert.view.tintColor = .systemPink
+        alert.view.tintColor = .normalDark
         
         let firstAction = UIAlertAction(title: "Episode details", style: .default) { (_) in
             let eDetailsController = EpisodeDetailsController()
@@ -210,6 +216,35 @@ class PlayerDetailsController: UIViewController {
         
         player.seek(to: seekTime)
     }
+    
+    func absorbeAverageColor(imageUrl:URL){
+        DispatchQueue.global().async { [weak self] in
+            if let data = try? Data(contentsOf: imageUrl) {
+                if let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self?.setupAdaptiveColors(color: image.averageColor ?? UIColor.normalDark)
+                        self?.view.layoutIfNeeded()
+                    }
+                }
+            }
+        }
+    }
+    
+    func setupAdaptiveColors(color:UIColor){
+        self.gradientLayer.colors = [color.cgColor, UIColor.white.withAlphaComponent(0).cgColor]
+        
+        let keypath = AnimationKeypath(keys: ["**", "Fill 1", "**", "Color"])
+        let colorProvider = ColorValueProvider(color.lottieColorValue)
+        self.soundAnimation.setValueProvider(colorProvider, keypath: keypath)
+        
+        self.currentTimeSlider.tintColor = color
+        self.dotsButton.tintColor = color
+        self.routePickerView.tintColor = color
+        self.randomButton.tintColor = color
+        
+        alert.view.tintColor = color
+    }
+    
     
     fileprivate func setupNowPlayingInfo(){
         
@@ -315,13 +350,14 @@ class PlayerDetailsController: UIViewController {
     }
     
     func setupGradient(){
-        gradientLayer.colors = [UIColor.topColor.cgColor, UIColor.white.withAlphaComponent(0).cgColor]
+//        view.backgroundColor = .white
+        gradientLayer.colors = [UIColor.topColor.cgColor, UIColor.white.cgColor]
         gradientLayer.locations = [0, 0.5]
         gradientLayer.opacity = 1
         view.layer.addSublayer(gradientLayer)
-        
+
         blurEffect = UIBlurEffect(style: .extraLight)
-        
+
         blurredEffectView = UIVisualEffectView(effect: blurEffect)
         blurredEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         blurredEffectView.frame = view.bounds
@@ -384,6 +420,8 @@ class PlayerDetailsController: UIViewController {
     
     var fullView:CGFloat!
     
+    let routePickerView = AVRoutePickerView()
+    
     fileprivate func setupViews(){
         let gesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture))
         view.addGestureRecognizer(gesture)
@@ -422,8 +460,8 @@ class PlayerDetailsController: UIViewController {
         view.addSubview(durationsStackView)
         durationsStackView.anchor(top: currentTimeSlider.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 8, left: 18, bottom: 0, right: 18), size: .init(width: 0, height: 24))
         
-        let routePickerView = AVRoutePickerView()
-        routePickerView.tintColor = .systemPink
+        
+        routePickerView.tintColor = .normalDark
         
         let bottomStack = UIStackView(arrangedSubviews: [UIView(), dotsButton, routePickerView, randomButton, UIView()])
         bottomStack.translatesAutoresizingMaskIntoConstraints = false

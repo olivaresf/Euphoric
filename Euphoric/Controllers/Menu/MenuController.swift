@@ -23,7 +23,7 @@ class MenuController: UICollectionViewController, UICollectionViewDelegateFlowLa
        let v = UIView()
         v.backgroundColor = .normalDark
         v.clipsToBounds = true
-        v.layer.cornerRadius = 3
+        v.layer.cornerRadius = 2
         return v
     }()
     

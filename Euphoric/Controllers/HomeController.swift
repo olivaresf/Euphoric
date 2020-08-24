@@ -7,30 +7,9 @@
 
 import UIKit
 
-class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout, MenuControllerDelegate, DiscoverControllerDelegate {
-    
-    func didTapPodcast(podcast: Podcast) {
-        let podcastController = PodcastController()
-        podcastController.podcast = podcast
-        self.navigationController?.pushViewController(podcastController, animated: true)
-    }
-    
-    func didTapMenuItem(_ indexPath: IndexPath) {
-        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-    }
-    
-    @objc func handleSearch(){
-        let searchVC = SearchController()
-        let nav = UINavigationController(rootViewController: searchVC)
-        present(nav, animated: true)
-    }
-    
-    @objc func handleSettings(){
-        let settingsVC = SettingsController()
-        let navController = UINavigationController(rootViewController: settingsVC)
-        present(navController, animated: true)
-    }
-    
+class HomeController: UICollectionViewController {
+        
+    //MARK:- Hi
     let menuController = MenuController(collectionViewLayout: UICollectionViewFlowLayout())
     var menuView = UIView()
     
@@ -38,7 +17,7 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     fileprivate let libraryCellId = "libraryCellId"
     fileprivate let downloadsCellId = "downloadsCellId"
     
-    let playerDetailsController = PlayerDetailsController()
+    var playerDetailsController = PlayerDetailsController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,21 +27,27 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         presentPlayerController()
     }
     
+    @objc func handleSettings(){
+        let settingsVC = SettingsController()
+        let navController = UINavigationController(rootViewController: settingsVC)
+        present(navController, animated: true)
+    }
+    
     func setEpisode(episode:Episode){
         playerDetailsController.episode = episode
     }
-    
+
     func presentPlayerController(){
         let window = UIApplication.shared.windows.filter{$0.isKeyWindow}.first
         window?.addSubview(playerDetailsController.view)
-        
+
         addChild(playerDetailsController)
         playerDetailsController.didMove(toParent: self)
-        
+
         let height = view.frame.height
         let width  = view.frame.width
         playerDetailsController.view.frame = CGRect(x: 0, y: self.view.frame.maxY, width: width, height: height)
-        
+
         playerDetailsController.showPlayerDetail()
     }
     
@@ -98,30 +83,21 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     fileprivate func setupLayout() {
         view.backgroundColor = .white
         navigationItem.title = "Euforic"
-        navigationController?.hidesBarsOnSwipe = true
         let search = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .done, target: self, action: #selector(handleSearch))
         let settings = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .done, target: self, action: #selector(handleSettings))
         navigationItem.rightBarButtonItems = [search, settings]
         navigationItem.rightBarButtonItems?.forEach({$0.tintColor = .darkGray})
     }
     
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let x = scrollView.contentOffset.x
-        let offset = x / 3
-        menuController.menuBar.transform = CGAffineTransform(translationX: offset, y: 0)
+    fileprivate func statusBarHeight() -> CGFloat {
+        let window = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+        guard let statusBarSize = window?.windowScene?.statusBarManager?.statusBarFrame else {return 0}
+        return min(statusBarSize.width, statusBarSize.height)
     }
     
-    override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        let x = targetContentOffset.pointee.x
-        let item = x / view.frame.width
-        let indexPath = IndexPath(item: Int(item), section: 0)
-        menuController.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
-    }
+}
 
-    
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
-    }
+extension HomeController:UICollectionViewDelegateFlowLayout{
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
@@ -140,21 +116,51 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     }
     
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 3
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 //        let statusBar = statusBarHeight()
         let topSafeArea = view.safeAreaInsets.top
-//        let bottomSafeArea = view.safeAreaInsets.bottom
-
         return .init(width: view.frame.width, height: view.frame.height - 60 - topSafeArea)
     }
     
-    func statusBarHeight() -> CGFloat {
-        let window = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
-        guard let statusBarSize = window?.windowScene?.statusBarManager?.statusBarFrame else {return 0}
-        return min(statusBarSize.width, statusBarSize.height)
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let x = scrollView.contentOffset.x
+        let offset = x / 3
+        menuController.menuBar.transform = CGAffineTransform(translationX: offset, y: 0)
+    }
+    
+    override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let x = targetContentOffset.pointee.x
+        let item = x / view.frame.width
+        let indexPath = IndexPath(item: Int(item), section: 0)
+        menuController.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
     }
     
 }
+
+extension HomeController:MenuControllerDelegate, DiscoverControllerDelegate{
+    
+    func didTapPodcast(podcast: Podcast) {
+        let podcastController = PodcastController()
+        podcastController.podcast = podcast
+        self.navigationController?.pushViewController(podcastController, animated: true)
+    }
+    
+    func didTapMenuItem(_ indexPath: IndexPath) {
+        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+    }
+    
+    @objc func handleSearch(){
+        let searchVC = SearchController()
+        let nav = UINavigationController(rootViewController: searchVC)
+        present(nav, animated: true)
+    }
+    
+}
+
 
 class dummyDownloadsCell: UICollectionViewCell {
     

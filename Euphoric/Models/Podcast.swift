@@ -7,17 +7,35 @@
 
 import Foundation
 
-struct Podcast:Codable, Hashable {
+class Podcast:NSObject, Decodable, NSCoding {
     
-    let trackName:String
-    let artistName:String
-    let artworkUrl600:String
-    let primaryGenreName:String
-    let trackCount:Int
-    let feedUrl:String
+    let trackName:String?
+    let artistName:String?
+    let artworkUrl600:String?
+    let primaryGenreName:String?
+    let trackCount:Int?
+    let feedUrl:String?
     
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(trackName)
+    func encode(with coder: NSCoder) {
+        coder.encode(trackName ?? "", forKey: "trackNameKey")
+        coder.encode(artistName ?? "", forKey: "artistNameKey")
+        coder.encode(artworkUrl600 ?? "", forKey: "artworkKey")
+        coder.encode(feedUrl ?? "", forKey: "feedKey")
+        coder.encode(primaryGenreName ?? "", forKey: "primaryGenreName")
+        coder.encode(trackCount ?? 0, forKey: "trackCount")
     }
     
+    required init?(coder: NSCoder) {
+        self.trackName = coder.decodeObject(forKey: "trackNameKey") as? String
+        self.artistName = coder.decodeObject(forKey: "artistNameKey") as? String
+        self.artworkUrl600 = coder.decodeObject(forKey: "artworkKey") as? String
+        self.feedUrl = coder.decodeObject(forKey: "feedKey") as? String
+        self.primaryGenreName = coder.decodeObject(forKey: "primaryGenreName") as? String
+        self.trackCount = coder.decodeObject(forKey: "trackCount") as? Int
+    }
+    
+    static func == (lhs: Podcast, rhs: Podcast) -> Bool {
+        return true
+    }
+
 }

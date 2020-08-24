@@ -77,29 +77,6 @@ extension SettingsController:UITableViewDelegate,UITableViewDataSource{
             cell.sectionType = social
             cell.imageView?.image = UIImage(systemName: social?.icon ?? "")
         }
-        
-
-//        switch section {
-//        case .Social:
-//            let social = SocialOptions(rawValue: indexPath.row)
-//            cell.sectionType = social
-//            cell.imageView?.image = UIImage(systemName: social?.image ?? "")
-//            cell.switchControl.tag = indexPath.section
-////            if social?.containsSwitch == true{
-////                print(indexPath.row, indexPath.section)
-////            }
-//
-//        case .Communications:
-//            let communications = CommunicationsOptions(rawValue: indexPath.row)
-//            cell.sectionType = communications
-//            cell.imageView?.image = UIImage(systemName: communications?.image ?? "")
-//            cell.switchControl.tag = indexPath.section
-////            if communications?.containsSwitch == true{
-////                print(indexPath.row, indexPath.section)
-////            }
-//
-//        }
-
         return cell
     }
 

@@ -27,7 +27,7 @@ class SettingsCell: UITableViewCell {
         let color = userDefaults.string(forKey: "tintColor") ?? ""
         let switchControl = UISwitch()
         switchControl.isOn = true
-        switchControl.onTintColor = userDefaults.colorForKey(key: "tintColor")
+        switchControl.onTintColor = userDefaults.colorForKey(key: "tintColor") ?? .systemPink
         switchControl.translatesAutoresizingMaskIntoConstraints = false
         switchControl.addTarget(self, action: #selector(handleSwitch), for: .valueChanged)
         return switchControl
