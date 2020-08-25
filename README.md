@@ -9,7 +9,8 @@
 
 Euphoric is a podcast player created from a minimalist design thinking of covering all the basic functionalities by adding options for the user to customize the details in the interface. **Currently under development**
 
-![](header.png)
+![main](https://github.com/diegoisco/Euphoric/blob/master/screenshots/main.png)
+![main2](https://github.com/diegoisco/Euphoric/blob/master/screenshots/main2.png)
 
 ## Features
 
