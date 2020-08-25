@@ -64,13 +64,12 @@ class HomeController: UICollectionViewController {
         
         collectionView.register(dummyDiscoverCell.self, forCellWithReuseIdentifier: discoverCellId)
         collectionView.register(dummyLibraryCell.self, forCellWithReuseIdentifier: libraryCellId)
-        collectionView.register(dummyDownloadsCell.self, forCellWithReuseIdentifier: downloadsCellId)
+        collectionView.register(dummyListenNowCell.self, forCellWithReuseIdentifier: downloadsCellId)
         collectionView.isPagingEnabled = true
         collectionView.contentInsetAdjustmentBehavior = .never
         
         self.collectionView.scrollToItem(at: IndexPath(item: 1, section: 0), at: .centeredHorizontally, animated: true)
         
-//        collectionView.backgroundColor = .white
         collectionView.anchor(top: menuView.bottomAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor)
     }
     
@@ -82,8 +81,8 @@ class HomeController: UICollectionViewController {
         let downloads = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.down"), style: .done, target: self, action: #selector(handleDownloads))
         navigationItem.rightBarButtonItems = [search, downloads]
         navigationItem.leftBarButtonItem = settings
-        navigationItem.rightBarButtonItems?.forEach({$0.tintColor = UIColor.secondaryLabel})
-        navigationItem.leftBarButtonItem?.tintColor = UIColor.secondaryLabel
+        navigationItem.rightBarButtonItems?.forEach({$0.tintColor = UIColor.label})
+        navigationItem.leftBarButtonItem?.tintColor = UIColor.label
     }
     
     @objc func handleSettings(){
@@ -100,8 +99,8 @@ class HomeController: UICollectionViewController {
     }
     
     @objc func handleDownloads(){
-        let searchVC = SearchController()
-        let nav = UINavigationController(rootViewController: searchVC)
+        let downloadsController = DownloadsController(style: .insetGrouped)
+        let nav = UINavigationController(rootViewController: downloadsController)
         present(nav, animated: true)
     }
     
@@ -127,7 +126,7 @@ extension HomeController:UICollectionViewDelegateFlowLayout{
             cell.libraryController.delegate = self
             return cell
         default:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: downloadsCellId, for: indexPath) as! dummyDownloadsCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: downloadsCellId, for: indexPath) as! dummyListenNowCell
             return cell
         }
     
@@ -187,15 +186,15 @@ extension HomeController:MenuControllerDelegate, DiscoverControllerDelegate, Lib
 }
 
 
-class dummyDownloadsCell: UICollectionViewCell {
+class dummyListenNowCell: UICollectionViewCell {
     
-    let downloadsController = DownloadsController()
+    let listenNowController = ListenNowController()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        let downloadsView = downloadsController.view!
-        addSubview(downloadsView)
-        downloadsView.fillSuperview()
+        let listenNowView = listenNowController.view!
+        addSubview(listenNowView)
+        listenNowView.fillSuperview()
     }
     
     required init?(coder: NSCoder) {

@@ -66,14 +66,14 @@ class PodcastController: CustomViewController {
         
         guard let podcast = self.podcast else {return}
         let listOfPodcasts = UserDefaults.standard.savedPodcasts()
-
+        
         if listOfPodcasts.isEmpty{
             savePodcastToUserDefault(podcast)
             heartItem.image = UIImage(systemName: "suit.heart.fill")
             NotificationCenter.default.post(name: notificationName, object: nil)
             return
         }else{
-
+            
             for p in listOfPodcasts{
                 if p.trackName == podcast.trackName && p.artistName == podcast.artistName{
                     UserDefaults.standard.deletePodcast(p)
@@ -82,7 +82,7 @@ class PodcastController: CustomViewController {
                     return
                 }
             }
-
+            
             savePodcastToUserDefault(podcast)
             heartItem.image = UIImage(systemName: "suit.heart.fill")
             NotificationCenter.default.post(name: notificationName, object: nil)
@@ -142,11 +142,6 @@ class PodcastController: CustomViewController {
         collectionView.register(EpisodeCell.self, forCellWithReuseIdentifier: EpisodeCell.cellId)
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        navigationController?.navigationBar.transform = .identity
-//    }
-    
     private func addInteraction(toCell cell: UICollectionViewCell) {
         let interaction = UIContextMenuInteraction(delegate: self)
         cell.addInteraction(interaction)
@@ -180,6 +175,7 @@ extension PodcastController:UICollectionViewDelegate, UICollectionViewDelegateFl
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EpisodeCell.cellId, for: indexPath) as! EpisodeCell
         self.episode = self.episodes[indexPath.item]
         cell.episode = episode
+        cell.delegate = self
         self.addInteraction(toCell: cell)
         return cell
     }
@@ -209,24 +205,36 @@ extension UICollectionView {
 extension PodcastController:UIContextMenuInteractionDelegate{
     
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-        
-        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ -> UIMenu? in
-            let shareAction = UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up")) { _ in
-                // do whatever actions you want to perform...
-            }
-            let editAction = UIAction(title: "Edit", image: UIImage(systemName: "square.and.pencil")) { _ in
-                // do whatever actions you want to perform...
-            }
-            let deleteAction = UIAction(title: "Delete", image: UIImage(systemName: "trash"), attributes: .destructive) { _ in
-                // do whatever actions you want to perform...
-            }
-            return UIMenu(title: "", children: [shareAction, editAction, deleteAction])
-        }
-        
+        return nil
     }
     
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        
+        let episode = episodes[indexPath.item]
+        
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions in
+            
+            let shareAction = UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up")) { _ in
+//                print(item.title)
+            }
+            let downloadAction = UIAction(title: "Download", image: UIImage(systemName: "square.and.pencil")) { _ in
+                UserDefaults.standard.downloadEpisode(for: episode)
+            }
+            
+            return UIMenu(title: "", children: [shareAction, downloadAction])
+        }
+    }
     
 }
 
+
+
+
+extension PodcastController:EpisodeCellDelegate{
+    func didTapMore(episode: Episode) {
+        print(episode.author)
+    }
+    
+}
 
 

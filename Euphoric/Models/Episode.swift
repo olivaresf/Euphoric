@@ -8,7 +8,7 @@
 import Foundation
 import FeedKit
 
-struct Episode: Codable, Hashable {
+struct Episode: Hashable, Encodable {
   let title: String
   let pubDate: Date
   let description: String

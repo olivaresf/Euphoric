@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-class DownloadsController: UICollectionViewController {
+class ListenNowController: UICollectionViewController {
     
     init() {
         
-        let layout = UICollectionViewCompositionalLayout(section: DownloadsController.downloadsSection())
+        let layout = UICollectionViewCompositionalLayout(section: ListenNowController.downloadsSection())
         
         super.init(collectionViewLayout: layout)
     }
@@ -68,10 +68,10 @@ class DownloadsController: UICollectionViewController {
     
 }
 
-struct DownloadsView:UIViewControllerRepresentable {
+struct ListenNowView:UIViewControllerRepresentable {
     
     func makeUIViewController(context: Context) -> UIViewController {
-        let controller = DownloadsController()
+        let controller = ListenNowController()
         return UINavigationController(rootViewController: controller)
     }
     
@@ -84,7 +84,7 @@ struct DownloadsView:UIViewControllerRepresentable {
 
 struct DownloadsController_Previews: PreviewProvider {
     static var previews: some View {
-        DownloadsView()
+        ListenNowView()
             .edgesIgnoringSafeArea(.all)
     }
 }

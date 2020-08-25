@@ -10,13 +10,15 @@
 		041A262124E9CB6B00B2B55F /* bars.json in Resources */ = {isa = PBXBuildFile; fileRef = 041A262024E9CB6B00B2B55F /* bars.json */; };
 		041A262324E9F64C00B2B55F /* EpisodesDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041A262224E9F64C00B2B55F /* EpisodesDetailsController.swift */; };
 		041A262524EA17A000B2B55F /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041A262424EA17A000B2B55F /* String.swift */; };
+		0425081924F4418B00BA42AD /* DownloadsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0425081824F4418B00BA42AD /* DownloadsController.swift */; };
+		0425081C24F441E000BA42AD /* EpisodeDownlodedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0425081B24F441E000BA42AD /* EpisodeDownlodedCell.swift */; };
 		0426C43024E99ABB00DA84C7 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426C42F24E99ABB00DA84C7 /* UIImage.swift */; };
 		0439C4CF24E78FAB004DF89A /* PlayerDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0439C4CE24E78FAB004DF89A /* PlayerDetailsController.swift */; };
 		0448C03D24EC26FB00190140 /* TopCategoriesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0448C03C24EC26FB00190140 /* TopCategoriesCell.swift */; };
 		0448C03F24EC2CF200190140 /* TopPodcastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0448C03E24EC2CF200190140 /* TopPodcastCell.swift */; };
 		0448C04124EC326C00190140 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0448C04024EC326C00190140 /* Category.swift */; };
 		0448C04724EC587B00190140 /* LibraryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0448C04624EC587B00190140 /* LibraryController.swift */; };
-		0448C04924ECD68C00190140 /* DownloadsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0448C04824ECD68C00190140 /* DownloadsController.swift */; };
+		0448C04924ECD68C00190140 /* ListenNowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0448C04824ECD68C00190140 /* ListenNowController.swift */; };
 		045985CB24E2F4C40056ED51 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985CA24E2F4C40056ED51 /* AppDelegate.swift */; };
 		045985CD24E2F4C40056ED51 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045985CC24E2F4C40056ED51 /* SceneDelegate.swift */; };
 		045985D424E2F4C70056ED51 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 045985D324E2F4C70056ED51 /* Assets.xcassets */; };
@@ -62,13 +64,15 @@
 		041A262024E9CB6B00B2B55F /* bars.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bars.json; sourceTree = "<group>"; };
 		041A262224E9F64C00B2B55F /* EpisodesDetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodesDetailsController.swift; sourceTree = "<group>"; };
 		041A262424EA17A000B2B55F /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		0425081824F4418B00BA42AD /* DownloadsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsController.swift; sourceTree = "<group>"; };
+		0425081B24F441E000BA42AD /* EpisodeDownlodedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeDownlodedCell.swift; sourceTree = "<group>"; };
 		0426C42F24E99ABB00DA84C7 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		0439C4CE24E78FAB004DF89A /* PlayerDetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDetailsController.swift; sourceTree = "<group>"; };
 		0448C03C24EC26FB00190140 /* TopCategoriesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopCategoriesCell.swift; sourceTree = "<group>"; };
 		0448C03E24EC2CF200190140 /* TopPodcastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopPodcastCell.swift; sourceTree = "<group>"; };
 		0448C04024EC326C00190140 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		0448C04624EC587B00190140 /* LibraryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryController.swift; sourceTree = "<group>"; };
-		0448C04824ECD68C00190140 /* DownloadsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsController.swift; sourceTree = "<group>"; };
+		0448C04824ECD68C00190140 /* ListenNowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenNowController.swift; sourceTree = "<group>"; };
 		045985C724E2F4C40056ED51 /* Euphoric.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Euphoric.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		045985CA24E2F4C40056ED51 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		045985CC24E2F4C40056ED51 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -125,6 +129,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0425081524F43DA500BA42AD /* Downloads */ = {
+			isa = PBXGroup;
+			children = (
+				0425081824F4418B00BA42AD /* DownloadsController.swift */,
+			);
+			path = Downloads;
+			sourceTree = "<group>";
+		};
+		0425081A24F441C700BA42AD /* Downloads */ = {
+			isa = PBXGroup;
+			children = (
+				0425081B24F441E000BA42AD /* EpisodeDownlodedCell.swift */,
+			);
+			path = Downloads;
+			sourceTree = "<group>";
+		};
 		0448C03B24EC26E400190140 /* Discover */ = {
 			isa = PBXGroup;
 			children = (
@@ -205,6 +225,7 @@
 		045985E324E2F7E10056ED51 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				0425081524F43DA500BA42AD /* Downloads */,
 				0448C04324EC57E400190140 /* Player */,
 				0448C04224EC57C600190140 /* Podcast */,
 				0479156724EB39DC00089884 /* Settings */,
@@ -248,6 +269,7 @@
 		045985EB24E301830056ED51 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				0425081A24F441C700BA42AD /* Downloads */,
 				04725F6D24F0D08300BD23E9 /* Settings */,
 				0448C03B24EC26E400190140 /* Discover */,
 				045985EC24E301940056ED51 /* SearchCell.swift */,
@@ -344,7 +366,7 @@
 			children = (
 				0479157224EC014B00089884 /* DiscoverControllerComp.swift */,
 				0448C04624EC587B00190140 /* LibraryController.swift */,
-				0448C04824ECD68C00190140 /* DownloadsController.swift */,
+				0448C04824ECD68C00190140 /* ListenNowController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -499,11 +521,12 @@
 				0448C04724EC587B00190140 /* LibraryController.swift in Sources */,
 				04B7D99E24E4407C00B7584C /* NetworkManager.swift in Sources */,
 				045985FB24E3881B0056ED51 /* TitleLabel.swift in Sources */,
-				0448C04924ECD68C00190140 /* DownloadsController.swift in Sources */,
+				0448C04924ECD68C00190140 /* ListenNowController.swift in Sources */,
 				045985EA24E2F9B40056ED51 /* CustomTabBarController.swift in Sources */,
 				045985ED24E301940056ED51 /* SearchCell.swift in Sources */,
 				045985F524E305C40056ED51 /* UIHelper.swift in Sources */,
 				04E8720F24E399F6006E6299 /* Constants.swift in Sources */,
+				0425081924F4418B00BA42AD /* DownloadsController.swift in Sources */,
 				045985CD24E2F4C40056ED51 /* SceneDelegate.swift in Sources */,
 				04725F6F24F0D08D00BD23E9 /* AppTintCell.swift in Sources */,
 				04EF178824EADF6B00114462 /* HomeController.swift in Sources */,
@@ -523,6 +546,7 @@
 				04FC529724E8EECD0036C9FA /* CMTime.swift in Sources */,
 				045985E024E2F66A0056ED51 /* CustomViewController.swift in Sources */,
 				0479156D24EB3A3500089884 /* SettingsCell.swift in Sources */,
+				0425081C24F441E000BA42AD /* EpisodeDownlodedCell.swift in Sources */,
 				04725F6C24F0D05E00BD23E9 /* SupportController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -70,8 +70,7 @@ class PodcastHeaderCell: UICollectionReusableView {
         authorLabel.anchor(top: podcastImage.topAnchor, leading: podcastImage.trailingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 7, left: padding, bottom: 0, right: 0))
         episodesAvailableLabel.anchor(top: authorLabel.bottomAnchor, leading: podcastImage.trailingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 7, left: padding, bottom: 0, right: 0))
         
-        categoryBadge.anchor(top: episodesAvailableLabel.bottomAnchor, leading: podcastImage.trailingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: padding, left: padding, bottom: 0, right: padding) ,size: .init(width: 0, height: 18))
-//        podcastDescription.anchor(top: authorLabel.bottomAnchor, leading: podcastImage.trailingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 7, left: padding, bottom: 0, right: 0))
+        categoryBadge.anchor(top: episodesAvailableLabel.bottomAnchor, leading: podcastImage.trailingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: padding, left: padding, bottom: 0, right: padding), size: .init(width: 0, height: 22))
         
     }
     

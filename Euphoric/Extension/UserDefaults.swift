@@ -10,6 +10,19 @@ import UIKit
 extension UserDefaults {
     
     static let favoritedPodcastKey = "favoritedPodcastKey"
+    static let downloadedEpisodesKey = "downloadedEpisodesKey"
+    
+    func downloadEpisode(for episode:Episode){
+        
+        do {
+            let data = try JSONEncoder().encode(episode)
+            UserDefaults.standard.set(data, forKey: UserDefaults.downloadedEpisodesKey)
+        } catch let err {
+            print("failed to encode episode", err)
+        }
+        
+        
+    }
     
     func colorForKey(key: String) -> UIColor? {
         var colorReturnded: UIColor?

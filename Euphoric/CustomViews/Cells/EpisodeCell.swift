@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol EpisodeCellDelegate {
+    func didTapMore(episode:Episode)
+}
+
 class EpisodeCell: UICollectionViewCell {
     
     var episode:Episode?{
@@ -14,10 +18,14 @@ class EpisodeCell: UICollectionViewCell {
             guard let episode = episode else {return}
             episodeTitle.text = episode.title
             episodeDescription.text = episode.description
+            let formatter4 = DateFormatter()
+            formatter4.dateFormat = "MMM d, yyyy"
+            dateLabel.text = formatter4.string(from: episode.pubDate)
         }
     }
     
     static let cellId = "cellId"
+    var delegate:EpisodeCellDelegate?
     
     let episodeTitle:UILabel = {
         let label = UILabel()
@@ -38,15 +46,27 @@ class EpisodeCell: UICollectionViewCell {
         return label
     }()
     
-    let dateLabel = SubtitleLabel(text: "21-Jun-2018", size: 10)
-    let durationLabel = SubtitleLabel(text: "17m 38s", size: 10)
+    let dateLabel = SubtitleLabel(text: "21-Jun-2018", size: 12)
+    let durationLabel = SubtitleLabel(text: "17m 38s", size: 12)
     let badgeButton = Badge()
-    let episodeImage = RoundedImageView(image: #imageLiteral(resourceName: "play"))
+
+    let episodeAccesory:UIButton = {
+        let btn = UIButton(type: .system)
+        btn.setImage(UIImage(systemName: "ellipsis.circle"), for: .normal)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.isUserInteractionEnabled = true
+        return btn
+    }()
+    
+    @objc func handleAccesory(){
+        delegate?.didTapMore(episode: self.episode!)
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
     }
+
     
     fileprivate func configureShadow(){
         layer.shadowColor = UIColor.black.cgColor
@@ -60,21 +80,23 @@ class EpisodeCell: UICollectionViewCell {
     }
 
     func setupViews(){
+        episodeAccesory.addTarget(self, action: #selector(handleAccesory), for: .touchUpInside)
+        self.contentView.isUserInteractionEnabled = false
         backgroundColor = UIColor(named: "blueBackground")
-        layer.cornerRadius = 12
-        [episodeTitle, episodeDescription, dateLabel, durationLabel, episodeImage ].forEach{addSubview($0)}
+        [episodeTitle, episodeDescription, dateLabel, durationLabel, episodeAccesory].forEach{addSubview($0)}
         
         
         NSLayoutConstraint.activate([
-            episodeImage.centerYAnchor.constraint(equalTo: centerYAnchor),
-            episodeImage.trailingAnchor.constraint(equalTo: trailingAnchor)
+            episodeAccesory.centerYAnchor.constraint(equalTo: centerYAnchor),
+            episodeAccesory.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
-        episodeImage.constrainWidth(25)
-        episodeImage.constrainHeight(30)
-        episodeImage.layer.opacity = 0
+        episodeAccesory.constrainWidth(60)
+        episodeAccesory.constrainHeight(60)
+        episodeAccesory.tintColor = UserDefaults.standard.colorForKey(key: "tintColor") ?? .systemPink
+        episodeAccesory.layer.opacity = 1
         
-        episodeTitle.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: episodeImage.leadingAnchor, padding: .init(top: 18, left: 0, bottom: 0, right: 28))
-        episodeDescription.anchor(top: episodeTitle.bottomAnchor, leading: leadingAnchor, bottom: nil, trailing: episodeImage.leadingAnchor, padding: .init(top: 6, left: 0, bottom: 0, right: 28))
+        episodeTitle.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: episodeAccesory.leadingAnchor, padding: .init(top: 18, left: 0, bottom: 0, right: 28))
+        episodeDescription.anchor(top: episodeTitle.bottomAnchor, leading: leadingAnchor, bottom: nil, trailing: episodeAccesory.leadingAnchor, padding: .init(top: 6, left: 0, bottom: 0, right: 28))
         dateLabel.anchor(top: episodeDescription.bottomAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: nil, padding: .init(top: 10, left: 0, bottom: 0, right: 0))
         durationLabel.anchor(top: episodeDescription.bottomAnchor, leading: dateLabel.trailingAnchor, bottom: bottomAnchor, trailing: nil, padding: .init(top: 10, left: 12, bottom: 0, right: 0))
         

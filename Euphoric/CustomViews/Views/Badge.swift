@@ -49,7 +49,7 @@ class Badge: UIView {
         containerView.addSubview(categoryLabel)
         NSLayoutConstraint.activate([
             
-            containerView.heightAnchor.constraint(equalToConstant: 18),
+            containerView.heightAnchor.constraint(equalToConstant: 22),
             
             categoryLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8),
             categoryLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
