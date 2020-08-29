@@ -125,18 +125,29 @@ class NetworkManager {
         guard let url = URL(string: feedUrl) else { return }
         
         DispatchQueue.global(qos: .background).async {
-            
             let parser = FeedParser(URL: url)
-            parser.parseAsync(result: { (result) in
-                
+        
+            parser.parseAsync(queue: .global(qos: .background)) { (result) in
                 switch result {
                 case .success(let feed):
                     guard let feed = feed.rssFeed else {return}
                     completionHandler(feed.toEpisodes())
+                    print("Sucessfully converted")
                 case .failure(let error):
                     print("Error parsing the podcast", error)
                 }
-            })
+            }
+        
+//            parser.parseAsync(result: { (result) in
+//
+//                switch result {
+//                case .success(let feed):
+//                    guard let feed = feed.rssFeed else {return}
+//                    completionHandler(feed.toEpisodes())
+//                case .failure(let error):
+//                    print("Error parsing the podcast", error)
+//                }
+//            })
         }
         
     }
@@ -181,16 +192,41 @@ extension RSSFeed {
     
     var episodes: [Episode] = []
     
-    items?.forEach({ (feedItem) in
+    var counter = 0
+    
+    for feedItem in items! {
+        counter += 1
+        print(counter)
         var episode = Episode(feedItem: feedItem)
-        
+
         if episode.imageUrl == nil {
           episode.imageUrl = imageUrl
         }
-        
+
         episodes.append(episode)
         
-    })
+        if counter > 10{
+            print("reached 10")
+            break
+        }
+        
+    }
+    
+//    items?.forEach({ (feedItem) in
+//
+//        counter += 1
+//        print(counter)
+//        var episode = Episode(feedItem: feedItem)
+//
+//        if episode.imageUrl == nil {
+//          episode.imageUrl = imageUrl
+//        }
+//
+//        episodes.append(episode)
+//
+//    })
+    
+    
     
     return episodes
     

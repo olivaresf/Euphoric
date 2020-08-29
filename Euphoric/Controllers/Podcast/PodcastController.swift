@@ -114,6 +114,7 @@ class PodcastController: CustomViewController {
     
     func fetchEpisodes(){
         guard let feedUrl = podcast?.feedUrl else { return }
+        
         NetworkManager.shared.fetchEpisodes(feedUrl: feedUrl) { [weak self] (episodes) in
             
             guard let self = self else { return }
@@ -149,7 +150,7 @@ class PodcastController: CustomViewController {
         activityView.hidesWhenStopped = true
         activityView.startAnimating()
         
-        collectionView.contentInset = .init(top: 0, left: 18, bottom: 94, right: 18)
+        collectionView.contentInset = .init(top: 0, left: 18, bottom: 180, right: 18)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = UIColor(named: "blueBackground")
@@ -242,7 +243,7 @@ extension PodcastController:UICollectionViewDelegate, UICollectionViewDelegateFl
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 19
+        return 18
     }
     
 }
