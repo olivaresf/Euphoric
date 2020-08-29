@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PodcastHeaderCell: UICollectionReusableView {
+class PodcastHeaderView: UIView {
     
     let userDefaults = UserDefaults.standard
     
@@ -16,7 +16,6 @@ class PodcastHeaderCell: UICollectionReusableView {
             guard let podcast = podcast else {return}
             podcastLabel.text = podcast.trackName
             podcastImage.sd_setImage(with: URL(string: podcast.artworkUrl600 ?? ""))
-            print(podcast.trackCount)
             episodesAvailableLabel.text = "\(podcast.trackCount ?? 0) Episodes available"
             authorLabel.text = "by \(podcast.artistName ?? "")"
             categoryBadge.categoryLabel.text = podcast.primaryGenreName

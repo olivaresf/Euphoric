@@ -169,13 +169,13 @@ extension HomeController:UICollectionViewDelegateFlowLayout{
 extension HomeController:MenuControllerDelegate, DiscoverControllerDelegate, LibraryControllerDelegate{
     
     func didTapLibraryPodcast(podcast: Podcast) {
-        let podcastController = PodcastController()
+        let podcastController = PodcastController(style: .insetGrouped)
         podcastController.podcast = podcast
         self.navigationController?.pushViewController(podcastController, animated: true)
     }
     
     func didTapPodcast(podcast: Podcast) {
-        let podcastController = PodcastController()
+        let podcastController = PodcastController(style: .insetGrouped)
         podcastController.podcast = podcast
         self.navigationController?.pushViewController(podcastController, animated: true)
     }

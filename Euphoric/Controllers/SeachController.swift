@@ -117,7 +117,7 @@ extension SearchController:UISearchBarDelegate{
 extension SearchController:UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = PodcastController()
+        let vc = PodcastController(style: .insetGrouped)
         view.endEditing(true)
         vc.podcast = podcasts[indexPath.item]
         navigationController?.pushViewController(vc, animated: true)
