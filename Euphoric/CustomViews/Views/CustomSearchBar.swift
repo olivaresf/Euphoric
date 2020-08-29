@@ -27,7 +27,7 @@ class CustomSearchBar: UISearchBar {
         directionalLayoutMargins = .init(top: 0, leading: 20, bottom: 0, trailing: 20)
         searchBarStyle = .minimal
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .systemBackground
+        backgroundColor = UIColor(named: "blueBackground")
         setImage(UIImage(systemName: "waveform"), for: .search, state: .normal)
     }
     

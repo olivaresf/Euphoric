@@ -83,7 +83,7 @@ class EpisodeCell: UICollectionViewCell {
         episodeAccesory.addTarget(self, action: #selector(handleAccesory), for: .touchUpInside)
         self.contentView.isUserInteractionEnabled = false
         backgroundColor = UIColor(named: "blueBackground")
-        [episodeTitle, episodeDescription, dateLabel, durationLabel, episodeAccesory].forEach{addSubview($0)}
+        [episodeTitle, episodeDescription, dateLabel, episodeAccesory].forEach{addSubview($0)}
         
         
         NSLayoutConstraint.activate([
@@ -95,11 +95,9 @@ class EpisodeCell: UICollectionViewCell {
         episodeAccesory.tintColor = UserDefaults.standard.colorForKey(key: "tintColor") ?? .systemPink
         episodeAccesory.layer.opacity = 1
         
-        episodeTitle.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: episodeAccesory.leadingAnchor, padding: .init(top: 18, left: 0, bottom: 0, right: 28))
+        episodeTitle.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: episodeAccesory.leadingAnchor, padding: .init(top: 18, left: 0, bottom: 0, right: 18))
         episodeDescription.anchor(top: episodeTitle.bottomAnchor, leading: leadingAnchor, bottom: nil, trailing: episodeAccesory.leadingAnchor, padding: .init(top: 6, left: 0, bottom: 0, right: 28))
         dateLabel.anchor(top: episodeDescription.bottomAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: nil, padding: .init(top: 10, left: 0, bottom: 0, right: 0))
-        durationLabel.anchor(top: episodeDescription.bottomAnchor, leading: dateLabel.trailingAnchor, bottom: bottomAnchor, trailing: nil, padding: .init(top: 10, left: 12, bottom: 0, right: 0))
-        
     }
     
     required init?(coder: NSCoder) {

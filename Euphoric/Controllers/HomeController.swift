@@ -94,8 +94,9 @@ class HomeController: UICollectionViewController {
     
     @objc func handleSearch(){
         let searchVC = SearchController()
-        let nav = UINavigationController(rootViewController: searchVC)
-        present(nav, animated: true)
+        navigationController?.pushViewController(searchVC, animated: true)
+//        let nav = UINavigationController(rootViewController: searchVC)
+//        present(nav, animated: true)
     }
     
     @objc func handleDownloads(){

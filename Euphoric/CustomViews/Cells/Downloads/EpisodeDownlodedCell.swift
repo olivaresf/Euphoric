@@ -26,8 +26,16 @@ class EpisodeDownlodedCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         label.textColor = .secondaryLabel
-        label.text = "In this episode the "
         label.numberOfLines = 3
+        return label
+    }()
+    
+    let progressLabel:UILabel = {
+        let label = UILabel()
+        label.text = "100%"
+        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        label.textColor = .white
+        label.isHidden = true
         return label
     }()
     
@@ -37,7 +45,6 @@ class EpisodeDownlodedCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureLayout()
         configureUI()
-    
     }
     
     fileprivate func configureUI(){
@@ -70,6 +77,12 @@ class EpisodeDownlodedCell: UITableViewCell {
         overallStackView.axis = .vertical
         overallStackView.distribution = .fill
         overallStackView.spacing = 6
+        
+//        leftImage.layer.opacity = 0.5
+        addSubview(progressLabel)
+        progressLabel.centerXTo(leftImage.centerXAnchor)
+        progressLabel.centerYTo(leftImage.centerYAnchor)
+        progressLabel.bringSubviewToFront(self)
         
     }
     

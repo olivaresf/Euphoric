@@ -166,14 +166,37 @@ class PodcastController: CustomViewController {
     
     func downloadAction(episode:Episode) -> UIAction {
         return UIAction(title: "Download", image: UIImage(systemName: "square.and.pencil")) { _ in
-            print("downloding")
             UserDefaults.standard.downloadEpisode(episode: episode)
+            NetworkManager.shared.downloadEpisode(episode: episode)
         }
     }
     
-    func shareAction() -> UIAction {
-        return UIAction(title: "Share", image: UIImage(systemName: "pencil")) { _ in
-            print("sharing")
+    func shareAction(episode:Episode) -> UIAction {
+        return UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up")) { _ in
+            
+            let message = "\(episode.title): \(episode.streamUrl)"
+            
+            let activityViewController = UIActivityViewController(activityItems: [message], applicationActivities: nil)
+            
+            activityViewController.activityItemsConfiguration = [
+                UIActivity.ActivityType.message
+            ] as? UIActivityItemsConfigurationReading
+            
+            activityViewController.excludedActivityTypes = [
+                UIActivity.ActivityType.postToWeibo,
+                UIActivity.ActivityType.print,
+                UIActivity.ActivityType.assignToContact,
+                UIActivity.ActivityType.saveToCameraRoll,
+                UIActivity.ActivityType.addToReadingList,
+                UIActivity.ActivityType.postToFlickr,
+                UIActivity.ActivityType.postToVimeo,
+                UIActivity.ActivityType.postToTencentWeibo,
+                UIActivity.ActivityType.postToFacebook
+            ]
+            
+            activityViewController.isModalInPresentation = true
+            self.present(activityViewController, animated: true, completion: nil)
+            
         }
     }
     
@@ -236,7 +259,7 @@ extension PodcastController:UIContextMenuInteractionDelegate{
         let episode = episodes[indexPath.item]
         
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions in
-            return UIMenu(title: "", children: [self.shareAction(), self.downloadAction(episode: episode)])
+            return UIMenu(title: "", children: [self.shareAction(episode: episode), self.downloadAction(episode: episode)])
         }
         
     }

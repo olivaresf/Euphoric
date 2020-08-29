@@ -7,6 +7,12 @@
 
 import Foundation
 import FeedKit
+import Alamofire
+
+extension Notification.Name{
+    static let downloadProgress = NSNotification.Name("downloadProgress")
+    static let downloadComplete = NSNotification.Name("downloadComplete")
+}
 
 enum ErrorManager:Error {
     case badRequest
@@ -19,7 +25,37 @@ struct SearchResults:Decodable {
 
 class NetworkManager {
     
+    typealias EpisodeDownloadCompleteTuple = (fileUrl:String, episodeTitle:String)
+    
     static let shared = NetworkManager()
+    
+    func downloadEpisode(episode:Episode){
+        
+        let downloadRequest = DownloadRequest.suggestedDownloadDestination()
+
+        AF.download(episode.streamUrl, interceptor: nil, to: downloadRequest).downloadProgress { (progress) in
+
+            NotificationCenter.default.post(name: .downloadProgress, object: nil, userInfo: ["title": episode.title, "progress":progress.fractionCompleted])
+        }.response { (res) in
+            
+            let episodeDownloadComplete = EpisodeDownloadCompleteTuple(res.fileURL?.absoluteString ?? "", episode.title)
+            NotificationCenter.default.post(name: .downloadComplete, object: episodeDownloadComplete, userInfo: nil)
+            
+            var downloadedEpisodes = UserDefaults.standard.downloadedEpisodes()
+            guard let index = downloadedEpisodes.firstIndex(where: {$0.title == episode.title && $0.author == episode.author}) else {return}
+            
+            downloadedEpisodes[index].fileUrl = res.fileURL?.absoluteString ?? ""
+            
+            do{
+                let data = try JSONEncoder().encode(downloadedEpisodes)
+                UserDefaults.standard.setValue(data, forKey: UserDefaults.downloadedEpisodesKey)
+            }catch let err{
+                print("Failed to encode downloaded episodes with file url update", err)
+            }
+            
+        }
+
+    }
     
     func fetchTopPodcastsByCountry(country:String = "PE", limit:Int = 10, completion: @escaping (Result<[Podcast], ErrorManager>) -> ()){
         
