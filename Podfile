@@ -9,4 +9,5 @@ target 'Euphoric' do
 pod 'SDWebImage', '~> 5.0'
 pod 'FeedKit', '~> 9.0'
 pod 'lottie-ios'
+pod 'Alamofire', '~> 5.2'
 end

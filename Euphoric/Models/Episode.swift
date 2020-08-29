@@ -8,16 +8,16 @@
 import Foundation
 import FeedKit
 
-struct Episode: Hashable, Encodable {
+struct Episode: Hashable, Codable {
   let title: String
   let pubDate: Date
   let description: String
-    var author: String
+  var author: String
   var imageUrl: String?
   let streamUrl: String
   let summary:String
   var fileUrl: String?
-    var htmlDescription:String?
+  var htmlDescription:String?
   
   init(feedItem: RSSFeedItem) {
     self.title = feedItem.title ?? ""

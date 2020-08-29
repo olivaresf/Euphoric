@@ -23,7 +23,7 @@ class PodcastHeaderCell: UICollectionReusableView {
         }
     }
     
-    let podcastImage = RoundedImageView(image: #imageLiteral(resourceName: "person"))
+    let podcastImage = RoundedImageView(image: #imageLiteral(resourceName: "headphones"))
     let podcastLabel = TitleLabel(title: "This is a very impressive podcast title", size: 24)
     let episodesAvailableLabel = SubtitleLabel(text: "2 Episodes available", size: 15)
     let authorLabel = TitleLabel(title: "Diego Isco", size: 18)

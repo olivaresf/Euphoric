@@ -12,16 +12,47 @@ extension UserDefaults {
     static let favoritedPodcastKey = "favoritedPodcastKey"
     static let downloadedEpisodesKey = "downloadedEpisodesKey"
     
-    func downloadEpisode(for episode:Episode){
+    func deleteDownloadedEpisode(for episode:Episode){
         
-        do {
-            let data = try JSONEncoder().encode(episode)
-            UserDefaults.standard.set(data, forKey: UserDefaults.downloadedEpisodesKey)
-        } catch let err {
-            print("failed to encode episode", err)
+        let episodes = downloadedEpisodes()
+        
+        let filteredEpisodes = episodes.filter { (e) -> Bool in
+            return e.title != episode.title && e.author != episode.author
         }
         
+        do {
+            let data = try JSONEncoder().encode(filteredEpisodes)
+            UserDefaults.standard.setValue(data, forKey: UserDefaults.downloadedEpisodesKey)
+        } catch let err {
+            print("Error deleting the episode", err)
+        }
         
+    }
+    
+    func downloadedEpisodes() -> [Episode] {
+        
+        guard let episodesData = data(forKey: UserDefaults.downloadedEpisodesKey) else { return [] }
+        
+        do {
+            let episodes = try JSONDecoder().decode([Episode].self, from: episodesData)
+            return episodes
+        } catch let decodeErr {
+            print("Failed to decode:", decodeErr)
+        }
+        
+        return []
+    }
+    
+    func downloadEpisode(episode: Episode) {
+        do {
+            var episodes = downloadedEpisodes()
+            episodes.insert(episode, at: 0)
+            let data = try JSONEncoder().encode(episodes)
+            UserDefaults.standard.set(data, forKey: UserDefaults.downloadedEpisodesKey)
+            
+        } catch let encodeErr {
+            print("Failed to encode episode:", encodeErr)
+        }
     }
     
     func colorForKey(key: String) -> UIColor? {

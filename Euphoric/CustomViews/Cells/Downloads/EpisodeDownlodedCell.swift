@@ -9,6 +9,16 @@ import UIKit
 
 class EpisodeDownlodedCell: UITableViewCell {
     
+    var episode:Episode?{
+        didSet{
+            guard let episode = episode else {return}
+            guard let imageUrl = episode.imageUrl else {return}
+            leftImage.sd_setImage(with: URL(string: imageUrl))
+            podcastLabel.text = episode.title
+            descriptionLabel.text = episode.description
+        }
+    }
+    
     static let reusableId = "SearchCell"
     lazy var leftImage = RoundedImageView(image: #imageLiteral(resourceName: "art"))
     var podcastLabel = TitleLabel(title: "This will be an amazing podcast", size: 16)
@@ -16,7 +26,6 @@ class EpisodeDownlodedCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         label.textColor = .secondaryLabel
-//        label.text = "In this episode the people will try to implement a very nice feature with some kind weird table view cell"
         label.text = "In this episode the "
         label.numberOfLines = 3
         return label
@@ -42,7 +51,6 @@ class EpisodeDownlodedCell: UITableViewCell {
         NSLayoutConstraint.activate([
             leftImage.topAnchor.constraint(equalTo: topAnchor, constant: 9),
             leftImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
-//            leftImage.bottomAnchor.constraint(equalTo: bottomAnchor),
             leftImage.widthAnchor.constraint(equalToConstant: 62),
             leftImage.heightAnchor.constraint(equalToConstant: 62),
         ])
@@ -57,7 +65,7 @@ class EpisodeDownlodedCell: UITableViewCell {
         overallStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0).isActive = true
         
         overallStackView.isLayoutMarginsRelativeArrangement = true
-        overallStackView.directionalLayoutMargins = .init(top: 12, leading: 12, bottom: 12, trailing: 24)
+        overallStackView.directionalLayoutMargins = .init(top: 0, leading: 12, bottom: 12, trailing: 24)
         
         overallStackView.axis = .vertical
         overallStackView.distribution = .fill

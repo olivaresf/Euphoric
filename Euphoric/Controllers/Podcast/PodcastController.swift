@@ -13,6 +13,8 @@ enum Section2:Hashable {
 
 class PodcastController: CustomViewController {
     
+    //MARK:- Variables
+    
     var podcast:Podcast?{
         didSet{
             fetchEpisodes()
@@ -21,10 +23,14 @@ class PodcastController: CustomViewController {
     
     var collectionView:UICollectionView!
     var episodes: [Episode] = []
+    var episode:Episode?
+    
     let activityView = UIActivityIndicatorView(style: .large)
     var heartItem:UIBarButtonItem!
     
     let moreItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .done, target: self, action: #selector(handleHeart))
+    
+    //MARK:- Lifecycle Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +41,7 @@ class PodcastController: CustomViewController {
         let layout = collectionView.collectionViewLayout
         if let flowLayout = layout as? UICollectionViewFlowLayout {
             flowLayout.estimatedItemSize = CGSize(
-                width: collectionView.widestCellWidth,
+                width: widestCellWidth,
                 height: 40
             )
         }
@@ -44,6 +50,8 @@ class PodcastController: CustomViewController {
     override func viewWillLayoutSubviews() {
         setupHeart()
     }
+    
+    //MARK:- Functions
     
     func setupHeart(){
         let listOfPodcasts = UserDefaults.standard.savedPodcasts()
@@ -90,10 +98,12 @@ class PodcastController: CustomViewController {
         
     }
     
+    //MARK:- Handle User Defaults
+    
     func savePodcastToUserDefault(_ podcast:Podcast){
         var listOfPodcasts = UserDefaults.standard.savedPodcasts()
         listOfPodcasts.append(podcast)
-        print(podcast.trackCount)
+        
         do {
             let data = try NSKeyedArchiver.archivedData(withRootObject: listOfPodcasts, requiringSecureCoding: false)
             UserDefaults.standard.set(data, forKey: UserDefaults.favoritedPodcastKey)
@@ -119,7 +129,12 @@ class PodcastController: CustomViewController {
         
     }
     
-    var episode:Episode?
+    //MARK:- CollectionView Setup
+    
+    var widestCellWidth: CGFloat {
+        let insets = collectionView.contentInset.left + collectionView.contentInset.right
+        return collectionView.bounds.width - insets
+    }
     
     func setupCollectionView(){
         
@@ -147,6 +162,20 @@ class PodcastController: CustomViewController {
         cell.addInteraction(interaction)
     }
     
+    //MARK:- Context Menu Actions
+    
+    func downloadAction(episode:Episode) -> UIAction {
+        return UIAction(title: "Download", image: UIImage(systemName: "square.and.pencil")) { _ in
+            print("downloding")
+            UserDefaults.standard.downloadEpisode(episode: episode)
+        }
+    }
+    
+    func shareAction() -> UIAction {
+        return UIAction(title: "Share", image: UIImage(systemName: "pencil")) { _ in
+            print("sharing")
+        }
+    }
     
 }
 
@@ -195,12 +224,6 @@ extension PodcastController:UICollectionViewDelegate, UICollectionViewDelegateFl
     
 }
 
-extension UICollectionView {
-    var widestCellWidth: CGFloat {
-        let insets = contentInset.left + contentInset.right
-        return bounds.width - insets
-    }
-}
 
 extension PodcastController:UIContextMenuInteractionDelegate{
     
@@ -213,21 +236,12 @@ extension PodcastController:UIContextMenuInteractionDelegate{
         let episode = episodes[indexPath.item]
         
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions in
-            
-            let shareAction = UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up")) { _ in
-//                print(item.title)
-            }
-            let downloadAction = UIAction(title: "Download", image: UIImage(systemName: "square.and.pencil")) { _ in
-                UserDefaults.standard.downloadEpisode(for: episode)
-            }
-            
-            return UIMenu(title: "", children: [shareAction, downloadAction])
+            return UIMenu(title: "", children: [self.shareAction(), self.downloadAction(episode: episode)])
         }
+        
     }
     
 }
-
-
 
 
 extension PodcastController:EpisodeCellDelegate{
