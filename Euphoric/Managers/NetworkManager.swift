@@ -119,40 +119,33 @@ class NetworkManager {
         
     }
     
-    func fetchEpisodes(feedUrl: String, completionHandler: @escaping ([Episode]) -> ()) {
+    func fetchEpisodes(feedUrl: String, all:Bool, completionHandler: @escaping ([Episode], Int) -> ()) {
         #warning("Implement incremental loading")
         
         guard let url = URL(string: feedUrl) else { return }
         
         DispatchQueue.global(qos: .background).async {
+            
             let parser = FeedParser(URL: url)
-        
-            parser.parseAsync(queue: .global(qos: .background)) { (result) in
+            parser.parseAsync { (result) in
                 switch result {
                 case .success(let feed):
                     guard let feed = feed.rssFeed else {return}
-                    completionHandler(feed.toEpisodes())
+                    let numberOfItems = feed.items?.count ?? 0
+                    if all{ completionHandler(feed.toAllEpisodes(), numberOfItems)
+                    }else{ completionHandler(feed.toFirst50Episodes(), numberOfItems) }
+                    
                     print("Sucessfully converted")
                 case .failure(let error):
                     print("Error parsing the podcast", error)
                 }
             }
-        
-//            parser.parseAsync(result: { (result) in
-//
-//                switch result {
-//                case .success(let feed):
-//                    guard let feed = feed.rssFeed else {return}
-//                    completionHandler(feed.toEpisodes())
-//                case .failure(let error):
-//                    print("Error parsing the podcast", error)
-//                }
-//            })
+            
         }
         
     }
     
-    func getPodcasts(for term:String = "Joe Rogan", completed: @escaping (Result<[Podcast], ErrorManager>) -> ()){
+    func getPodcasts(for term:String, completed: @escaping (Result<[Podcast], ErrorManager>) -> ()){
         
         let baseUrl = "https://itunes.apple.com/search?explicit=Yes&media=podcast&term="
         guard let podcastUrl = URL(string: baseUrl + term) else { return }
@@ -185,8 +178,30 @@ class NetworkManager {
 }
 
 extension RSSFeed {
+    
+    func toAllEpisodes() -> [Episode] {
+        let imageUrl = iTunes?.iTunesImage?.attributes?.href
+        
+        var episodes: [Episode] = []
+        
+        var counter = 0
+        
+        for feedItem in items! {
+            counter += 1
+            print(counter)
+            var episode = Episode(feedItem: feedItem)
+
+            if episode.imageUrl == nil {
+              episode.imageUrl = imageUrl
+            }
+            episodes.append(episode)
+        }
+        
+        return episodes
+    }
   
-  func toEpisodes() -> [Episode] {
+    
+  func toFirst50Episodes() -> [Episode] {
     
     let imageUrl = iTunes?.iTunesImage?.attributes?.href
     
@@ -204,30 +219,13 @@ extension RSSFeed {
         }
 
         episodes.append(episode)
-        
-        if counter > 10{
-            print("reached 10")
+
+        if counter >= 50{
+            print("reached 50")
             break
         }
         
     }
-    
-//    items?.forEach({ (feedItem) in
-//
-//        counter += 1
-//        print(counter)
-//        var episode = Episode(feedItem: feedItem)
-//
-//        if episode.imageUrl == nil {
-//          episode.imageUrl = imageUrl
-//        }
-//
-//        episodes.append(episode)
-//
-//    })
-    
-    
-    
     return episodes
     
   }

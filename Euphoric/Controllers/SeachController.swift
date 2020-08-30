@@ -14,7 +14,7 @@ enum Section {
 class SearchController: UIViewController {
     
     var collectionView:UICollectionView!
-    let searchBar = CustomSearchBar(placeholder: "Listen your favorite podcast")
+    let searchBar = CustomSearchBar(placeholder: "Search your favorite podcast")
     var podcasts:[Podcast] = []
     var dataSource:UICollectionViewDiffableDataSource<Section,Podcast>!
     
@@ -23,18 +23,6 @@ class SearchController: UIViewController {
         configureCollectionView()
         configureSearchBar()
         configureDataSource()
-        
-        NetworkManager.shared.getPodcasts(for: "Joe") {[weak self] (result) in
-            
-            guard let self = self else {return}
-            switch result{
-            case .failure(let err):
-                print(err.localizedDescription)
-            case .success(let podcasts):
-                self.podcasts = podcasts
-                self.updateData()
-            }
-        }
         
     }
     
@@ -86,11 +74,15 @@ class SearchController: UIViewController {
 
 extension SearchController:UISearchBarDelegate{
     
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         let formattedText = searchText.replacingOccurrences(of: " ", with: "+")
         timer?.invalidate()
-        
+        print(formattedText)
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (_) in
             
             NetworkManager.shared.getPodcasts(for: formattedText) {[weak self] (result) in
@@ -123,23 +115,6 @@ extension SearchController:UICollectionViewDelegate, UICollectionViewDelegateFlo
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        
-//        let safeAreaTop = UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.safeAreaInsets.top ?? 0
-//        let offset = scrollView.contentOffset.y + safeAreaTop + (navigationController?.navigationBar.frame.height ?? 0)
-//
-//        navigationController?.navigationBar.transform = .init(translationX: 0, y: min(0, -offset))
-//        
-//        if UIDevice.current.hasNotch{
-//            searchBar.transform = .init(translationX: 0, y: min(0, max(-offset, -safeAreaTop)))
-//        }else{
-//            searchBar.transform = .init(translationX: 0, y: min(0, max(-offset, -safeAreaTop - 24)))
-//        }
-        
-//        let alpha = 1 - (offset / safeAreaTop)
-//        mainTitle.alpha = alpha
-    }
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width - 20 - 20, height: 110)
     }
@@ -165,10 +140,7 @@ extension SearchController:UIContextMenuInteractionDelegate{
             let editAction = UIAction(title: "Edit", image: UIImage(systemName: "square.and.pencil")) { _ in
                 // do whatever actions you want to perform...
             }
-            let deleteAction = UIAction(title: "Delete", image: UIImage(systemName: "trash"), attributes: .destructive) { _ in
-                // do whatever actions you want to perform...
-            }
-            return UIMenu(title: "", children: [shareAction, editAction, deleteAction])
+            return UIMenu(title: "", children: [shareAction, editAction])
         }
         
     }

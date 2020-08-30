@@ -23,12 +23,31 @@ class PodcastController: UITableViewController {
     }
     
     var episodes: [Episode] = []
+    var numberOfItems:Int?{
+        didSet{
+            footerLabel.text = "Show all episodes (\(numberOfItems ?? 0))"
+        }
+    }
     var episode:Episode?
     
     let activityView = UIActivityIndicatorView(style: .medium)
     var heartItem:UIBarButtonItem!
     
     let moreItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .done, target: self, action: #selector(handleHeart))
+    
+    lazy var footerLabel:UILabel = {
+        let label = UILabel()
+        label.textColor = .systemPink
+        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        return label
+    }()
+    
+    lazy var footerView:UIView = {
+        let view = UIView()
+        view.addSubview(footerLabel)
+        footerLabel.centerInSuperview()
+        return view
+    }()
     
     //MARK:- Lifecycle Methods
     
@@ -42,6 +61,7 @@ class PodcastController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.footerView(forSection: 0)?.isHidden = true
         setupTableView()
         heartItem = UIBarButtonItem(image: UIImage(systemName: "suit.heart"), style: .done, target: self, action: #selector(handleHeart))
         navigationItem.rightBarButtonItems = [heartItem, moreItem]
@@ -114,11 +134,14 @@ class PodcastController: UITableViewController {
     
     func fetchEpisodes(){
         guard let feedUrl = podcast?.feedUrl else { return }
-        NetworkManager.shared.fetchEpisodes(feedUrl: feedUrl) { [weak self] (episodes) in
-            
+        NetworkManager.shared.fetchEpisodes(feedUrl: feedUrl, all: false) { [weak self] (episodes, numberOfItems)  in
             guard let self = self else { return }
             self.episodes = episodes
             DispatchQueue.main.async {
+                if numberOfItems > 50{
+                    self.footerView.isHidden = false
+                }
+                self.numberOfItems = numberOfItems
                 self.activityView.stopAnimating()
                 self.tableView.reloadData()
             }
@@ -129,13 +152,16 @@ class PodcastController: UITableViewController {
     //MARK:- TableView Setup
     
     func setupTableView(){
+        footerView.isHidden = true
         tableView.backgroundColor = UIColor(named: "blueBackground")
         tableView.register(EpisodeDownlodedCell.self, forCellReuseIdentifier: cellId)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 600
-        tableView.contentInset.bottom = 70
-        tableView.sectionHeaderHeight = 240
+        tableView.contentInset.bottom = 90
         
+        tableView.sectionHeaderHeight = 240
+        tableView.sectionFooterHeight = 60
+    
         view.addSubview(activityView)
 
         activityView.centerInSuperview()
@@ -153,6 +179,7 @@ class PodcastController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! EpisodeDownlodedCell
+        cell.selectionStyle = .none
         self.episode = self.episodes[indexPath.item]
         cell.episode = episode
         self.addInteraction(toCell: cell)
@@ -172,6 +199,10 @@ class PodcastController: UITableViewController {
         homeController?.setEpisode(episode: selectedEpisode)
     }
     
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return footerView
+    }
+
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let podcastHeader = PodcastHeaderView()
         podcastHeader.podcast = podcast

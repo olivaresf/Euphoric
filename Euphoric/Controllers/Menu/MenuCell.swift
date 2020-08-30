@@ -21,7 +21,7 @@ class MenuCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet {
             label.textColor = isSelected ? UIColor(named: "primaryLabel") : .tertiaryLabel
-            label.font = isSelected ? UIFont.systemFont(ofSize: 17, weight: .heavy) : UIFont.systemFont(ofSize: 16, weight: .regular)
+            label.font = isSelected ? UIFont.systemFont(ofSize: 17, weight: .bold) : UIFont.systemFont(ofSize: 16, weight: .regular)
         }
     }
     
@@ -30,10 +30,7 @@ class MenuCell: UICollectionViewCell {
         addSubview(label)
         label.fillSuperview()
         backgroundColor = UIColor(named: "blueBackground")
-    }
-    
-    
- 
+    } 
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

@@ -196,7 +196,7 @@ class PlayerDetailsController: UIViewController {
     let alert = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
     
     func setupAlerts(){
-        alert.view.tintColor = .normalDark
+        alert.view.tintColor = UserDefaults.standard.colorForKey(key: "tintColor") ?? .systemPink
         
         let firstAction = UIAlertAction(title: "Episode details", style: .default) { (_) in
             let eDetailsController = EpisodeDetailsController()
@@ -272,8 +272,6 @@ class PlayerDetailsController: UIViewController {
         self.dotsButton.tintColor = color
         self.routePickerView.tintColor = color
         self.randomButton.tintColor = color
-        
-        alert.view.tintColor = color
     }
     
     
