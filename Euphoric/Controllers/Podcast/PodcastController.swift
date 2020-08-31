@@ -15,10 +15,11 @@ enum Section2:Hashable {
 class PodcastController: UITableViewController {
     
     //MARK:- Variables
-    let cellId = "cellId"
+    let cellId = "cellIdd"
     
     var podcast:Podcast?{
         didSet{
+            alert.title = podcast?.trackName
             fetchEpisodes()
         }
     }
@@ -65,6 +66,7 @@ class PodcastController: UITableViewController {
         super.viewDidLoad()
         
         setupTableView()
+        setupAlerts()
         
         dotsItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .done, target: self, action: #selector(handleDots))
         heartItem = UIBarButtonItem(image: UIImage(systemName: "suit.heart"), style: .done, target: self, action: #selector(handleHeart))
@@ -76,14 +78,27 @@ class PodcastController: UITableViewController {
     override func viewWillLayoutSubviews() {
         setupHeart()
     }
+    
+    let alert = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
 
     //MARK:- Functions
+    
+    func setupAlerts(){
+        alert.view.tintColor = .label
+        let shareAlert = UIAlertAction(title: "Share", style: .default) { (_) in
+            guard let podcast = self.podcast else {return}
+            self.share(title: podcast.trackName!, message: podcast.feedUrl!)
+        }
+        shareAlert.setValue(UIImage.withSymbol(type: .share, size: 20, weight: .regular), forKey: "image")
+        alert.addAction(shareAlert)
+    
+        
+        let dismissAction = UIAlertAction(title: "Dismiss", style: .cancel)
+        alert.addAction(dismissAction)
+    }
+    
     @objc func handleDots(){
-        let alert = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Click", style: .default, handler: nil))
-        alert.addAction(UIAlertAction(title: "Click", style: .default, handler: nil))
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true)
     }
     
     func setupHeart(){
@@ -148,7 +163,7 @@ class PodcastController: UITableViewController {
     
     func fetchEpisodes(){
         guard let feedUrl = podcast?.feedUrl else { return }
-        NetworkManager.shared.fetchEpisodes(feedUrl: feedUrl, all: false) { [weak self] (episodes, numberOfItems)  in
+        NetworkManager.shared.fetchEpisodes(feedUrl: feedUrl, all: false) { [weak self] (episodes, numberOfItems, podcastDescription)   in
             guard let self = self else { return }
             self.episodes = episodes
             DispatchQueue.main.async {
@@ -158,6 +173,7 @@ class PodcastController: UITableViewController {
                 self.numberOfItems = numberOfItems
                 self.activityView.stopAnimating()
                 self.tableView.reloadData()
+                self.alert.message = podcastDescription?.htmlToString ?? ""
             }
         }
         
@@ -169,9 +185,10 @@ class PodcastController: UITableViewController {
         footerView.isHidden = true
         tableView.footerView(forSection: 0)?.isHidden = true
         tableView.backgroundColor = UIColor(named: "blueBackground")
-        tableView.register(EpisodeDownlodedCell.self, forCellReuseIdentifier: cellId)
+        tableView.register(EpisodeCell.self, forCellReuseIdentifier: cellId)
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 600
+        tableView.estimatedRowHeight = 900
+        
         tableView.contentInset.bottom = 90
         
         tableView.sectionHeaderHeight = 240
@@ -193,7 +210,7 @@ class PodcastController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! EpisodeDownlodedCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! EpisodeCell
         cell.selectionStyle = .none
         self.episode = self.episodes[indexPath.item]
         cell.episode = episode
@@ -238,32 +255,34 @@ class PodcastController: UITableViewController {
         }
     }
     
+    func share(title:String, message:String){
+        let message = "\(title): \(message)"
+        
+        let activityViewController = UIActivityViewController(activityItems: [message], applicationActivities: nil)
+        
+        activityViewController.activityItemsConfiguration = [
+            UIActivity.ActivityType.message
+        ] as? UIActivityItemsConfigurationReading
+        
+        activityViewController.excludedActivityTypes = [
+            UIActivity.ActivityType.postToWeibo,
+            UIActivity.ActivityType.print,
+            UIActivity.ActivityType.assignToContact,
+            UIActivity.ActivityType.saveToCameraRoll,
+            UIActivity.ActivityType.addToReadingList,
+            UIActivity.ActivityType.postToFlickr,
+            UIActivity.ActivityType.postToVimeo,
+            UIActivity.ActivityType.postToTencentWeibo,
+            UIActivity.ActivityType.postToFacebook
+        ]
+        
+        activityViewController.isModalInPresentation = true
+        self.present(activityViewController, animated: true, completion: nil)
+    }
+    
     func shareAction(episode:Episode) -> UIAction {
         return UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up")) { _ in
-            
-            let message = "\(episode.title): \(episode.streamUrl)"
-            
-            let activityViewController = UIActivityViewController(activityItems: [message], applicationActivities: nil)
-            
-            activityViewController.activityItemsConfiguration = [
-                UIActivity.ActivityType.message
-            ] as? UIActivityItemsConfigurationReading
-            
-            activityViewController.excludedActivityTypes = [
-                UIActivity.ActivityType.postToWeibo,
-                UIActivity.ActivityType.print,
-                UIActivity.ActivityType.assignToContact,
-                UIActivity.ActivityType.saveToCameraRoll,
-                UIActivity.ActivityType.addToReadingList,
-                UIActivity.ActivityType.postToFlickr,
-                UIActivity.ActivityType.postToVimeo,
-                UIActivity.ActivityType.postToTencentWeibo,
-                UIActivity.ActivityType.postToFacebook
-            ]
-            
-            activityViewController.isModalInPresentation = true
-            self.present(activityViewController, animated: true, completion: nil)
-            
+            self.share(title: episode.title, message: episode.streamUrl)
         }
     }
     

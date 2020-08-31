@@ -329,7 +329,6 @@ class PlayerDetailsController: UIViewController {
         
         player.addBoundaryTimeObserver(forTimes: [times], queue: .main) { [weak self] in
             guard let self = self else {return}
-            print("playing")
             self.generator.impactOccurred()
             self.soundAnimation.play()
             self.playButton.setImage(UIImage.withSymbol(type: .pause, size: 30, weight: .bold), for: .normal)
@@ -354,11 +353,9 @@ class PlayerDetailsController: UIViewController {
         guard let type = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt else {return}
         
         if type == AVAudioSession.InterruptionType.began.rawValue{
-            print("Interruption began")
             soundAnimation.stop()
             playButton.setImage(UIImage.withSymbol(type: .play, size: 30, weight: .bold), for: .normal)
         }else{
-            print("Interruption ended")
             guard let options = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else {return}
             
             if options == AVAudioSession.InterruptionOptions.shouldResume.rawValue{
@@ -434,9 +431,6 @@ class PlayerDetailsController: UIViewController {
                 self.view.frame = CGRect(x: 0, y: y + translation.y, width: view.frame.width, height: view.frame.height)
                 recognizer.setTranslation(CGPoint.zero, in: self.view)
             }
-            
-            print(y)
-            print(translation.y)
             
             if recognizer.state == .ended {
                 var duration =  velocity.y < 0 ? Double((y - fullView) / -velocity.y) : Double((partialView - y) / velocity.y )

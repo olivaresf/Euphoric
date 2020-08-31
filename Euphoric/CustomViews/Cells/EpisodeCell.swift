@@ -7,11 +7,11 @@
 
 import UIKit
 
-protocol EpisodeCellDelegate {
-    func didTapMore(episode:Episode)
-}
+//protocol EpisodeCellDelegate {
+//    func didTapMore(episode:Episode)
+//}
 
-class EpisodeCell: UICollectionViewCell {
+class EpisodeCell: UITableViewCell {
     
     var episode:Episode?{
         didSet{
@@ -25,7 +25,7 @@ class EpisodeCell: UICollectionViewCell {
     }
     
     static let cellId = "cellId"
-    var delegate:EpisodeCellDelegate?
+//    var delegate:EpisodeCellDelegate?
     
     let episodeTitle:UILabel = {
         let label = UILabel()
@@ -47,76 +47,25 @@ class EpisodeCell: UICollectionViewCell {
     }()
     
     let dateLabel = SubtitleLabel(text: "21-Jun-2018", size: 12)
-    let durationLabel = SubtitleLabel(text: "17m 38s", size: 12)
-    let badgeButton = Badge()
-
-    let episodeAccesory:UIButton = {
-        let btn = UIButton(type: .system)
-        btn.setImage(UIImage.withSymbol(type: .dots, weight: .regular), for: .normal)
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.isUserInteractionEnabled = true
-        return btn
-    }()
     
-    @objc func handleAccesory(){
-        delegate?.didTapMore(episode: self.episode!)
-    }
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
     }
 
-    
-    fileprivate func configureShadow(){
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.07
-        layer.shadowOffset = .init(width: 3, height: 3)
-        layer.shadowRadius = 6
-        
-        layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
-        layer.shouldRasterize = true
-        layer.rasterizationScale = UIScreen.main.scale
-    }
-
-    func setupViews(){
-        episodeAccesory.addTarget(self, action: #selector(handleAccesory), for: .touchUpInside)
-        self.contentView.isUserInteractionEnabled = false
-        backgroundColor = UIColor(named: "blueBackground")
-        [episodeTitle, episodeDescription, dateLabel, episodeAccesory].forEach{addSubview($0)}
-        
-        
-        NSLayoutConstraint.activate([
-            episodeAccesory.centerYAnchor.constraint(equalTo: centerYAnchor),
-            episodeAccesory.trailingAnchor.constraint(equalTo: trailingAnchor)
-        ])
-        episodeAccesory.constrainWidth(60)
-        episodeAccesory.constrainHeight(60)
-        episodeAccesory.tintColor = UserDefaults.standard.colorForKey(key: "tintColor") ?? .systemPink
-        episodeAccesory.layer.opacity = 1
-        
-        episodeTitle.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: episodeAccesory.leadingAnchor, padding: .init(top: 18, left: 0, bottom: 0, right: 18))
-        episodeDescription.anchor(top: episodeTitle.bottomAnchor, leading: leadingAnchor, bottom: nil, trailing: episodeAccesory.leadingAnchor, padding: .init(top: 6, left: 0, bottom: 0, right: 28))
-        dateLabel.anchor(top: episodeDescription.bottomAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: nil, padding: .init(top: 10, left: 0, bottom: 0, right: 0))
-    }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func systemLayoutSizeFitting(
-        _ targetSize: CGSize,
-        withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority,
-        verticalFittingPriority: UILayoutPriority) -> CGSize {
-        var targetSize = targetSize
-        targetSize.height = CGFloat.greatestFiniteMagnitude
-        let size = super.systemLayoutSizeFitting(
-            targetSize,
-            withHorizontalFittingPriority: .required,
-            verticalFittingPriority: .fittingSizeLevel
-        )
+    func setupViews(){
+        layer.cornerRadius = 14
+        backgroundColor = .secondarySystemGroupedBackground
+        [dateLabel, episodeTitle, episodeDescription].forEach{addSubview($0)}
+//
+        dateLabel.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 8, left: 8, bottom: 0, right: 0))
+        episodeTitle.anchor(top: dateLabel.bottomAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 4, left: 8, bottom: 0, right: 18))
+        episodeDescription.anchor(top: episodeTitle.bottomAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 4, left: 8, bottom: 8, right: 28))
         
-        return size
     }
     
 }

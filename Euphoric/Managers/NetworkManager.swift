@@ -127,7 +127,7 @@ class NetworkManager {
         }
     }
     
-    func fetchEpisodes(feedUrl: String, all:Bool, completion: @escaping ([Episode], Int) -> ()) {
+    func fetchEpisodes(feedUrl: String, all:Bool, completion: @escaping ([Episode], Int, String?) -> ()) {
         guard let url = URL(string: feedUrl) else { return }
         
         let parser = FeedParser(URL: url)
@@ -138,8 +138,8 @@ class NetworkManager {
                 case .success(let feed):
                     guard let feed = feed.rssFeed else {return}
                     let numberOfItems = feed.items?.count ?? 0
-                    if all{ completion(feed.toAllEpisodes(), numberOfItems)
-                    }else{ completion(feed.toFirst50Episodes(), numberOfItems) }
+                    if all{ completion(feed.toAllEpisodes(), numberOfItems, feed.description)
+                    }else{ completion(feed.toFirst50Episodes(), numberOfItems, feed.description) }
                     
                     print("Sucessfully converted")
                 case .failure(let error):
