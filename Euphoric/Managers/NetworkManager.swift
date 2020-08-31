@@ -12,6 +12,7 @@ import Alamofire
 extension Notification.Name{
     static let downloadProgress = NSNotification.Name("downloadProgress")
     static let downloadComplete = NSNotification.Name("downloadComplete")
+    static let listenNowModified = NSNotification.Name("listenNowModified")
 }
 
 enum ErrorManager:Error {

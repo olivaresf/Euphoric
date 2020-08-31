@@ -93,14 +93,14 @@ class DownloadsController: UITableViewController {
         
         if selectedEpisode.fileUrl != nil{
             dismiss(animated: true) {
-                homeController?.setEpisode(episode: selectedEpisode)
+                homeController?.setEpisode(episode: selectedEpisode, playlistEpisodes: self.episodes)
             }
         }else{
             let alertController = UIAlertController(title: "File URL not found", message: "Cannot find local file, play using stream url instead", preferredStyle: .actionSheet)
             
             alertController.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (_) in
                 self.dismiss(animated: true) {
-                    homeController?.setEpisode(episode: selectedEpisode)
+                    homeController?.setEpisode(episode: selectedEpisode, playlistEpisodes: self.episodes)
                 }
             }))
             

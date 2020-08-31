@@ -223,7 +223,6 @@ class DiscoverController: UICollectionViewController {
             
         }
         
-        
     }
     
 }

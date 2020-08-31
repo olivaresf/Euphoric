@@ -9,7 +9,7 @@ import Foundation
 import FeedKit
 
 struct Episode: Hashable, Codable {
-  let title: String
+    var title: String
   let pubDate: Date
   let description: String
   var author: String

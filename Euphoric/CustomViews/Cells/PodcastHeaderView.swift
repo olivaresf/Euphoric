@@ -54,7 +54,7 @@ class PodcastHeaderView: UIView {
         backgroundColor = UIColor(named: "blueBackground")
         [podcastLabel, episodesAvailableLabel, podcastImage, categoryBadge, authorLabel].forEach{addSubview($0)}
         
-        let padding:CGFloat = 14
+        let padding:CGFloat = 12
         
         let imageSize:CGFloat
         

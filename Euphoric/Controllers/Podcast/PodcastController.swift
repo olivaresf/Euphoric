@@ -228,7 +228,9 @@ class PodcastController: UITableViewController {
             selectedEpisode.author = podcast?.artistName ?? ""
         }
 
-        homeController?.setEpisode(episode: selectedEpisode)
+        UserDefaults.standard.addEpisodeToListened(episode: selectedEpisode)
+        NotificationCenter.default.post(name: .listenNowModified, object: nil)
+        homeController?.setEpisode(episode: selectedEpisode, playlistEpisodes: self.episodes)
     }
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {

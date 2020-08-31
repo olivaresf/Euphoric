@@ -27,8 +27,9 @@ class HomeController: UICollectionViewController {
         presentPlayerController()
     }
 
-    func setEpisode(episode:Episode){
+    func setEpisode(episode:Episode, playlistEpisodes:[Episode]){
         playerDetailsController.episode = episode
+        playerDetailsController.playlistEpisodes = playlistEpisodes
     }
 
     func presentPlayerController(){
@@ -65,6 +66,7 @@ class HomeController: UICollectionViewController {
         collectionView.register(dummyDiscoverCell.self, forCellWithReuseIdentifier: discoverCellId)
         collectionView.register(dummyLibraryCell.self, forCellWithReuseIdentifier: libraryCellId)
         collectionView.register(dummyListenNowCell.self, forCellWithReuseIdentifier: downloadsCellId)
+        collectionView.bounces = false
         collectionView.isPagingEnabled = true
         collectionView.contentInsetAdjustmentBehavior = .never
         
@@ -191,7 +193,7 @@ extension HomeController:MenuControllerDelegate, DiscoverControllerDelegate, Lib
 
 class dummyListenNowCell: UICollectionViewCell {
     
-    let listenNowController = ListenNowController()
+    let listenNowController = ListenNowController(style: .insetGrouped)
     
     override init(frame: CGRect) {
         super.init(frame: frame)

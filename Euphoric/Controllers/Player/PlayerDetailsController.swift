@@ -286,6 +286,8 @@ class PlayerDetailsController: UIViewController {
         }
     }
     
+    var playlistEpisodes = [Episode]()
+    
     fileprivate func setupRemoteControl(){
         UIApplication.shared.beginReceivingRemoteControlEvents()
         
@@ -313,6 +315,53 @@ class PlayerDetailsController: UIViewController {
         commandCenter.togglePlayPauseCommand.addTarget { (_) -> MPRemoteCommandHandlerStatus in
             self.handlePlayPause()
             return .success
+        }
+        
+        commandCenter.nextTrackCommand.isEnabled = true
+        commandCenter.nextTrackCommand.addTarget { (_) -> MPRemoteCommandHandlerStatus in
+            
+            if self.playlistEpisodes.count == 0{ return .commandFailed }
+            
+            let currentEpisodeIndex = self.playlistEpisodes.firstIndex { (ep) -> Bool in
+                return self.episode.title == ep.title && self.episode.author == ep.author
+            }
+            
+            guard let index = currentEpisodeIndex else {return .commandFailed}
+            
+            let nextEpisode:Episode
+            if index == self.playlistEpisodes.count - 1{
+                nextEpisode = self.playlistEpisodes[0]
+            }else{
+                nextEpisode = self.playlistEpisodes[index + 1]
+            }
+            
+            self.episode = nextEpisode
+            
+            return .success
+        }
+        
+        commandCenter.previousTrackCommand.isEnabled = true
+        commandCenter.previousTrackCommand.addTarget { (_) -> MPRemoteCommandHandlerStatus in
+            
+            if self.playlistEpisodes.count == 0{ return .commandFailed }
+            
+            let currentEpisodeIndex = self.playlistEpisodes.firstIndex { (ep) -> Bool in
+                return self.episode.title == ep.title && self.episode.author == ep.author
+            }
+            
+            guard let index = currentEpisodeIndex else {return .commandFailed}
+            
+            let prevEpisode:Episode
+            if index == 0{
+                prevEpisode = self.playlistEpisodes[self.playlistEpisodes.count - 1]
+            }else{
+                prevEpisode = self.playlistEpisodes[index - 1]
+            }
+            
+            self.episode = prevEpisode
+            
+            return .success
+            
         }
         
     }

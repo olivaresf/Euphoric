@@ -11,7 +11,7 @@ extension UserDefaults {
     
     static let favoritedPodcastKey = "favoritedPodcastKey"
     static let downloadedEpisodesKey = "downloadedEpisodesKey"
-    static let listenedPodcastKey = "listenedPodcastKey"
+    static let listenedEpisodesKey = "listenedPodcastKey"
     
     //MARK:- Episodes
     
@@ -32,6 +32,22 @@ extension UserDefaults {
         
     }
     
+    func deleteListenedEpisode(for episode:Episode){
+        let episodes = listenedEpisodes()
+        
+        let filteredEpisodes = episodes.filter { (e) -> Bool in
+            return e.title != episode.title && e.author == episode.author
+        }
+        
+        do {
+            let data = try JSONEncoder().encode(filteredEpisodes)
+            UserDefaults.standard.setValue(data, forKey: UserDefaults.listenedEpisodesKey)
+        } catch let err {
+            print("Error deleting episode from listened", err)
+        }
+        
+    }
+    
     func downloadedEpisodes() -> [Episode] {
         
         guard let episodesData = data(forKey: UserDefaults.downloadedEpisodesKey) else { return [] }
@@ -40,10 +56,35 @@ extension UserDefaults {
             let episodes = try JSONDecoder().decode([Episode].self, from: episodesData)
             return episodes
         } catch let decodeErr {
-            print("Failed to decode:", decodeErr)
+            print("Failed to decode downloaded episodes:", decodeErr)
         }
         
         return []
+    }
+    
+    func listenedEpisodes() -> [Episode]{
+        guard let episodesData = data(forKey: UserDefaults.listenedEpisodesKey) else {return []}
+        
+        do {
+            let episodes = try JSONDecoder().decode([Episode].self, from: episodesData)
+            return episodes
+        } catch let decodeErr {
+            print("Failed to decode listened episodes", decodeErr)
+        }
+        return []
+    }
+    
+    func addEpisodeToListened(episode:Episode){
+        
+        do {
+            var episodes = listenedEpisodes()
+            episodes.insert(episode, at: 0)
+            let data = try JSONEncoder().encode(episodes)
+            UserDefaults.standard.setValue(data, forKey: UserDefaults.listenedEpisodesKey)
+        } catch let encodeErr {
+            print("Failed to encode episode listened", encodeErr)
+        }
+        
     }
     
     func downloadEpisode(episode: Episode) {
