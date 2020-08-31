@@ -30,6 +30,8 @@ class CustomSearchBar: UISearchBar {
         backgroundColor = UIColor(named: "blueBackground")
         setImage(UIImage.withSymbol(type: .microphone, weight: .regular), for: .search, state: .normal)
         returnKeyType = .done
+        tintColor = UserDefaults.standard.colorForKey(key: "tintColor") ?? .systemPink
+        
     }
     
 }

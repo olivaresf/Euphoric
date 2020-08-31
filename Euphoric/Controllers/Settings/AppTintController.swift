@@ -14,11 +14,12 @@ import UIKit
 class AppTintController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     var availableColors = [UIColor]()
+    fileprivate let generator = UIImpactFeedbackGenerator(style: .medium)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
-        collectionView.backgroundColor = .systemBackground
+        collectionView.backgroundColor = .systemGroupedBackground
         collectionView.contentInset = .init(top: 12, left: 18, bottom: 18, right: 12)
         
         [UIColor.systemBlue, .systemRed, .systemPink].forEach{availableColors.append($0)}
@@ -36,13 +37,10 @@ class AppTintController: UICollectionViewController, UICollectionViewDelegateFlo
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let userDefault = UserDefaults.standard
+        generator.impactOccurred()
         let cell = collectionView.cellForItem(at: indexPath)
-        userDefault.setColor(color: cell?.backgroundColor, forKey: "tintColor")
-//        dismiss(animated: true)
-        dismiss(animated: true) {
-            self.view.setNeedsDisplay()
-        }
+        UserDefaults.standard.setColor(color: cell?.backgroundColor, forKey: "tintColor")
+        dismiss(animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

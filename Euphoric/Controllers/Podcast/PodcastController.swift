@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Alamofire
 
 enum Section2:Hashable {
     case main
@@ -32,9 +33,9 @@ class PodcastController: UITableViewController {
     
     let activityView = UIActivityIndicatorView(style: .medium)
     let generator = UIImpactFeedbackGenerator(style: .medium)
-    var heartItem:UIBarButtonItem!
     
-    let moreItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .done, target: self, action: #selector(handleHeart))
+    var heartItem:UIBarButtonItem!
+    var dotsItem:UIBarButtonItem!
     
     lazy var footerLabel:UILabel = {
         let label = UILabel()
@@ -62,17 +63,28 @@ class PodcastController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.footerView(forSection: 0)?.isHidden = true
+        
         setupTableView()
+        
+        dotsItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .done, target: self, action: #selector(handleDots))
         heartItem = UIBarButtonItem(image: UIImage(systemName: "suit.heart"), style: .done, target: self, action: #selector(handleHeart))
-        navigationItem.rightBarButtonItems = [heartItem, moreItem]
+        dotsItem.tintColor = UserDefaults.standard.colorForKey(key: "tintColor") ?? .systemPink
+        heartItem.tintColor = UserDefaults.standard.colorForKey(key: "tintColor") ?? .systemPink
+        navigationItem.rightBarButtonItems = [heartItem, dotsItem]
     }
     
     override func viewWillLayoutSubviews() {
         setupHeart()
     }
-    
+
     //MARK:- Functions
+    @objc func handleDots(){
+        let alert = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Click", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Click", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
     
     func setupHeart(){
         let listOfPodcasts = UserDefaults.standard.savedPodcasts()
@@ -155,6 +167,7 @@ class PodcastController: UITableViewController {
     
     func setupTableView(){
         footerView.isHidden = true
+        tableView.footerView(forSection: 0)?.isHidden = true
         tableView.backgroundColor = UIColor(named: "blueBackground")
         tableView.register(EpisodeDownlodedCell.self, forCellReuseIdentifier: cellId)
         tableView.rowHeight = UITableView.automaticDimension

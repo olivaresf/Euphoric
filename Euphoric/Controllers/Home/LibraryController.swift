@@ -28,9 +28,9 @@ class LibraryController: UICollectionViewController, UICollectionViewDelegateFlo
         super.viewDidLoad()
         podcasts = UserDefaults.standard.savedPodcasts()
         collectionView.register(SearchCell.self, forCellWithReuseIdentifier: "cellId")
-//        collectionView.backgroundColor = .systemBackground
         collectionView.backgroundColor = UIColor(named: "blueBackground")
         collectionView.contentInset = .init(top: 18, left: 0, bottom: 48, right: 0)
+        collectionView.contentInset.bottom = 82
         createObservers()
         
     }

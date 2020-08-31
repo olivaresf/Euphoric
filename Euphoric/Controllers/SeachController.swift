@@ -23,7 +23,11 @@ class SearchController: UIViewController {
         configureCollectionView()
         configureSearchBar()
         configureDataSource()
-        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        searchBar.becomeFirstResponder()
     }
     
     func configureSearchBar(){
@@ -72,8 +76,14 @@ class SearchController: UIViewController {
     
 }
 
+//extension
+
 extension SearchController:UISearchBarDelegate{
-    
+//
+//    func didPresentSearchController(searchController: UISearchController) {
+//        searchBar.becomeFirstResponder()
+//    }
+//
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
     }

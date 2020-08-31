@@ -11,27 +11,25 @@ import Lottie
 import MediaPlayer
 
 class PlayerDetailsController: UIViewController {
-
+    
     var episode:Episode!{
         didSet{
+            playButton.setImage(UIImage.withSymbol(type: .play, size: 30, weight: .bold), for: .normal)
+            soundAnimation.pause()
             episodeTitle.text = episode.title
             alert.title = episode.title
             guard let imageUrl = URL(string: episode.imageUrl ?? "") else {return}
-            
-            self.absorbeAverageColor(of: imageUrl)
-            setPodcastImageandCC(with: imageUrl)
-            
+            absorbeAverageColor(of: imageUrl)
             setupNowPlayingInfo()
             setupAudioSession()
             playEpisode()
-            
+            setPodcastImageandCC(with: imageUrl)
             runShakePlayerAnimation()
         }
     }
     
-    var partialView: CGFloat {
-        return UIScreen.main.bounds.height - (view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0) - 60
-    }
+    var partialView: CGFloat { return UIScreen.main.bounds.height - (view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0) - 60 }
+    
     fileprivate let generator = UIImpactFeedbackGenerator(style: .medium)
     
     fileprivate let gradientLayer = CAGradientLayer()
@@ -55,12 +53,10 @@ class PlayerDetailsController: UIViewController {
     let currentTimeLabel = CustomLabel(text: "00:00:00", size: 16, weight: .regular, textColor: .normalDark)
     
     let durationTimeLabel = CustomLabel(text: "00:00:00", size: 16, weight: .regular, textColor: .normalDark, textAlignment: .right)
-
+    
     lazy var goForwardButton:UIButton = {
         let btn = UIButton(type: .system)
-        let image = UIImage.withSymbol(type: .forward30, weight: .regular)
-        btn.setImage(image, for: .normal)
-        btn.contentMode = .scaleAspectFit
+        btn.setImage(UIImage.withSymbol(type: .forward30, weight: .regular), for: .normal)
         btn.addTarget(self, action: #selector(handleForward), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.tintColor = .normalDark
@@ -69,37 +65,31 @@ class PlayerDetailsController: UIViewController {
     
     lazy var playButton:UIButton = {
         let btn = UIButton(type: .system)
-        btn.contentMode = .scaleAspectFit
         btn.setImage(UIImage.withSymbol(type: .play, size: 30, weight: .bold), for: .normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.tintColor = .normalDark
-        btn.contentHorizontalAlignment = .fill
         btn.addTarget(self, action: #selector(handlePlayPause), for: .touchUpInside)
         return btn
     }()
     
     lazy var dotsButton:UIButton = {
         let btn = UIButton(type: .system)
-        btn.contentMode = .scaleAspectFit
         btn.setImage(UIImage.withSymbol(type: .dots, weight: .regular), for: .normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.tintColor = .normalDark
-        btn.contentHorizontalAlignment = .fill
         btn.addTarget(self, action: #selector(handleSheet), for: .touchUpInside)
-        //        btn.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         return btn
     }()
     
     lazy var randomButton:UIButton = {
         let btn = UIButton(type: .system)
-        btn.contentMode = .scaleAspectFit
         btn.setImage(UIImage.withSymbol(type: .download, weight: .regular), for: .normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.tintColor = .normalDark
         btn.contentHorizontalAlignment = .fill
         return btn
     }()
-
+    
     lazy var soundAnimation:AnimationView = {
         let animation = AnimationView(name: "bars")
         let keypath = AnimationKeypath(keys: ["**", "Fill 1", "**", "Color"])
@@ -136,14 +126,13 @@ class PlayerDetailsController: UIViewController {
             player.replaceCurrentItem(with: playerItem)
             player.play()
         }
-    
     }
     
     fileprivate func playEpisodeUsingFileUrl(){
         print("Playing episode with file url:", episode.fileUrl ?? "")
         guard let fileUrl = URL(string: episode.fileUrl ?? "") else {return}
         let fileName = fileUrl.lastPathComponent
-
+        
         guard var trueLocation = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {return}
         trueLocation.appendPathComponent(fileName)
         
@@ -154,14 +143,13 @@ class PlayerDetailsController: UIViewController {
     
     
     fileprivate func setPodcastImageandCC(with imageUrl:URL) {
+        podcastImage.sd_setImage(with: imageUrl)
         podcastImage.sd_setImage(with: imageUrl) { (image, _, _, _) in
-            guard let image = image else {return}
-            var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo
-            let artwork = MPMediaItemArtwork(boundsSize: image.size) { (_) -> UIImage in
+            let image = self.podcastImage.image ?? UIImage()
+            let artworkItem = MPMediaItemArtwork(boundsSize: .zero, requestHandler: { (size) -> UIImage in
                 return image
-            }
-            nowPlayingInfo?[MPMediaItemPropertyArtwork] = artwork
-            MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+            })
+            MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPMediaItemPropertyArtwork] = artworkItem
         }
     }
     
@@ -195,20 +183,17 @@ class PlayerDetailsController: UIViewController {
     }
     
     @objc func handleSheet(){
-        self.present(alert, animated: true, completion: {
-            print("completion block")
-        })
+        self.present(alert, animated: true)
     }
     
     @objc func handleForward(){
-        generator.impactOccurred()
         let fifteenSeconds = CMTimeMake(value: 15, timescale: 1)
         let seekTime = CMTimeAdd(player.currentTime(), fifteenSeconds)
         player.seek(to: seekTime)
     }
     
-    @objc func handleSliderChange(){
-        #warning("Research prints and fix jumpy slider")
+    @objc func handleSliderChange(slider: UISlider, event: UIEvent){
+    
         let percentage = currentTimeSlider.value
         
         guard let duration = player.currentItem?.duration else {return}
@@ -217,10 +202,24 @@ class PlayerDetailsController: UIViewController {
         let seekTimeInSeconds = Float64(percentage) * durationInSeconds
         
         let seekTime = CMTimeMakeWithSeconds(seekTimeInSeconds, preferredTimescale: Int32(NSEC_PER_SEC))
-        
         MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = seekTimeInSeconds
-        
         player.seek(to: seekTime)
+        
+        if let touchEvent = event.allTouches?.first {
+            switch touchEvent.phase {
+            case .began:
+                player.pause()
+                playButton.setImage(UIImage.withSymbol(type: .play, size: 30, weight: .bold), for: .normal)
+                soundAnimation.pause()
+            case .ended:
+                player.play()
+                playButton.setImage(UIImage.withSymbol(type: .pause, size: 30, weight: .bold), for: .normal)
+                soundAnimation.play()
+            default:
+                break
+            }
+        }
+        
     }
     
     func absorbeAverageColor(of imageUrl:URL){
@@ -436,21 +435,34 @@ class PlayerDetailsController: UIViewController {
                 recognizer.setTranslation(CGPoint.zero, in: self.view)
             }
             
+            print(y)
+            print(translation.y)
+            
             if recognizer.state == .ended {
                 var duration =  velocity.y < 0 ? Double((y - fullView) / -velocity.y) : Double((partialView - y) / velocity.y )
-                
                 duration = duration > 1.3 ? 1 : duration
                 
-                UIView.animate(withDuration: duration, delay: 0.0, options: [.allowUserInteraction], animations: {
+                UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: [.allowUserInteraction]) {
                     if  velocity.y >= 0 {
                         self.view.frame = CGRect(x: 0, y: self.partialView, width: self.view.frame.width, height: self.view.frame.height)
                     } else {
                         self.view.frame = CGRect(x: 0, y: self.fullView, width: self.view.frame.width, height: self.view.frame.height)
                     }
-                    
-                }, completion: nil)
-                
+                }
             }
+            
+            //            if self.view.frame.origin.y == self.fullView{
+            //                UIView.animate(withDuration: 0.3) {
+            //                    self.playButton.layer.opacity = 0
+            //                }
+            //            }
+            //
+            //            if self.view.frame.origin.y == self.partialView{
+            //                UIView.animate(withDuration: 0.3) {
+            //                    self.playButton.layer.opacity = 1
+            //                }
+            //            }
+            
         }
         
         
@@ -479,7 +491,7 @@ class PlayerDetailsController: UIViewController {
         if DeviceTypes.isiPhoneSE || DeviceTypes.isiPhone8Standard || DeviceTypes.isiPhone8PlusZoomed{
             constant = 160
         }
-//
+        //
         fullView = view.frame.height / 2 - constant
         
         view.layer.cornerRadius = 24

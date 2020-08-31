@@ -140,7 +140,6 @@ class DiscoverController: UICollectionViewController {
     }
     
     fileprivate func setupCollectionView() {
-//        collectionView.backgroundColor = .systemBackground
         collectionView.backgroundColor = UIColor(named: "blueBackground")
         collectionView.register(CompositionalHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
         

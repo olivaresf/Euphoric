@@ -127,14 +127,12 @@ class NetworkManager {
         }
     }
     
-    
     func fetchEpisodes(feedUrl: String, all:Bool, completion: @escaping ([Episode], Int) -> ()) {
-        #warning("Implement incremental loading")
-        
         guard let url = URL(string: feedUrl) else { return }
         
+        let parser = FeedParser(URL: url)
+        
         DispatchQueue.global(qos: .background).async {
-            let parser = FeedParser(URL: url)
             parser.parseAsync { (result) in
                 switch result {
                 case .success(let feed):

@@ -50,6 +50,7 @@ class ListenNowController: UICollectionViewController {
         super.viewDidLoad()
         collectionView.backgroundColor = UIColor(named: "blueBackground")
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
+        collectionView.contentInset.bottom = 82
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
