@@ -62,9 +62,9 @@ class EpisodeCell: UITableViewCell {
         backgroundColor = .secondarySystemGroupedBackground
         [dateLabel, episodeTitle, episodeDescription].forEach{addSubview($0)}
 //
-        dateLabel.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 8, left: 8, bottom: 0, right: 0))
-        episodeTitle.anchor(top: dateLabel.bottomAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 4, left: 8, bottom: 0, right: 18))
-        episodeDescription.anchor(top: episodeTitle.bottomAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 4, left: 8, bottom: 8, right: 28))
+        dateLabel.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 15, left: 16, bottom: 0, right: 0))
+        episodeTitle.anchor(top: dateLabel.bottomAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: 4, left: 16, bottom: 0, right: 18))
+        episodeDescription.anchor(top: episodeTitle.bottomAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 4, left: 16, bottom: 12, right: 28))
         
     }
     

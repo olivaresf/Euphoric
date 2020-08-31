@@ -191,7 +191,7 @@ class PodcastController: UITableViewController {
         
         tableView.contentInset.bottom = 90
         
-        tableView.sectionHeaderHeight = 240
+        tableView.sectionHeaderHeight = 220
         tableView.sectionFooterHeight = 60
     
         view.addSubview(activityView)

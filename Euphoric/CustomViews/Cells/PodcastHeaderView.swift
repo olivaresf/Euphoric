@@ -23,9 +23,9 @@ class PodcastHeaderView: UIView {
     }
     
     let podcastImage = RoundedImageView(image: #imageLiteral(resourceName: "headphones"))
-    let podcastLabel = TitleLabel(title: "This is a very impressive podcast title", size: 24)
-    let episodesAvailableLabel = SubtitleLabel(text: "2 Episodes available", size: 15)
-    let authorLabel = TitleLabel(title: "Diego Isco", size: 18)
+    let podcastLabel = TitleLabel(title: "This is a very impressive podcast title", size: 26)
+    let episodesAvailableLabel = SubtitleLabel(text: "2 Episodes available", size: 13)
+    let authorLabel = CustomLabel(text: "", size: 18, weight: .medium, textColor: .darkGray)
     lazy var categoryBadge = Badge(color: userDefaults.colorForKey(key: "tintColor") ?? .systemPink)
     var infoStackView:UIStackView!
     static let cellId = "PodcastHeaderId"
@@ -59,9 +59,10 @@ class PodcastHeaderView: UIView {
         let imageSize:CGFloat
         
         if DeviceTypes.isiPhoneSE || DeviceTypes.isiPhone8Standard{
-            imageSize = frame.width / 2 - 52
+//            imageSize = frame.width / 2 - 52
+            imageSize = 120
         }else{
-            imageSize = 150
+            imageSize = 120
         }
         
         podcastLabel.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor, padding: .init(top: padding, left: 0, bottom: 0, right: 0))
