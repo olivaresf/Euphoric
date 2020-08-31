@@ -46,6 +46,9 @@
 		04B7D9A924E4DBBA00B7584C /* PodcastHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B7D9A824E4DBBA00B7584C /* PodcastHeaderView.swift */; };
 		04B7D9AB24E4F08400B7584C /* UIView+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B7D9AA24E4F08300B7584C /* UIView+Layout.swift */; };
 		04B7D9AD24E5229D00B7584C /* Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B7D9AC24E5229D00B7584C /* Episode.swift */; };
+		04E0241D24FC07F000B95350 /* EphSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0241C24FC07F000B95350 /* EphSlider.swift */; };
+		04E0241F24FC087B00B95350 /* TimeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0241E24FC087B00B95350 /* TimeLabel.swift */; };
+		04E0242124FC094E00B95350 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0242024FC094E00B95350 /* CustomLabel.swift */; };
 		04E8720C24E38A5C006E6299 /* SubtitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8720B24E38A5C006E6299 /* SubtitleLabel.swift */; };
 		04E8720F24E399F6006E6299 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8720E24E399F6006E6299 /* Constants.swift */; };
 		04E8721124E3A514006E6299 /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E8721024E3A514006E6299 /* CustomSearchBar.swift */; };
@@ -102,6 +105,9 @@
 		04B7D9A824E4DBBA00B7584C /* PodcastHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastHeaderView.swift; sourceTree = "<group>"; };
 		04B7D9AA24E4F08300B7584C /* UIView+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Layout.swift"; sourceTree = "<group>"; };
 		04B7D9AC24E5229D00B7584C /* Episode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Episode.swift; sourceTree = "<group>"; };
+		04E0241C24FC07F000B95350 /* EphSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EphSlider.swift; sourceTree = "<group>"; };
+		04E0241E24FC087B00B95350 /* TimeLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLabel.swift; sourceTree = "<group>"; };
+		04E0242024FC094E00B95350 /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
 		04E8720B24E38A5C006E6299 /* SubtitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitleLabel.swift; sourceTree = "<group>"; };
 		04E8720E24E399F6006E6299 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		04E8721024E3A514006E6299 /* CustomSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
@@ -240,6 +246,7 @@
 		045985E624E2F9170056ED51 /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				04E0241B24FC07DA00B95350 /* Components */,
 				045985F924E387EC0056ED51 /* Labels */,
 				045985F624E356D80056ED51 /* Views */,
 				045985EE24E301F00056ED51 /* ImageViews */,
@@ -311,6 +318,8 @@
 			children = (
 				045985FA24E3881B0056ED51 /* TitleLabel.swift */,
 				04E8720B24E38A5C006E6299 /* SubtitleLabel.swift */,
+				04E0241E24FC087B00B95350 /* TimeLabel.swift */,
+				04E0242024FC094E00B95350 /* CustomLabel.swift */,
 			);
 			path = Labels;
 			sourceTree = "<group>";
@@ -350,6 +359,14 @@
 				0448C04024EC326C00190140 /* Category.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		04E0241B24FC07DA00B95350 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				04E0241C24FC07F000B95350 /* EphSlider.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		04EF178924EAE07400114462 /* Menu */ = {
@@ -510,10 +527,12 @@
 				0448C03F24EC2CF200190140 /* TopPodcastCell.swift in Sources */,
 				045985F024E302060056ED51 /* RoundedImageView.swift in Sources */,
 				04EF178B24EAE08300114462 /* MenuController.swift in Sources */,
+				04E0242124FC094E00B95350 /* CustomLabel.swift in Sources */,
 				04EBE45F24E59C5F00312AB2 /* EpisodeCell.swift in Sources */,
 				0448C04124EC326C00190140 /* Category.swift in Sources */,
 				0479157324EC014B00089884 /* DiscoverControllerComp.swift in Sources */,
 				0479156F24EB3A5B00089884 /* SettingsSection.swift in Sources */,
+				04E0241F24FC087B00B95350 /* TimeLabel.swift in Sources */,
 				0479156924EB3A0700089884 /* SettingsController.swift in Sources */,
 				045985E524E2F8730056ED51 /* SeachController.swift in Sources */,
 				04B7D9AB24E4F08400B7584C /* UIView+Layout.swift in Sources */,
@@ -543,6 +562,7 @@
 				0448C03D24EC26FB00190140 /* TopCategoriesCell.swift in Sources */,
 				04E8720C24E38A5C006E6299 /* SubtitleLabel.swift in Sources */,
 				04725F6824F0CC0800BD23E9 /* UserDefaults.swift in Sources */,
+				04E0241D24FC07F000B95350 /* EphSlider.swift in Sources */,
 				04FC529724E8EECD0036C9FA /* CMTime.swift in Sources */,
 				045985E024E2F66A0056ED51 /* CustomViewController.swift in Sources */,
 				0479156D24EB3A3500089884 /* SettingsCell.swift in Sources */,

@@ -71,14 +71,16 @@ class HomeController: UICollectionViewController {
         self.collectionView.scrollToItem(at: IndexPath(item: 1, section: 0), at: .centeredHorizontally, animated: true)
         
         collectionView.anchor(top: menuView.bottomAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     fileprivate func setupLayout() {
         view.backgroundColor = .white
         navigationItem.title = "Euphoric"
-        let search = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .done, target: self, action: #selector(handleSearch))
-        let settings = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .done, target: self, action: #selector(handleSettings))
-        let downloads = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.down"), style: .done, target: self, action: #selector(handleDownloads))
+            
+        let search = UIBarButtonItem(image: UIImage.withSymbol(type: .magnifyingglass, weight: .light), style: .done, target: self, action: #selector(handleSearch))
+        let settings = UIBarButtonItem(image: UIImage.withSymbol(type: .settings, weight: .light), style: .done, target: self, action: #selector(handleSettings))
+        let downloads = UIBarButtonItem(image: UIImage.withSymbol(type: .download, weight: .light), style: .done, target: self, action: #selector(handleDownloads))
         navigationItem.rightBarButtonItems = [search, downloads]
         navigationItem.leftBarButtonItem = settings
         navigationItem.rightBarButtonItems?.forEach({$0.tintColor = UIColor.label})

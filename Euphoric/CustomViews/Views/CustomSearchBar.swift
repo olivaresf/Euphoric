@@ -28,7 +28,7 @@ class CustomSearchBar: UISearchBar {
         searchBarStyle = .minimal
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = UIColor(named: "blueBackground")
-        setImage(UIImage(systemName: "mic"), for: .search, state: .normal)
+        setImage(UIImage.withSymbol(type: .microphone, weight: .regular), for: .search, state: .normal)
         returnKeyType = .done
     }
     

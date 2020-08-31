@@ -11,37 +11,28 @@ import Lottie
 import MediaPlayer
 
 class PlayerDetailsController: UIViewController {
-    
-    let userDefaults = UserDefaults.standard
-    
+
     var episode:Episode!{
         didSet{
             episodeTitle.text = episode.title
+            alert.title = episode.title
             guard let imageUrl = URL(string: episode.imageUrl ?? "") else {return}
             
             self.absorbeAverageColor(of: imageUrl)
             setPodcastImageandCC(with: imageUrl)
-            alert.title = episode.title
+            
             setupNowPlayingInfo()
+            setupAudioSession()
             playEpisode()
             
-            UIView.animate(withDuration: 0.3) {
-                self.view.transform = CGAffineTransform(translationX: 0, y: -20)
-            } completion: { (_) in
-                UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut) {
-                    self.view.transform = .identity
-                } completion: { (_) in }
-            }
-            
+            runShakePlayerAnimation()
         }
     }
-    
     
     var partialView: CGFloat {
         return UIScreen.main.bounds.height - (view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0) - 60
     }
-    let largeConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .bold, scale: .default)
-    let mediumConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .regular, scale: .default)
+    fileprivate let generator = UIImpactFeedbackGenerator(style: .medium)
     
     fileprivate let gradientLayer = CAGradientLayer()
     fileprivate var blurEffect = UIBlurEffect()
@@ -53,8 +44,90 @@ class PlayerDetailsController: UIViewController {
         return avPlayer
     }()
     
-    fileprivate func playEpisode(){
+    lazy var currentTimeSlider:UISlider = {
+        let slider = EphSlider()
+        slider.addTarget(self, action: #selector(handleSliderChange), for: .valueChanged)
+        return slider
+    }()
+    
+    let episodeTitle = CustomLabel(text: "Play your favorite Podcast and swipe me!", size: 16, weight: .medium, textColor: .normalDark, numberOfLines: 2)
+    
+    let currentTimeLabel = CustomLabel(text: "00:00:00", size: 16, weight: .regular, textColor: .normalDark)
+    
+    let durationTimeLabel = CustomLabel(text: "00:00:00", size: 16, weight: .regular, textColor: .normalDark, textAlignment: .right)
+
+    lazy var goForwardButton:UIButton = {
+        let btn = UIButton(type: .system)
+        let image = UIImage.withSymbol(type: .forward30, weight: .regular)
+        btn.setImage(image, for: .normal)
+        btn.contentMode = .scaleAspectFit
+        btn.addTarget(self, action: #selector(handleForward), for: .touchUpInside)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.tintColor = .normalDark
+        return btn
+    }()
+    
+    lazy var playButton:UIButton = {
+        let btn = UIButton(type: .system)
+        btn.contentMode = .scaleAspectFit
+        btn.setImage(UIImage.withSymbol(type: .play, size: 30, weight: .bold), for: .normal)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.tintColor = .normalDark
+        btn.contentHorizontalAlignment = .fill
+        btn.addTarget(self, action: #selector(handlePlayPause), for: .touchUpInside)
+        return btn
+    }()
+    
+    lazy var dotsButton:UIButton = {
+        let btn = UIButton(type: .system)
+        btn.contentMode = .scaleAspectFit
+        btn.setImage(UIImage.withSymbol(type: .dots, weight: .regular), for: .normal)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.tintColor = .normalDark
+        btn.contentHorizontalAlignment = .fill
+        btn.addTarget(self, action: #selector(handleSheet), for: .touchUpInside)
+        //        btn.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        return btn
+    }()
+    
+    lazy var randomButton:UIButton = {
+        let btn = UIButton(type: .system)
+        btn.contentMode = .scaleAspectFit
+        btn.setImage(UIImage.withSymbol(type: .download, weight: .regular), for: .normal)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.tintColor = .normalDark
+        btn.contentHorizontalAlignment = .fill
+        return btn
+    }()
+
+    lazy var soundAnimation:AnimationView = {
+        let animation = AnimationView(name: "bars")
+        let keypath = AnimationKeypath(keys: ["**", "Fill 1", "**", "Color"])
+        let colorProvider = ColorValueProvider(UIColor.normalDark.lottieColorValue)
+        animation.setValueProvider(colorProvider, keypath: keypath)
         
+        animation.contentMode = .scaleAspectFit
+        animation.loopMode = .loop
+        animation.animationSpeed = 0.5
+        animation.translatesAutoresizingMaskIntoConstraints = false
+        animation.backgroundBehavior = .pauseAndRestore
+        
+        return animation
+    }()
+    
+    let podcastImage = RoundedImageView(image: #imageLiteral(resourceName: "headphones"))
+    
+    fileprivate func runShakePlayerAnimation(){
+        UIView.animate(withDuration: 0.4) {
+            self.view.transform = CGAffineTransform(translationX: 0, y: -20)
+        } completion: { (_) in
+            UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1.3, initialSpringVelocity: 1.3, options: .curveEaseOut) {
+                self.view.transform = .identity
+            } completion: { (_) in }
+        }
+    }
+    
+    fileprivate func playEpisode(){
         if episode.fileUrl != nil{
             playEpisodeUsingFileUrl()
         }else{
@@ -79,22 +152,6 @@ class PlayerDetailsController: UIViewController {
         player.play()
     }
     
-    lazy var soundAnimation:AnimationView = {
-        let animation = AnimationView(name: "bars")
-        let keypath = AnimationKeypath(keys: ["**", "Fill 1", "**", "Color"])
-        let colorProvider = ColorValueProvider(UIColor.normalDark.lottieColorValue)
-        animation.setValueProvider(colorProvider, keypath: keypath)
-        
-        animation.contentMode = .scaleAspectFit
-        animation.loopMode = .loop
-        animation.animationSpeed = 0.5
-        animation.translatesAutoresizingMaskIntoConstraints = false
-        animation.backgroundBehavior = .pauseAndRestore
-        
-        return animation
-    }()
-    
-    let podcastImage = RoundedImageView(image: #imageLiteral(resourceName: "headphones"))
     
     fileprivate func setPodcastImageandCC(with imageUrl:URL) {
         podcastImage.sd_setImage(with: imageUrl) { (image, _, _, _) in
@@ -108,114 +165,29 @@ class PlayerDetailsController: UIViewController {
         }
     }
     
-    lazy var currentTimeSlider:UISlider = {
-        let slider = UISlider()
-        slider.backgroundColor = .clear
-        slider.tintColor = .normalDark
-        slider.translatesAutoresizingMaskIntoConstraints = false
-        slider.addTarget(self, action: #selector(handleSliderChange), for: .valueChanged)
-        return slider
-    }()
-    
-    let episodeTitle:UILabel = {
-        let label = UILabel()
-        label.text = "Play your favorite Podcast and swipe me!"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .normalDark
-        label.numberOfLines = 2
-        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        label.textAlignment = .left
-        return label
-    }()
-    
-    let currentTimeLabel:UILabel  = {
-        let label = UILabel()
-        label.text = "00:00:00"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .normalDark
-        label.textAlignment = .left
-        return label
-    }()
-    
-    let durationTimeLabel:UILabel  = {
-        let label = UILabel()
-        label.text = "00:00:00"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .normalDark
-        label.textAlignment = .right
-        return label
-    }()
-    
-    lazy var goForwardButton:UIButton = {
-        let btn = UIButton(type: .system)
-        let image = UIImage(systemName: "goforward.30")
-        btn.setImage(image, for: .normal)
-        btn.contentMode = .scaleAspectFit
-        btn.addTarget(self, action: #selector(handleForward), for: .touchUpInside)
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.tintColor = .normalDark
-        return btn
-    }()
-    
-    lazy var playButton:UIButton = {
-        let btn = UIButton(type: .system)
-        btn.contentMode = .scaleAspectFit
-        let largeConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .bold, scale: .default)
-        let largeBoldDoc = UIImage(systemName: "play.fill", withConfiguration: largeConfig)
-        btn.setImage(largeBoldDoc, for: .normal)
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.tintColor = .normalDark
-        btn.contentHorizontalAlignment = .fill
-        btn.addTarget(self, action: #selector(handlePlayPause), for: .touchUpInside)
-        return btn
-    }()
-    
-    lazy var dotsButton:UIButton = {
-        let btn = UIButton(type: .system)
-        btn.contentMode = .scaleAspectFit
-        btn.setImage(UIImage(systemName: "ellipsis", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .regular, scale: .default)), for: .normal)
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.tintColor = .normalDark
-        btn.contentHorizontalAlignment = .fill
-        btn.addTarget(self, action: #selector(handleSheet), for: .touchUpInside)
-        //        btn.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        return btn
-    }()
-    
-    lazy var randomButton:UIButton = {
-        let btn = UIButton(type: .system)
-        btn.contentMode = .scaleAspectFit
-        btn.setImage(UIImage(systemName: "square.and.arrow.down"), for: .normal)
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.tintColor = .normalDark
-        btn.contentHorizontalAlignment = .fill
-        //        btn.addTarget(self, action: #selector(handlePlayPause), for: .touchUpInside)
-        return btn
-    }()
-    
     let alert = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
     
     func setupAlerts(){
-        alert.view.tintColor = UserDefaults.standard.colorForKey(key: "tintColor") ?? .systemPink
+        alert.view.tintColor = .label
         
         let firstAction = UIAlertAction(title: "Episode details", style: .default) { (_) in
             let eDetailsController = EpisodeDetailsController()
             eDetailsController.episode = self.episode
             self.present(eDetailsController, animated: true)
         }
-        firstAction.setValue(UIImage(systemName: "info.circle", withConfiguration: mediumConfig), forKey: "image")
+        firstAction.setValue(UIImage.withSymbol(type: .info, size: 20, weight: .regular), forKey: "image")
         alert.addAction(firstAction)
         
         let shareAlert = UIAlertAction(title: "Share episode", style: .default) { (_) in
             print("Share alert")
         }
-        shareAlert.setValue(UIImage(systemName: "square.and.arrow.up", withConfiguration: mediumConfig), forKey: "image")
+        shareAlert.setValue(UIImage.withSymbol(type: .share, size: 20, weight: .regular), forKey: "image")
         alert.addAction(shareAlert)
         
         let playNextAlert = UIAlertAction(title: "Play next", style: .default) { (_) in
             print("Share alert")
         }
-        playNextAlert.setValue(UIImage(systemName: "arrow.up.right", withConfiguration: mediumConfig), forKey: "image")
+        playNextAlert.setValue(UIImage.withSymbol(type: .info, size: 20, weight: .regular), forKey: "image")
         alert.addAction(playNextAlert)
         
         let dismissAction = UIAlertAction(title: "Dismiss", style: .cancel)
@@ -229,6 +201,7 @@ class PlayerDetailsController: UIViewController {
     }
     
     @objc func handleForward(){
+        generator.impactOccurred()
         let fifteenSeconds = CMTimeMake(value: 15, timescale: 1)
         let seekTime = CMTimeAdd(player.currentTime(), fifteenSeconds)
         player.seek(to: seekTime)
@@ -244,6 +217,8 @@ class PlayerDetailsController: UIViewController {
         let seekTimeInSeconds = Float64(percentage) * durationInSeconds
         
         let seekTime = CMTimeMakeWithSeconds(seekTimeInSeconds, preferredTimescale: Int32(NSEC_PER_SEC))
+        
+        MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = seekTimeInSeconds
         
         player.seek(to: seekTime)
     }
@@ -292,24 +267,8 @@ class PlayerDetailsController: UIViewController {
             self.currentTimeLabel.text = time.toDisplayString()
             self.durationTimeLabel.text = self.player.currentItem?.duration.toDisplayString()
             
-            self.setupLockscreenCurrentTime()
             self.updateCurrentTimeSlider()
         }
-    }
-    
-    fileprivate func setupLockscreenCurrentTime(){
-        //        var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo
-        //        guard let currentItem = player.currentItem else {return}
-        //        let durationInSeconds = CMTimeGetSeconds(currentItem.duration)
-        //
-        //        let elapsedTime = CMTimeGetSeconds(player.currentTime())
-        //
-        //        nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = elapsedTime
-        //        nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] = durationInSeconds
-        //        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-        guard let duration = player.currentItem?.duration else {return}
-        let durationSeconds = CMTimeGetSeconds(duration)
-        MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] = durationSeconds
     }
     
     fileprivate func updateCurrentTimeSlider(){
@@ -336,14 +295,18 @@ class PlayerDetailsController: UIViewController {
         commandCenter.playCommand.isEnabled = true
         commandCenter.playCommand.addTarget { (_) -> MPRemoteCommandHandlerStatus in
             self.player.play()
-            self.playButton.setImage(UIImage(systemName: "pause.fill", withConfiguration: self.largeConfig), for: .normal)
+            self.soundAnimation.play()
+            self.playButton.setImage(UIImage.withSymbol(type: .pause, size: 30, weight: .bold), for: .normal)
+            self.setupElapsedTime(playbackRate: 1)
             return .success
         }
         
         commandCenter.pauseCommand.isEnabled = true
         commandCenter.pauseCommand.addTarget { (_) -> MPRemoteCommandHandlerStatus in
             self.player.pause()
-            self.playButton.setImage(UIImage(systemName: "play.fill", withConfiguration: self.largeConfig), for: .normal)
+            self.soundAnimation.stop()
+            self.playButton.setImage(UIImage.withSymbol(type: .play, size: 30, weight: .bold), for: .normal)
+            self.setupElapsedTime(playbackRate: 0)
             return .success
         }
         
@@ -355,42 +318,72 @@ class PlayerDetailsController: UIViewController {
         
     }
     
+    fileprivate func setupElapsedTime(playbackRate:Float){
+        let elapsedTime = CMTimeGetSeconds(player.currentTime())
+        MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = elapsedTime
+        MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyPlaybackRate] = playbackRate
+    }
+    
     fileprivate func observePlayerStart() {
         let time = CMTimeMake(value: 1, timescale: 10)
         let times = NSValue(time: time)
         
         player.addBoundaryTimeObserver(forTimes: [times], queue: .main) { [weak self] in
             guard let self = self else {return}
+            print("playing")
+            self.generator.impactOccurred()
             self.soundAnimation.play()
-            self.playButton.setImage(UIImage(systemName: "pause.fill", withConfiguration: self.largeConfig), for: .normal)
-            self.setupLockscreenCurrentTime()
+            self.playButton.setImage(UIImage.withSymbol(type: .pause, size: 30, weight: .bold), for: .normal)
+            self.setupLockscreenDuration()
         }
+    }
+    
+    
+    fileprivate func setupLockscreenDuration(){
+        guard let duration = player.currentItem?.duration else {return}
+        let durationSeconds = CMTimeGetSeconds(duration)
+        MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] = durationSeconds
+    }
+    
+    fileprivate func setupInterruptionObserver(){
+        NotificationCenter.default.addObserver(self, selector: #selector(handleInterruption), name: AVAudioSession.interruptionNotification, object: nil)
+    }
+    
+    @objc func handleInterruption(notification:Notification){
+        guard let userInfo = notification.userInfo else {return}
+        
+        guard let type = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt else {return}
+        
+        if type == AVAudioSession.InterruptionType.began.rawValue{
+            print("Interruption began")
+            soundAnimation.stop()
+            playButton.setImage(UIImage.withSymbol(type: .play, size: 30, weight: .bold), for: .normal)
+        }else{
+            print("Interruption ended")
+            guard let options = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else {return}
+            
+            if options == AVAudioSession.InterruptionOptions.shouldResume.rawValue{
+                soundAnimation.play()
+                player.play()
+                playButton.setImage(UIImage.withSymbol(type: .pause, size: 30, weight: .bold), for: .normal)
+            }
+            
+        }
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupGradient()
         setupViews()
-//        configureShadow()
         setupAlerts()
         setupRemoteControl()
-        setupAudioSession()
+        setupInterruptionObserver()
         observePlayerCurrentTime()
         observePlayerStart()
     }
     
-    fileprivate func configureShadow(){
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOpacity = 1
-        view.layer.shadowOffset = .init(width: 0, height: 10)
-        view.layer.shadowRadius = 24
-        view.layer.shadowPath = UIBezierPath(rect: self.view.bounds).cgPath
-        view.layer.shouldRasterize = true
-        view.layer.rasterizationScale = UIScreen.main.scale
-    }
-    
     func setupGradient(){
-        //        view.backgroundColor = .white
         gradientLayer.colors = [UIColor.topColor.cgColor, UIColor.white.cgColor]
         gradientLayer.locations = [0, 0.5]
         gradientLayer.opacity = 1
@@ -418,14 +411,17 @@ class PlayerDetailsController: UIViewController {
     }
     
     @objc func handlePlayPause(){
+        generator.impactOccurred()
         if player.timeControlStatus == .paused{
             soundAnimation.play()
             player.play()
-            playButton.setImage(UIImage(systemName: "pause.fill", withConfiguration: largeConfig), for: .normal)
+            playButton.setImage(UIImage.withSymbol(type: .pause, size: 30, weight: .bold), for: .normal)
+            self.setupElapsedTime(playbackRate: 1)
         }else{
             soundAnimation.pause()
             player.pause()
-            playButton.setImage(UIImage(systemName: "play.fill", withConfiguration: largeConfig), for: .normal)
+            playButton.setImage(UIImage.withSymbol(type: .play, size: 30, weight: .bold), for: .normal)
+            self.setupElapsedTime(playbackRate: 0)
         }
     }
     
@@ -465,7 +461,6 @@ class PlayerDetailsController: UIViewController {
     var fullView:CGFloat!
     
     let routePickerView = AVRoutePickerView()
-    
     
     fileprivate func setupViews(){
         let swipeGesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture))

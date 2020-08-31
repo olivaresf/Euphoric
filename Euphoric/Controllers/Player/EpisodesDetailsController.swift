@@ -9,13 +9,17 @@ import UIKit
 import WebKit
 
 class EpisodeDetailsController: UIViewController {
+    
+    let spiner = UIActivityIndicatorView(style: .medium)
     let webView = WKWebView()
     
     var episode:Episode?{
         didSet{
+            spiner.startAnimating()
             guard let episode = episode else {return}
             navigationItem.title = episode.title
             webView.loadHTMLString("<span style=\"font-family: -apple-system; font-size: 42\">\(episode.htmlDescription ?? "")</span>", baseURL: nil)
+            spiner.stopAnimating()
         }
     }
     
@@ -24,6 +28,7 @@ class EpisodeDetailsController: UIViewController {
         tv.isUserInteractionEnabled = false
         tv.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         tv.textColor = .normalDark
+        tv.backgroundColor = .clear
         return tv
     }()
     
@@ -33,6 +38,10 @@ class EpisodeDetailsController: UIViewController {
         view.addSubview(webView)
         webView.navigationDelegate = self
         webView.fillSuperview(padding: .init(top: 18, left: 14, bottom: 18, right: 14))
+        webView.isOpaque = false
+        webView.backgroundColor = UIColor(named: "blueBackground")
+        webView.addSubview(spiner)
+        spiner.fillSuperview()
     }
 }
 

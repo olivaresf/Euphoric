@@ -75,7 +75,7 @@ class DiscoverController: UICollectionViewController {
         
         let kind = UICollectionView.elementKindSectionHeader
         section.boundarySupplementaryItems = [
-            .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(70)), elementKind: kind, alignment: .topLeading)
+            .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(60)), elementKind: kind, alignment: .topLeading)
         ]
         
         return section
@@ -83,21 +83,21 @@ class DiscoverController: UICollectionViewController {
     
     static func middleSection() -> NSCollectionLayoutSection{
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                              heightDimension: .fractionalHeight(0.47))
+                                              heightDimension: .fractionalHeight(0.5))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = .init(top: 0, leading: 0, bottom: 16, trailing: 16)
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.40),
-                                               heightDimension: .absolute(350))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.41),
+                                               heightDimension: .absolute(340))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
 
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
-        section.contentInsets.leading = 18
+        section.contentInsets.leading = 22
         
         let kind = UICollectionView.elementKindSectionHeader
         section.boundarySupplementaryItems = [
-            .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(70)), elementKind: kind, alignment: .topLeading)
+            .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(60)), elementKind: kind, alignment: .topLeading)
         ]
 
         return section
@@ -112,11 +112,11 @@ class DiscoverController: UICollectionViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
         section.contentInsets.leading = 18
-        section.contentInsets.bottom = 18
+        section.contentInsets.bottom = 22
         
         let kind = UICollectionView.elementKindSectionHeader
         section.boundarySupplementaryItems = [
-            .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(70)), elementKind: kind, alignment: .topLeading)
+            .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30)), elementKind: kind, alignment: .topLeading)
         ]
         
         return section
@@ -159,7 +159,7 @@ class DiscoverController: UICollectionViewController {
         NetworkManager.shared.fetchTopPodcasts(limit: 10) { (result) in
             switch result{
             case .failure(let err):
-                print(err)
+                print("Error fetching top podcasts:", err)
             case .success(let podcasts):
                 self.topPodcasts = podcasts
                 dispatchGroup.leave()

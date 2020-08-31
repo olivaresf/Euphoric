@@ -31,6 +31,7 @@ class PodcastController: UITableViewController {
     var episode:Episode?
     
     let activityView = UIActivityIndicatorView(style: .medium)
+    let generator = UIImpactFeedbackGenerator(style: .medium)
     var heartItem:UIBarButtonItem!
     
     let moreItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .done, target: self, action: #selector(handleHeart))
@@ -90,6 +91,7 @@ class PodcastController: UITableViewController {
     }
     
     @objc func handleHeart(){
+        generator.impactOccurred()
         let notificationName = Notification.Name(rawValue: favoritedNotificationKey)
         
         guard let podcast = self.podcast else {return}
@@ -186,7 +188,7 @@ class PodcastController: UITableViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {        
         let rootController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController
         let homeController = rootController?.viewControllers.first as? HomeController
 

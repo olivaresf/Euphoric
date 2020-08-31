@@ -16,6 +16,7 @@ extension Notification.Name{
 
 enum ErrorManager:Error {
     case badRequest
+    case badUrl
 }
 
 struct SearchResults:Decodable {
@@ -24,6 +25,8 @@ struct SearchResults:Decodable {
 }
 
 class NetworkManager {
+    
+    let baseUrl = "https://itunes.apple.com/search?explicit=Yes&term=podcast"
     
     typealias EpisodeDownloadCompleteTuple = (fileUrl:String, episodeTitle:String)
     
@@ -34,7 +37,6 @@ class NetworkManager {
         let downloadRequest = DownloadRequest.suggestedDownloadDestination()
 
         AF.download(episode.streamUrl, interceptor: nil, to: downloadRequest).downloadProgress { (progress) in
-
             NotificationCenter.default.post(name: .downloadProgress, object: nil, userInfo: ["title": episode.title, "progress":progress.fractionCompleted])
         }.response { (res) in
             
@@ -59,17 +61,14 @@ class NetworkManager {
     
     func fetchTopPodcastsByCountry(country:String = "PE", limit:Int = 10, completion: @escaping (Result<[Podcast], ErrorManager>) -> ()){
         
-        let baseUrl = "https://itunes.apple.com/search?explicit=Yes&term=podcast&limit=\(limit)&country=\(country)"
+        guard let url = URL(string: baseUrl) else {
+            completion(.failure(.badUrl))
+            return
+        }
         
-        guard let url = URL(string: baseUrl) else {return}
-        
-        URLSession.shared.dataTask(with: url) { (data, res, err) in
+        AF.request(url,parameters: ["limit":limit, "country":country]).response { (response) in
             
-            if let _ = err {
-                completion(.failure(.badRequest))
-            }
-            
-            guard let data = data, let res = res as? HTTPURLResponse, res.statusCode == 200 else {
+            guard let data = response.data else{
                 completion(.failure(.badRequest))
                 return
             }
@@ -77,30 +76,20 @@ class NetworkManager {
             do{
                 let decoder = JSONDecoder()
                 let podcastResult = try decoder.decode(SearchResults.self, from: data)
-                
                 completion(.success(podcastResult.results))
-                
-            }catch let err{
-                print(err.localizedDescription)
-            }
+            }catch let err{ print(err) }
             
-        }.resume()
+        }
         
     }
     
     func fetchTopPodcasts(limit:Int = 10, completion: @escaping (Result<[Podcast], ErrorManager>) -> ()){
         
-        let baseUrl = "https://itunes.apple.com/search?explicit=Yes&term=podcast&limit=10"
-        
         guard let url = URL(string: baseUrl) else {return}
         
-        URLSession.shared.dataTask(with: url) { (data, res, err) in
+        AF.request(url, parameters: ["limit":"10"]).response { (response) in
             
-            if let _ = err {
-                completion(.failure(.badRequest))
-            }
-            
-            guard let data = data, let res = res as? HTTPURLResponse, res.statusCode == 200 else {
+            guard let data = response.data else {
                 completion(.failure(.badRequest))
                 return
             }
@@ -108,32 +97,51 @@ class NetworkManager {
             do{
                 let decoder = JSONDecoder()
                 let podcastResult = try decoder.decode(SearchResults.self, from: data)
-                
                 completion(.success(podcastResult.results))
-                
-            }catch let err{
-                print(err.localizedDescription)
-            }
-            
-        }.resume()
+            }catch let err{ print(err) }
+        }
         
     }
     
-    func fetchEpisodes(feedUrl: String, all:Bool, completionHandler: @escaping ([Episode], Int) -> ()) {
+    func getPodcasts(for term:String, completion: @escaping (Result<[Podcast], ErrorManager>) -> ()){
+        
+        let baseUrl = "https://itunes.apple.com/search?explicit=Yes&media=podcast&term="
+        guard let podcastUrl = URL(string: baseUrl + term) else {
+            completion(.failure(.badUrl))
+            return
+        }
+    
+        AF.request(podcastUrl).response { (response) in
+            
+            guard let data = response.data else {
+                completion(.failure(.badRequest))
+                return
+            }
+            
+            do{
+                let decoder = JSONDecoder()
+                let searchResults = try decoder.decode(SearchResults.self, from: data)
+                completion(.success(searchResults.results))
+            }catch let err{ print(err) }
+            
+        }
+    }
+    
+    
+    func fetchEpisodes(feedUrl: String, all:Bool, completion: @escaping ([Episode], Int) -> ()) {
         #warning("Implement incremental loading")
         
         guard let url = URL(string: feedUrl) else { return }
         
         DispatchQueue.global(qos: .background).async {
-            
             let parser = FeedParser(URL: url)
             parser.parseAsync { (result) in
                 switch result {
                 case .success(let feed):
                     guard let feed = feed.rssFeed else {return}
                     let numberOfItems = feed.items?.count ?? 0
-                    if all{ completionHandler(feed.toAllEpisodes(), numberOfItems)
-                    }else{ completionHandler(feed.toFirst50Episodes(), numberOfItems) }
+                    if all{ completion(feed.toAllEpisodes(), numberOfItems)
+                    }else{ completion(feed.toFirst50Episodes(), numberOfItems) }
                     
                     print("Sucessfully converted")
                 case .failure(let error):
@@ -145,36 +153,6 @@ class NetworkManager {
         
     }
     
-    func getPodcasts(for term:String, completed: @escaping (Result<[Podcast], ErrorManager>) -> ()){
-        
-        let baseUrl = "https://itunes.apple.com/search?explicit=Yes&media=podcast&term="
-        guard let podcastUrl = URL(string: baseUrl + term) else { return }
-        
-        URLSession.shared.dataTask(with: podcastUrl) { (data, res, err) in
-            
-            #warning("Improve error handling")
-            
-            if let _ = err {
-                completed(.failure(.badRequest))
-            }
-            
-            guard let data = data, let res = res as? HTTPURLResponse, res.statusCode == 200 else {
-                completed(.failure(.badRequest))
-                return
-            }
-            
-            do{
-                let decoder = JSONDecoder()
-                let searchResults = try decoder.decode(SearchResults.self, from: data)
-                
-                completed(.success(searchResults.results))
-                
-            }catch let err{
-                print(err.localizedDescription)
-            }
-            
-        }.resume()
-    }
 }
 
 extension RSSFeed {

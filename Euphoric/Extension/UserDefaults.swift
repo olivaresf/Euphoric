@@ -11,6 +11,9 @@ extension UserDefaults {
     
     static let favoritedPodcastKey = "favoritedPodcastKey"
     static let downloadedEpisodesKey = "downloadedEpisodesKey"
+    static let listenedPodcastKey = "listenedPodcastKey"
+    
+    //MARK:- Episodes
     
     func deleteDownloadedEpisode(for episode:Episode){
         
@@ -55,34 +58,6 @@ extension UserDefaults {
         }
     }
     
-    func colorForKey(key: String) -> UIColor? {
-        var colorReturnded: UIColor?
-        if let colorData = data(forKey: key) {
-            do {
-                if let color = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(colorData) as? UIColor {
-                    colorReturnded = color
-                }
-            } catch {
-                print("Error UserDefaults")
-            }
-        }
-        return colorReturnded
-    }
-    
-    
-    func setColor(color: UIColor?, forKey key: String) {
-        var colorData: NSData?
-        if let color = color {
-            do {
-                let data = try NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: false) as NSData?
-                colorData = data
-            } catch {
-                print("Error UserDefaults")
-            }
-        }
-        set(colorData, forKey: key)
-    }
-    
     func savedPodcasts() -> [Podcast]{
         guard let savedPodcastsData = UserDefaults.standard.data(forKey: UserDefaults.favoritedPodcastKey) else { return [] }
         
@@ -109,6 +84,34 @@ extension UserDefaults {
             print("Error deleting podcast", err)
         }
         
+    }
+    
+    //MARK:- Colors
+    
+    func colorForKey(key: String) -> UIColor? {
+        var colorReturnded: UIColor?
+        if let colorData = data(forKey: key) {
+            do {
+                if let color = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(colorData) as? UIColor {
+                    colorReturnded = color
+                }
+            } catch {
+                print("Error UserDefaults")
+            }
+        }
+        return colorReturnded
+    }
+    
+    
+    func setColor(color: UIColor?, forKey key: String) {
+        var colorData: NSData?
+        if let color = color {
+            do {
+                let data = try NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: false) as NSData?
+                colorData = data
+            } catch { print("Error UserDefaults") }
+        }
+        set(colorData, forKey: key)
     }
     
 }

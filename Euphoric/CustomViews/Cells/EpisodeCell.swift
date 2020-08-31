@@ -52,7 +52,7 @@ class EpisodeCell: UICollectionViewCell {
 
     let episodeAccesory:UIButton = {
         let btn = UIButton(type: .system)
-        btn.setImage(UIImage(systemName: "ellipsis.circle"), for: .normal)
+        btn.setImage(UIImage.withSymbol(type: .dots, weight: .regular), for: .normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.isUserInteractionEnabled = true
         return btn
