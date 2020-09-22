@@ -26,9 +26,14 @@ class DownloadsController: UITableViewController {
         tableViewSetup()
         setupObservers()
         debugging()
+        debugging2()
     }
     
     func debugging(){
+        print("In this function I should make debugging to the controller")
+    }
+    
+    func debugging2(){
         print("In this function I should make debugging to the controller")
     }
     
