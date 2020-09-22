@@ -25,6 +25,11 @@ class DownloadsController: UITableViewController {
         super.viewDidLoad()
         tableViewSetup()
         setupObservers()
+        debugging()
+    }
+    
+    func debugging(){
+        print("In this function I should make debugging to the controller")
     }
     
     fileprivate func setupObservers(){
