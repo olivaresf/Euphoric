@@ -108,13 +108,13 @@ class PlayerDetailsController: UIViewController {
     let podcastImage = RoundedImageView(image: #imageLiteral(resourceName: "headphones"))
     
     fileprivate func runShakePlayerAnimation(){
-//        UIView.animate(withDuration: 0.4) {
-//            self.view.transform = CGAffineTransform(translationX: 0, y: -20)
-//        } completion: { (_) in
-//            UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1.3, initialSpringVelocity: 1.3, options: .curveEaseOut) {
-//                self.view.transform = .identity
-//            } completion: { (_) in }
-//        }
+        UIView.animate(withDuration: 0.4) {
+            self.view.transform = CGAffineTransform(translationX: 0, y: -20)
+        } completion: { (_) in
+            UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1.3, initialSpringVelocity: 1.3, options: .curveEaseOut) {
+                self.view.transform = .identity
+            } completion: { (_) in }
+        }
     }
     
     fileprivate func playEpisode(){
@@ -485,14 +485,13 @@ class PlayerDetailsController: UIViewController {
                 var duration =  velocity.y < 0 ? Double((y - fullView) / -velocity.y) : Double((partialView - y) / velocity.y )
                 duration = duration > 1.3 ? 1 : duration
                 
-                UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .allowUserInteraction, animations: {
+                UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: [.allowUserInteraction]) {
                     if  velocity.y >= 0 {
                         self.view.frame = CGRect(x: 0, y: self.partialView, width: self.view.frame.width, height: self.view.frame.height)
                     } else {
                         self.view.frame = CGRect(x: 0, y: self.fullView, width: self.view.frame.width, height: self.view.frame.height)
                     }
-                })
-                
+                }
             }
             
             //            if self.view.frame.origin.y == self.fullView{
