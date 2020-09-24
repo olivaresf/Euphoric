@@ -25,6 +25,11 @@ class HomeController: UICollectionViewController {
         setupMenu()
         setupCollectionView()
         presentPlayerController()
+        sdpo()
+    }
+    
+    func sdpo(){
+        print("Making SDPO")
     }
 
     func setEpisode(episode:Episode, playlistEpisodes:[Episode]){
