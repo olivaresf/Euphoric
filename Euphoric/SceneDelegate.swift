@@ -28,16 +28,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func configureGlobalUI(){
-//        let defaults = UserDefaults.standard
         UINavigationBar.appearance().prefersLargeTitles = false
         UINavigationBar.appearance().isTranslucent = false
         
         UINavigationBar.appearance().barTintColor = UIColor(named: "blueBackground")
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().tintColor = .normalDark
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "primaryLabel")!]
-        
-//        UserDefaults.resetStandardUserDefaults()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

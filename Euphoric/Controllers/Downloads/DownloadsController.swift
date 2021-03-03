@@ -30,11 +30,11 @@ class DownloadsController: UITableViewController {
     }
     
     func debugging(){
-        print("In this function I should make debugging to the controller")
+        print("Debugging to the controller")
     }
     
     func debugging2(){
-        print("In this function I should make debugging to the controller")
+        print("Debugging to the controller")
     }
     
     fileprivate func setupObservers(){
