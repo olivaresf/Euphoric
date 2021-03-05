@@ -60,6 +60,8 @@
 		04EF178D24EAE08B00114462 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EF178C24EAE08B00114462 /* MenuCell.swift */; };
 		04FC529724E8EECD0036C9FA /* CMTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FC529624E8EECD0036C9FA /* CMTime.swift */; };
 		6672EBC8F4775A69E1A083E5 /* Pods_Euphoric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0100FCE3062D132DD8B1C8FB /* Pods_Euphoric.framework */; };
+		9B1B49D825F1CDA200C29408 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1B49D725F1CDA200C29408 /* CoreDataManager.swift */; };
+		9B1B49DC25F1CED000C29408 /* 🎼.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9B1B49DA25F1CED000C29408 /* 🎼.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -120,6 +122,8 @@
 		04FC529624E8EECD0036C9FA /* CMTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMTime.swift; sourceTree = "<group>"; };
 		1CA34E8E869CF118EC811A0F /* Pods-Euphoric.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Euphoric.release.xcconfig"; path = "Target Support Files/Pods-Euphoric/Pods-Euphoric.release.xcconfig"; sourceTree = "<group>"; };
 		94807B71366032E143A4CC62 /* Pods-Euphoric.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Euphoric.debug.xcconfig"; path = "Target Support Files/Pods-Euphoric/Pods-Euphoric.debug.xcconfig"; sourceTree = "<group>"; };
+		9B1B49D725F1CDA200C29408 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		9B1B49DB25F1CED000C29408 /* 🎼.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "🎼.xcdatamodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -346,6 +350,7 @@
 			isa = PBXGroup;
 			children = (
 				04B7D99D24E4407C00B7584C /* NetworkManager.swift */,
+				9B1B49D725F1CDA200C29408 /* CoreDataManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -357,6 +362,7 @@
 				04B7D9AC24E5229D00B7584C /* Episode.swift */,
 				0479156E24EB3A5B00089884 /* SettingsSection.swift */,
 				0448C04024EC326C00190140 /* Category.swift */,
+				9B1B49DA25F1CED000C29408 /* 🎼.xcdatamodeld */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -539,6 +545,7 @@
 				045985CB24E2F4C40056ED51 /* AppDelegate.swift in Sources */,
 				0448C04724EC587B00190140 /* LibraryController.swift in Sources */,
 				04B7D99E24E4407C00B7584C /* NetworkManager.swift in Sources */,
+				9B1B49D825F1CDA200C29408 /* CoreDataManager.swift in Sources */,
 				045985FB24E3881B0056ED51 /* TitleLabel.swift in Sources */,
 				0448C04924ECD68C00190140 /* ListenNowController.swift in Sources */,
 				045985EA24E2F9B40056ED51 /* CustomTabBarController.swift in Sources */,
@@ -556,6 +563,7 @@
 				04B7D9A924E4DBBA00B7584C /* PodcastHeaderView.swift in Sources */,
 				04B7D9AD24E5229D00B7584C /* Episode.swift in Sources */,
 				041A262324E9F64C00B2B55F /* EpisodesDetailsController.swift in Sources */,
+				9B1B49DC25F1CED000C29408 /* 🎼.xcdatamodeld in Sources */,
 				045985E224E2F6CE0056ED51 /* UIColor+theme.swift in Sources */,
 				04B7D9A724E4BD9E00B7584C /* PodcastController.swift in Sources */,
 				04EF178D24EAE08B00114462 /* MenuCell.swift in Sources */,
@@ -765,6 +773,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		9B1B49DA25F1CED000C29408 /* 🎼.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9B1B49DB25F1CED000C29408 /* 🎼.xcdatamodel */,
+			);
+			currentVersion = 9B1B49DB25F1CED000C29408 /* 🎼.xcdatamodel */;
+			path = "🎼.xcdatamodeld";
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 045985BF24E2F4C30056ED51 /* Project object */;
 }

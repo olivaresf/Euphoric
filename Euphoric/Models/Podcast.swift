@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Podcast:NSObject, Decodable, NSCoding {
+class Podcast:NSObject, Codable, NSCoding {
     
     let trackName:String?
     let artistName:String?
@@ -15,6 +15,16 @@ class Podcast:NSObject, Decodable, NSCoding {
     let primaryGenreName:String?
     let trackCount:Int?
     let feedUrl:String?
+    
+    init(artworkURL: String?) {
+        self.artworkUrl600 = artworkURL
+        
+        trackName = nil
+        artistName = nil
+        primaryGenreName = nil
+        feedUrl = nil
+        trackCount = nil
+    }
     
     func encode(with coder: NSCoder) {
         coder.encode(trackName ?? "", forKey: "trackNameKey")

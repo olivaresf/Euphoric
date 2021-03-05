@@ -55,7 +55,8 @@ class DiscoverController: UICollectionViewController {
         
         switch indexPath.section {
         case 0:
-            header.label.text = "Featured Podcasts"
+            // Localization is a pretty big deal
+            header.label.text = NSLocalizedString("Featured Podcasts", comment: "")
             return header
         default:
             header.label.text = "For you"
@@ -152,19 +153,37 @@ class DiscoverController: UICollectionViewController {
     
     func fetchPodcasts(){
     
+        // GCD - Grand Central Dispatch
+        // Notifies you when different tasks are finished.
         let dispatchGroup = DispatchGroup()
         
+        // +1
         dispatchGroup.enter()
         NetworkManager.shared.fetchTopPodcasts(limit: 10) { (result) in
             switch result{
             case .failure(let err):
                 print("Error fetching top podcasts:", err)
+                
+                // Reading from Core Data
+                // If the network request fails, for any reason, fetch the pre-saved info from Core Data.
+                self.topPodcasts = CoreDataManager.shared.fetch()
+                
             case .success(let podcasts):
+                // Writing to Core Data
+                // If the network request succeeds, save that for future uses.
                 self.topPodcasts = podcasts
-                dispatchGroup.leave()
+                
+                // 1. Get an instance of CoreDataManager
+                // 2. Call save
+                // 3. Pass along the podcasts I want to save.
+                CoreDataManager.shared.save(podcasts: podcasts)
             }
+            
+            // -1
+            dispatchGroup.leave()
         }
         
+        // +1
         dispatchGroup.enter()
         NetworkManager.shared.fetchTopPodcastsByCountry(country: "AR", limit: 6) { (result) in
             switch result{
@@ -172,10 +191,13 @@ class DiscoverController: UICollectionViewController {
             print(err)
             case .success(let podcastByCountry):
                 self.topPodcastsByCountry = podcastByCountry
-                dispatchGroup.leave()
             }
+            
+            // -1
+            dispatchGroup.leave()
         }
         
+        // Count reaches = 0
         dispatchGroup.notify(queue: .main) {
             self.collectionView.reloadData()
         }
@@ -211,11 +233,14 @@ class DiscoverController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         switch indexPath.section {
+        
+        // Featured Podcasts section
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopPodcastCell.reusableId, for: indexPath) as! TopPodcastCell
             let podcast = topPodcasts[indexPath.item]
             cell.showImage.sd_setImage(with: URL(string: podcast.artworkUrl600 ?? ""))
             return cell
+            
         default:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCell.reusableId, for: indexPath) as! SearchCell
             cell.podcast = topPodcastsByCountry[indexPath.item]
