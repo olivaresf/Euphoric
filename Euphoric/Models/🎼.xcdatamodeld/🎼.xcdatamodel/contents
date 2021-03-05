@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="19F101" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="CoreDataAuthor" representedClassName="CoreDataAuthor" syncable="YES" codeGenerationType="class">
+        <attribute name="age" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="podcast" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CoreDataPodcast" inverseName="author" inverseEntity="CoreDataPodcast"/>
+    </entity>
+    <entity name="CoreDataPodcast" representedClassName="CoreDataPodcast" syncable="YES" codeGenerationType="class">
+        <attribute name="artworkURL" optional="YES" attributeType="String"/>
+        <attribute name="episodeName" optional="YES" attributeType="String"/>
+        <relationship name="author" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CoreDataAuthor" inverseName="podcast" inverseEntity="CoreDataAuthor"/>
+    </entity>
+    <elements>
+        <element name="CoreDataPodcast" positionX="-301.7265625" positionY="-222.4375" width="128" height="88"/>
+        <element name="CoreDataAuthor" positionX="0.015625" positionY="-145.53515625" width="128" height="88"/>
+    </elements>
+</model>

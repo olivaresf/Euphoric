@@ -18,6 +18,7 @@ extension Notification.Name{
 enum ErrorManager:Error {
     case badRequest
     case badUrl
+    case invalidJSON(Error)
 }
 
 struct SearchResults:Decodable {
@@ -27,7 +28,8 @@ struct SearchResults:Decodable {
 
 class NetworkManager {
     
-    let baseUrl = "https://itunes.apple.com/search?explicit=Yes&term=podcast"
+    //let baseUrl = "https://itunes.apple.com/search?explicit=Yes&term=podcast"
+    let baseUrl = "https://home.com"
     
     typealias EpisodeDownloadCompleteTuple = (fileUrl:String, episodeTitle:String)
     
@@ -78,7 +80,10 @@ class NetworkManager {
                 let decoder = JSONDecoder()
                 let podcastResult = try decoder.decode(SearchResults.self, from: data)
                 completion(.success(podcastResult.results))
-            }catch let err{ print(err) }
+            } catch {
+                print(error)
+                completion(.failure(.invalidJSON(error)))
+            }
             
         }
         
@@ -99,7 +104,10 @@ class NetworkManager {
                 let decoder = JSONDecoder()
                 let podcastResult = try decoder.decode(SearchResults.self, from: data)
                 completion(.success(podcastResult.results))
-            }catch let err{ print(err) }
+            } catch {
+                print(error)
+                completion(.failure(.invalidJSON(error)))
+            }
         }
         
     }
