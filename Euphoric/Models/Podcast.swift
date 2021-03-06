@@ -15,6 +15,16 @@ class Podcast:NSObject, Decodable, NSCoding {
     let primaryGenreName:String?
     let trackCount:Int?
     let feedUrl:String?
+	
+	init(artwork: String?) {
+		artworkUrl600 = artwork
+		
+		trackName = nil
+		artistName = nil
+		primaryGenreName = nil
+		feedUrl = nil
+		trackCount = nil
+	}
     
     func encode(with coder: NSCoder) {
         coder.encode(trackName ?? "", forKey: "trackNameKey")
