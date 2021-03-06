@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D64" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="CoreDataAuthor" representedClassName="CoreDataAuthor" syncable="YES" codeGenerationType="class">
+        <relationship name="podcasts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CoreDataPodcast" inverseName="host" inverseEntity="CoreDataPodcast"/>
+    </entity>
+    <entity name="CoreDataGuest" representedClassName="CoreDataGuest" syncable="YES" codeGenerationType="class">
+        <relationship name="podcasts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CoreDataPodcast" inverseName="guests" inverseEntity="CoreDataPodcast"/>
+    </entity>
+    <entity name="CoreDataPodcast" representedClassName="CoreDataPodcast" syncable="YES" codeGenerationType="class">
+        <attribute name="artworkURL" optional="YES" attributeType="String"/>
+        <attribute name="image" optional="YES" attributeType="Binary"/>
+        <attribute name="imageURL" optional="YES" attributeType="String"/>
+        <relationship name="guests" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CoreDataGuest" inverseName="podcasts" inverseEntity="CoreDataGuest"/>
+        <relationship name="host" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CoreDataAuthor" inverseName="podcasts" inverseEntity="CoreDataAuthor"/>
+    </entity>
+    <elements>
+        <element name="CoreDataAuthor" positionX="-4710.234375" positionY="-3215.0234375" width="128" height="58"/>
+        <element name="CoreDataGuest" positionX="-4708.890625" positionY="-3008.30859375" width="128" height="58"/>
+        <element name="CoreDataPodcast" positionX="-4962.57421875" positionY="-3191.23046875" width="128" height="118"/>
+    </elements>
+</model>
